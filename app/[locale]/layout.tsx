@@ -26,9 +26,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
-    title: "Invoice Generator",
+    title: "Invoice",
     description:
-        "Create professional invoices effortlessly with this free invoice generator.",
+        "Invoice management system.",
     icons: [{ rel: "icon", url: Favicon.src }],
     keywords: ROOTKEYWORDS,
     robots: {

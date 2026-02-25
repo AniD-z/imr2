@@ -2,18 +2,15 @@ import { BASE_URL } from "@/lib/variables";
 
 export const ROOTKEYWORDS = [
     "invoice",
-    "invoice generator",
-    "invoice generating",
-    "invoice app",
-    "invoice generator app",
-    "free invoice generator",
+    "invoice management",
+    "business invoice",
 ];
 
 export const JSONLD = {
     "@context": "https://schema.org",
     "@type": "Website",
-    name: "Invoice Generator",
-    description: "A Professional Invoice Generator Web App",
+    name: "Invoice",
+    description: "Invoice Management System",
     keywords: ROOTKEYWORDS,
     url: BASE_URL,
     image: "",
