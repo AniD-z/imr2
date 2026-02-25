@@ -55,14 +55,8 @@ const InvoiceActions = ({ editMode, invoiceNumber }: InvoiceActionsProps) => {
 
       const customerName = formValues.receiver?.name || "";
       const customerEmail = formValues.receiver?.email || "";
-      const invoiceDate =
-        formValues.details?.invoiceDate instanceof Date
-          ? formValues.details.invoiceDate.toISOString()
-          : String(formValues.details?.invoiceDate || "");
-      const dueDate =
-        formValues.details?.dueDate instanceof Date
-          ? formValues.details.dueDate.toISOString()
-          : String(formValues.details?.dueDate || "");
+      const invoiceDate = String(formValues.details?.invoiceDate || "");
+      const dueDate = String(formValues.details?.dueDate || "");
       const items = JSON.stringify(formValues.details?.items || []);
       const subtotal = Number(formValues.details?.subTotal) || 0;
       const tax = Number(formValues.details?.taxDetails?.amount) || 0;
