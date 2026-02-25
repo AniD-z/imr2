@@ -61,12 +61,12 @@ async function getSheet() {
   const doc = new GoogleSpreadsheet(sheetId, jwt);
   await doc.loadInfo();
 
-  // Get or create the first sheet
-  let sheet = doc.sheetsByIndex[0];
+  // Get or create the "Invoice" sheet
+  let sheet = doc.sheetsByTitle["Invoice"];
 
   if (!sheet) {
     sheet = await doc.addSheet({
-      title: "Invoices",
+      title: "Invoice",
       headerValues: SHEET_HEADERS,
     });
   } else {
