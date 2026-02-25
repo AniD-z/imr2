@@ -42,19 +42,27 @@ const SHEET_HEADERS = [
  * Gets an authenticated Google Spreadsheet instance
  */
 async function getSheet() {
-  const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const key = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
   const sheetId = process.env.GOOGLE_SHEET_ID;
 
-  if (!email || !key || !sheetId) {
+  if (!serviceAccountJson || !sheetId) {
     throw new Error(
-      "Missing Google Sheets environment variables. Please set GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY, and GOOGLE_SHEET_ID."
+      "Missing Google Sheets environment variables. Please set GOOGLE_SERVICE_ACCOUNT_JSON and GOOGLE_SHEET_ID."
+    );
+  }
+
+  let credentials;
+  try {
+    credentials = JSON.parse(serviceAccountJson);
+  } catch (error) {
+    throw new Error(
+      "Invalid GOOGLE_SERVICE_ACCOUNT_JSON format. Please ensure it's valid JSON."
     );
   }
 
   const jwt = new JWT({
-    email,
-    key,
+    email: credentials.client_email,
+    key: credentials.private_key,
     scopes: SCOPES,
   });
 
