@@ -9,7 +9,7 @@ export const ENV = process.env.NODE_ENV;
 /**
  * Websites
  */
-export const BASE_URL = "https://invoify.vercel.app";
+export const BASE_URL = "";
 export const AUTHOR_WEBSITE = "https://aliabb.vercel.app";
 export const AUTHOR_GITHUB = "https://github.com/al1abb";
 
@@ -29,7 +29,7 @@ export const CURRENCIES_API =
 /**
  * Local storage
  */
-export const LOCAL_STORAGE_INVOICE_DRAFT_KEY = "invoify:invoiceDraft";
+export const LOCAL_STORAGE_INVOICE_DRAFT_KEY = "invoice:draft";
 
 /**
  * Tailwind
