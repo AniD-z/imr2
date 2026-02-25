@@ -25,7 +25,6 @@ import {
   FORM_DEFAULT_VALUES,
   GENERATE_PDF_API,
   SEND_PDF_API,
-  SHORT_DATE_OPTIONS,
   LOCAL_STORAGE_INVOICE_DRAFT_KEY,
 } from "@/lib/variables";
 
@@ -37,18 +36,18 @@ const defaultInvoiceContext = {
   invoicePdfLoading: false,
   savedInvoices: [] as InvoiceType[],
   pdfUrl: null as string | null,
-  onFormSubmit: (values: InvoiceType) => {},
+  onFormSubmit: (_values: InvoiceType) => {},
   newInvoice: () => {},
-  generatePdf: async (data: InvoiceType) => {},
+  generatePdf: async (_data: InvoiceType) => {},
   removeFinalPdf: () => {},
   downloadPdf: () => {},
   printPdf: () => {},
   previewPdfInTab: () => {},
   saveInvoice: () => {},
-  deleteInvoice: (index: number) => {},
-  sendPdfToMail: (email: string): Promise<void> => Promise.resolve(),
-  exportInvoiceAs: (exportAs: ExportTypes) => {},
-  importInvoice: (file: File) => {},
+  deleteInvoice: (_index: number) => {},
+  sendPdfToMail: (_email: string): Promise<void> => Promise.resolve(),
+  exportInvoiceAs: (_exportAs: ExportTypes) => {},
+  importInvoice: (_file: File) => {},
 };
 
 export const InvoiceContext = createContext(defaultInvoiceContext);
@@ -71,7 +70,6 @@ export const InvoiceContextProvider = ({
     newInvoiceSuccess,
     pdfGenerationSuccess,
     saveInvoiceSuccess,
-    modifiedInvoiceSuccess,
     sendPdfSuccess,
     sendPdfError,
     importInvoiceError,
@@ -84,18 +82,20 @@ export const InvoiceContextProvider = ({
   const [invoicePdf, setInvoicePdf] = useState<Blob>(new Blob());
   const [invoicePdfLoading, setInvoicePdfLoading] = useState<boolean>(false);
 
-  // Saved invoices
+  // Saved invoices - kept for backward compat with modals but no longer primary storage
   const [savedInvoices, setSavedInvoices] = useState<InvoiceType[]>([]);
 
   useEffect(() => {
-    let savedInvoicesDefault;
-    if (typeof window !== undefined) {
-      // Saved invoices variables
-      const savedInvoicesJSON = window.localStorage.getItem("savedInvoices");
-      savedInvoicesDefault = savedInvoicesJSON
-        ? JSON.parse(savedInvoicesJSON)
-        : [];
-      setSavedInvoices(savedInvoicesDefault);
+    if (typeof window !== "undefined") {
+      try {
+        const savedInvoicesJSON = window.localStorage.getItem("savedInvoices");
+        const savedInvoicesDefault = savedInvoicesJSON
+          ? JSON.parse(savedInvoicesJSON)
+          : [];
+        setSavedInvoices(savedInvoicesDefault);
+      } catch {
+        // ignore
+      }
     }
   }, []);
 
@@ -122,20 +122,14 @@ export const InvoiceContextProvider = ({
   }, [invoicePdf]);
 
   /**
-   * Handles form submission.
-   *
-   * @param {InvoiceType} data - The form values used to generate the PDF.
+   * Handles form submission - generates PDF.
    */
   const onFormSubmit = (data: InvoiceType) => {
-    console.log("VALUE");
-    console.log(data);
-
-    // Call generate pdf method
     generatePdf(data);
   };
 
   /**
-   * Generates a new invoice.
+   * Generates a new blank invoice form.
    */
   const newInvoice = () => {
     reset(FORM_DEFAULT_VALUES);
@@ -149,17 +143,11 @@ export const InvoiceContextProvider = ({
     }
 
     router.refresh();
-
-    // Toast
     newInvoiceSuccess();
   };
 
   /**
    * Generate a PDF document based on the provided data.
-   *
-   * @param {InvoiceType} data - The data used to generate the PDF.
-   * @returns {Promise<void>} - A promise that resolves when the PDF is successfully generated.
-   * @throws {Error} - If an error occurs during the PDF generation process.
    */
   const generatePdf = useCallback(async (data: InvoiceType) => {
     setInvoicePdfLoading(true);
@@ -174,7 +162,6 @@ export const InvoiceContextProvider = ({
       setInvoicePdf(result);
 
       if (result.size > 0) {
-        // Toast
         pdfGenerationSuccess();
       }
     } catch (err) {
@@ -182,6 +169,7 @@ export const InvoiceContextProvider = ({
     } finally {
       setInvoicePdfLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
@@ -192,7 +180,7 @@ export const InvoiceContextProvider = ({
   };
 
   /**
-   * Generates a preview of a PDF file and opens it in a new browser tab.
+   * Opens PDF preview in new tab.
    */
   const previewPdfInTab = () => {
     if (invoicePdf) {
@@ -205,21 +193,13 @@ export const InvoiceContextProvider = ({
    * Downloads a PDF file.
    */
   const downloadPdf = () => {
-    // Only download if there is an invoice
     if (invoicePdf instanceof Blob && invoicePdf.size > 0) {
-      // Create a blob URL to trigger the download
       const url = window.URL.createObjectURL(invoicePdf);
-
-      // Create an anchor element to initiate the download
       const a = document.createElement("a");
       a.href = url;
       a.download = "invoice.pdf";
       document.body.appendChild(a);
-
-      // Trigger the download
       a.click();
-
-      // Clean up the URL object
       window.URL.revokeObjectURL(url);
     }
   };
@@ -229,8 +209,8 @@ export const InvoiceContextProvider = ({
    */
   const printPdf = () => {
     if (invoicePdf) {
-      const pdfUrl = URL.createObjectURL(invoicePdf);
-      const printWindow = window.open(pdfUrl, "_blank");
+      const url = URL.createObjectURL(invoicePdf);
+      const printWindow = window.open(url, "_blank");
       if (printWindow) {
         printWindow.onload = () => {
           printWindow.print();
@@ -239,80 +219,43 @@ export const InvoiceContextProvider = ({
     }
   };
 
-  // TODO: Change function name. (saveInvoiceData maybe?)
   /**
-   * Saves the invoice data to local storage.
+   * Saves invoice locally (legacy compat for modals).
    */
   const saveInvoice = () => {
-    if (invoicePdf) {
-      // If get values function is provided, allow to save the invoice
-      if (getValues) {
-        // Retrieve the existing array from local storage or initialize an empty array
+    if (getValues) {
+      const formValues = getValues();
+      saveInvoiceSuccess();
+
+      // Also keep local storage for backward compat
+      try {
         const savedInvoicesJSON = localStorage.getItem("savedInvoices");
-        const savedInvoices = savedInvoicesJSON
+        const existing = savedInvoicesJSON
           ? JSON.parse(savedInvoicesJSON)
           : [];
-
-        const updatedDate = new Date().toLocaleDateString(
-          "en-US",
-          SHORT_DATE_OPTIONS
-        );
-
-        const formValues = getValues();
-        formValues.details.updatedAt = updatedDate;
-
-        const existingInvoiceIndex = savedInvoices.findIndex(
-          (invoice: InvoiceType) => {
-            return (
-              invoice.details.invoiceNumber === formValues.details.invoiceNumber
-            );
-          }
-        );
-
-        // If invoice already exists
-        if (existingInvoiceIndex !== -1) {
-          savedInvoices[existingInvoiceIndex] = formValues;
-
-          // Toast
-          modifiedInvoiceSuccess();
-        } else {
-          // Add the form values to the array
-          savedInvoices.push(formValues);
-
-          // Toast
-          saveInvoiceSuccess();
-        }
-
-        localStorage.setItem("savedInvoices", JSON.stringify(savedInvoices));
-
-        setSavedInvoices(savedInvoices);
+        existing.push(formValues);
+        localStorage.setItem("savedInvoices", JSON.stringify(existing));
+        setSavedInvoices(existing);
+      } catch {
+        // ignore
       }
     }
   };
 
-  // TODO: Change function name. (deleteInvoiceData maybe?)
   /**
-   * Delete an invoice from local storage based on the given index.
-   *
-   * @param {number} index - The index of the invoice to be deleted.
+   * Delete an invoice from local saved list by index.
    */
   const deleteInvoice = (index: number) => {
     if (index >= 0 && index < savedInvoices.length) {
       const updatedInvoices = [...savedInvoices];
       updatedInvoices.splice(index, 1);
       setSavedInvoices(updatedInvoices);
-
-      const updatedInvoicesJSON = JSON.stringify(updatedInvoices);
-
-      localStorage.setItem("savedInvoices", updatedInvoicesJSON);
+      localStorage.setItem("savedInvoices", JSON.stringify(updatedInvoices));
     }
   };
 
   /**
    * Send the invoice PDF to the specified email address.
-   *
-   * @param {string} email - The email address to which the Invoice PDF will be sent.
-   * @returns {Promise<void>} A promise that resolves once the email is successfully sent.
    */
   const sendPdfToMail = (email: string) => {
     const fd = new FormData();
@@ -326,39 +269,27 @@ export const InvoiceContextProvider = ({
     })
       .then((res) => {
         if (res.ok) {
-          // Successful toast msg
           sendPdfSuccess();
         } else {
-          // Error toast msg
           sendPdfError({ email, sendPdfToMail });
         }
       })
       .catch((error) => {
         console.log(error);
-
-        // Error toast msg
         sendPdfError({ email, sendPdfToMail });
       });
   };
 
   /**
-   * Export an invoice in the specified format using the provided form values.
-   *
-   * This function initiates the export process with the chosen export format and the form data.
-   *
-   * @param {ExportTypes} exportAs - The format in which to export the invoice.
+   * Export an invoice in the specified format.
    */
   const exportInvoiceAs = (exportAs: ExportTypes) => {
     const formValues = getValues();
-
-    // Service to export invoice with given parameters
     exportInvoice(exportAs, formValues);
   };
 
   /**
    * Import an invoice from a JSON file.
-   *
-   * @param {File} file - The JSON file to import.
    */
   const importInvoice = (file: File) => {
     const reader = new FileReader();
@@ -366,7 +297,6 @@ export const InvoiceContextProvider = ({
       try {
         const importedData = JSON.parse(event.target?.result as string);
 
-        // Parse the dates
         if (importedData.details) {
           if (importedData.details.invoiceDate) {
             importedData.details.invoiceDate = new Date(
@@ -380,7 +310,6 @@ export const InvoiceContextProvider = ({
           }
         }
 
-        // Reset form with imported data
         reset(importedData);
       } catch (error) {
         console.error("Error parsing JSON file:", error);

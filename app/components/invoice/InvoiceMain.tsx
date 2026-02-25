@@ -15,7 +15,12 @@ import { useInvoiceContext } from "@/contexts/InvoiceContext";
 // Types
 import { InvoiceType } from "@/types";
 
-const InvoiceMain = () => {
+type InvoiceMainProps = {
+    editMode?: boolean;
+    invoiceNumber?: number;
+};
+
+const InvoiceMain = ({ editMode, invoiceNumber }: InvoiceMainProps) => {
     const { handleSubmit } = useFormContext<InvoiceType>();
 
     // Get the needed values from invoice context
@@ -31,7 +36,7 @@ const InvoiceMain = () => {
                 >
                     <div className="flex flex-wrap">
                         <InvoiceForm />
-                        <InvoiceActions />
+                        <InvoiceActions editMode={editMode} invoiceNumber={invoiceNumber} />
                     </div>
                 </form>
             </Form>
