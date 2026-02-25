@@ -85,6 +85,16 @@ const BillFromSection = () => {
                     target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
                 }}
             />
+            <FormInput
+                name="sender.gst"
+                label="GST"
+                placeholder="GST Number"
+            />
+            <FormInput
+                name="sender.adCode"
+                label="AD Code"
+                placeholder="Authorized Dealer Code"
+            />
             {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
             {fields?.map((field, index) => (
                 <FormCustomInput

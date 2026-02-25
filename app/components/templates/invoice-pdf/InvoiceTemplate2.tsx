@@ -45,6 +45,18 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                         <br />
                         {sender.country}
                         <br />
+                        {sender.gst && (
+                            <>
+                                GST: {sender.gst}
+                                <br />
+                            </>
+                        )}
+                        {sender.adCode && (
+                            <>
+                                AD Code: {sender.adCode}
+                                <br />
+                            </>
+                        )}
                     </address>
                 </div>
             </div>
@@ -93,24 +105,33 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
 
             <div className="mt-3">
                 <div className="border border-gray-200 p-1 rounded-lg space-y-1">
-                    <div className="hidden sm:grid sm:grid-cols-5">
-                        <div className="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">
-                            Item
+                    <div className="hidden sm:grid sm:grid-cols-7 gap-1">
+                        <div className="text-xs font-medium text-gray-500 uppercase">
+                            SL No
                         </div>
-                        <div className="text-left text-xs font-medium text-gray-500 uppercase">
+                        <div className="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">
+                            Description
+                        </div>
+                        <div className="text-xs font-medium text-gray-500 uppercase">
+                            HSN CODE
+                        </div>
+                        <div className="text-xs font-medium text-gray-500 uppercase">
                             Qty
                         </div>
-                        <div className="text-left text-xs font-medium text-gray-500 uppercase">
-                            Rate
+                        <div className="text-xs font-medium text-gray-500 uppercase">
+                            Units
                         </div>
                         <div className="text-right text-xs font-medium text-gray-500 uppercase">
-                            Amount
+                            Unit/Rate in {details.currency}
                         </div>
                     </div>
                     <div className="hidden sm:block border-b border-gray-200"></div>
-                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-y-1">
+                    <div className="grid grid-cols-3 sm:grid-cols-7 gap-1">
                         {details.items.map((item, index) => (
                             <React.Fragment key={index}>
+                                <div className="border-b border-gray-300">
+                                    <p className="text-gray-800">{index + 1}</p>
+                                </div>
                                 <div className="col-span-full sm:col-span-2 border-b border-gray-300">
                                     <p className="font-medium text-gray-800">
                                         {item.name}
@@ -120,18 +141,19 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                     </p>
                                 </div>
                                 <div className="border-b border-gray-300">
+                                    <p className="text-gray-800 text-xs">{item.hsnCode || '-'}</p>
+                                </div>
+                                <div className="border-b border-gray-300">
                                     <p className="text-gray-800">
                                         {item.quantity}
                                     </p>
                                 </div>
                                 <div className="border-b border-gray-300">
-                                    <p className="text-gray-800">
-                                        {item.unitPrice} {details.currency}
-                                    </p>
+                                    <p className="text-gray-800 text-xs">{item.units || '-'}</p>
                                 </div>
                                 <div className="border-b border-gray-300">
                                     <p className="sm:text-right text-gray-800">
-                                        {item.total} {details.currency}
+                                        {item.unitPrice} {details.currency}
                                     </p>
                                 </div>
                             </React.Fragment>
@@ -245,18 +267,28 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                     </div>
                     <div className="my-2">
                         <span className="font-semibold text-md text-gray-800">
-                            Please send the payment to this address
+                            Bank Details:
                             <p className="text-sm">
-                                Bank: {details.paymentInformation?.bankName}
+                                Beneficiary: {details.paymentInformation?.accountName}
                             </p>
                             <p className="text-sm">
-                                Account name:{" "}
-                                {details.paymentInformation?.accountName}
+                                A/C No: {details.paymentInformation?.accountNumber}
                             </p>
+                            {details.paymentInformation?.ifscCode && (
+                                <p className="text-sm">IFS Code: {details.paymentInformation.ifscCode}</p>
+                            )}
+                            {details.paymentInformation?.branch && (
+                                <p className="text-sm">Branch: {details.paymentInformation.branch}</p>
+                            )}
+                            {details.paymentInformation?.swiftCode && (
+                                <p className="text-sm">SWIFT CODE: {details.paymentInformation.swiftCode}</p>
+                            )}
                             <p className="text-sm">
-                                Account no:{" "}
-                                {details.paymentInformation?.accountNumber}
+                                BANK: {details.paymentInformation?.bankName}
                             </p>
+                            {details.paymentInformation?.adCode && (
+                                <p className="text-sm">Authorized Dealer Code: {details.paymentInformation.adCode}</p>
+                            )}
                         </span>
                     </div>
                 </div>

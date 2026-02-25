@@ -164,28 +164,50 @@ const SingleItem = ({
                     vertical
                 />
 
+                <FormTextarea
+                    name={`${name}[${index}].description`}
+                    label={_t("form.steps.lineItems.description")}
+                    placeholder="Item description"
+                    className="min-w-[13rem]"
+                />
+
+                <FormInput
+                    name={`${name}[${index}].hsnCode`}
+                    label="HSN CODE"
+                    placeholder="HSN Code"
+                    className="w-[8rem]"
+                    vertical
+                />
+
                 <FormInput
                     name={`${name}[${index}].quantity`}
                     type="number"
-                    label={_t("form.steps.lineItems.quantity")}
-                    placeholder={_t("form.steps.lineItems.quantity")}
-                    className="w-[8rem]"
+                    label="Qty"
+                    placeholder="Quantity"
+                    className="w-[6rem]"
+                    vertical
+                />
+
+                <FormInput
+                    name={`${name}[${index}].units`}
+                    label="Units"
+                    placeholder="Units"
+                    className="w-[6rem]"
                     vertical
                 />
 
                 <FormInput
                     name={`${name}[${index}].unitPrice`}
                     type="number"
-                    label={_t("form.steps.lineItems.rate")}
-                    labelHelper={`(${currency})`}
-                    placeholder={_t("form.steps.lineItems.rate")}
+                    label={`Unit / Rate in ${currency}`}
+                    placeholder="Rate"
                     className="w-[8rem]"
                     vertical
                 />
 
                 <div className="flex flex-col gap-2">
                     <div>
-                        <Label>{_t("form.steps.lineItems.total")}</Label>
+                        <Label>{`Total Amount in ${currency}`}</Label>
                     </div>
                     <Input
                         value={`${total} ${currency}`}
@@ -196,11 +218,6 @@ const SingleItem = ({
                     />
                 </div>
             </div>
-            <FormTextarea
-                name={`${name}[${index}].description`}
-                label={_t("form.steps.lineItems.description")}
-                placeholder="Item description"
-            />
             <div>
                 {/* Not allowing deletion for first item when there is only 1 item */}
                 {fields.length > 1 && (

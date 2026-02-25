@@ -49,7 +49,9 @@ const Items = () => {
         append({
             name: "",
             description: "",
+            hsnCode: "",
             quantity: 0,
+            units: "",
             unitPrice: 0,
             total: 0,
         });

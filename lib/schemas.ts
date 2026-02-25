@@ -94,6 +94,8 @@ const InvoiceSenderSchema = z.object({
     country: fieldValidators.country,
     email: fieldValidators.email,
     phone: fieldValidators.phone,
+    gst: fieldValidators.stringOptional,
+    adCode: fieldValidators.stringOptional,
     customInputs: z.array(CustomInputSchema).optional(),
 });
 
@@ -111,7 +113,9 @@ const InvoiceReceiverSchema = z.object({
 const ItemSchema = z.object({
     name: fieldValidators.stringMin1,
     description: fieldValidators.stringOptional,
+    hsnCode: fieldValidators.stringOptional,
     quantity: fieldValidators.quantity,
+    units: fieldValidators.stringOptional,
     unitPrice: fieldValidators.unitPrice,
     total: fieldValidators.stringToNumber,
 });
@@ -120,6 +124,10 @@ const PaymentInformationSchema = z.object({
     bankName: fieldValidators.stringMin1,
     accountName: fieldValidators.stringMin1,
     accountNumber: fieldValidators.stringMin1,
+    ifscCode: fieldValidators.stringOptional,
+    branch: fieldValidators.stringOptional,
+    swiftCode: fieldValidators.stringOptional,
+    adCode: fieldValidators.stringOptional,
 });
 
 const DiscountDetailsSchema = z.object({

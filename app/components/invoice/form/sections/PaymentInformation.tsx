@@ -30,6 +30,30 @@ const PaymentInformation = () => {
                     placeholder={_t("form.steps.paymentInfo.accountNumber")}
                     vertical
                 />
+                <FormInput
+                    name="details.paymentInformation.ifscCode"
+                    label="IFS Code"
+                    placeholder="IFS Code"
+                    vertical
+                />
+                <FormInput
+                    name="details.paymentInformation.branch"
+                    label="Branch"
+                    placeholder="Branch Name"
+                    vertical
+                />
+                <FormInput
+                    name="details.paymentInformation.swiftCode"
+                    label="SWIFT Code"
+                    placeholder="SWIFT Code"
+                    vertical
+                />
+                <FormInput
+                    name="details.paymentInformation.adCode"
+                    label="Authorized Dealer Code"
+                    placeholder="AD Code"
+                    vertical
+                />
             </div>
         </section>
     );
