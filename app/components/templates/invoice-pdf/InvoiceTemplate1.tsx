@@ -17,7 +17,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 
 	return (
 		<InvoiceLayout data={data}>
-			<div className='flex justify-between'>
+			<div className='flex justify-between page-break-avoid'>
 				<div>
 					{details.invoiceLogo && (
 						<img
@@ -55,7 +55,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 				</div>
 			</div>
 
-			<div className='mt-6 grid sm:grid-cols-2 gap-3'>
+			<div className='mt-6 grid sm:grid-cols-2 gap-3 page-break-avoid'>
 				<div>
 					<h3 className='text-lg font-semibold text-gray-800'>Bill to:</h3>
 					<h3 className='text-lg font-semibold text-gray-800'>{receiver.name}</h3>
@@ -86,7 +86,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 				</div>
 			</div>
 
-			<div className='mt-3'>
+			<div className='mt-3 page-break-avoid'>
 				<div className='border border-gray-200 p-1 rounded-lg space-y-1'>
 					<div className='hidden sm:grid sm:grid-cols-7 gap-1'>
 						<div className='text-xs font-medium text-gray-500 uppercase'>SL No</div>
@@ -128,7 +128,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 				</div>
 			</div>
 
-			<div className='mt-2 flex sm:justify-end'>
+			<div className='mt-2 flex sm:justify-end page-break-avoid'>
 				<div className='sm:text-right space-y-2'>
 					<div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
 						<dl className='grid sm:grid-cols-5 gap-x-3'>
@@ -188,7 +188,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 				</div>
 			</div>
 
-			<div>
+			<div className='page-break-avoid'>
 				<div className='my-4'>
 					<div className='my-2'>
 						<p className='font-semibold text-blue-600'>Additional notes:</p>

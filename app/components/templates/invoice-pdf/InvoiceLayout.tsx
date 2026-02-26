@@ -1,19 +1,20 @@
 import { ReactNode } from "react";
 
 // Types
-import { InvoiceType } from "@/types";
+import { InvoiceType, PackingListType } from "@/types";
 
 type InvoiceLayoutProps = {
-    data: InvoiceType;
+    data: InvoiceType | PackingListType;
     children: ReactNode;
 };
 
 export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
-    const { sender, receiver, details } = data;
-
-    // Instead of fetching all signature fonts, get the specific one user selected.
-    const fontHref = details.signature?.fontFamily
-        ? `https://fonts.googleapis.com/css2?family=${details?.signature?.fontFamily}&display=swap`
+    // Type guard to check if data is InvoiceType
+    const isInvoice = 'sender' in data;
+    
+    // For invoice signature font, handle conditionally
+    const fontHref = isInvoice && data.details.signature?.fontFamily
+        ? `https://fonts.googleapis.com/css2?family=${data.details.signature?.fontFamily}&display=swap`
         : "";
 
     const head = (
@@ -28,11 +29,31 @@ export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
                 href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
                 rel="stylesheet"
             ></link>
-            {details.signature?.fontFamily && (
+            {isInvoice && data.details.signature?.fontFamily && (
                 <>
                     <link href={fontHref} rel="stylesheet" />
                 </>
             )}
+            <style>{`
+                @page {
+                    size: A4;
+                    margin: 0;
+                }
+                @media print {
+                    body {
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                    .page-break-avoid {
+                        page-break-inside: avoid;
+                        break-inside: avoid;
+                    }
+                    .page-break-after {
+                        page-break-after: always;
+                        break-after: always;
+                    }
+                }
+            `}</style>
         </>
     );
 

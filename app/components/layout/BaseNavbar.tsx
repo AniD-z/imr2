@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "@/app/components";
 
 // Icons
-import { FileText, Plus, Home } from "lucide-react";
+import { FileText, Plus, Home, Package } from "lucide-react";
 
 const BaseNavbar = () => {
     return (
@@ -29,6 +29,12 @@ const BaseNavbar = () => {
                             <Button variant="ghost" size="sm" className="gap-1.5">
                                 <FileText className="h-4 w-4" />
                                 <span className="hidden sm:inline">Invoices</span>
+                            </Button>
+                        </Link>
+                        <Link href="/packing-lists">
+                            <Button variant="ghost" size="sm" className="gap-1.5">
+                                <Package className="h-4 w-4" />
+                                <span className="hidden sm:inline">Packing Lists</span>
                             </Button>
                         </Link>
                         <Link href="/new">

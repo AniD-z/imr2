@@ -19,6 +19,7 @@ import {
     BaseButton,
     InvoiceTemplate1,
     InvoiceTemplate2,
+    InvoiceTemplate3,
 } from "@/app/components";
 
 // Template images
@@ -48,6 +49,13 @@ const TemplateSelector = () => {
             description: "Second template",
             img: template2,
             component: <InvoiceTemplate2 {...formValues} />,
+        },
+        {
+            id: 3,
+            name: "Template 3 (TAX INVOICE)",
+            description: "Tax invoice with detailed shipping information",
+            img: template1, // TODO: Add template3 image
+            component: <InvoiceTemplate3 {...formValues} />,
         },
     ];
     return (

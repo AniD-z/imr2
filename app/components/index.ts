@@ -27,11 +27,14 @@ import WizardProgress from "./invoice/form/wizard/WizardProgress";
 // Form / Sections
 import BillFromSection from "./invoice/form/sections/BillFromSection";
 import BillToSection from "./invoice/form/sections/BillToSection";
+import ConsigneeSection from "./invoice/form/sections/ConsigneeSection";
 import InvoiceDetails from "./invoice/form/sections/InvoiceDetails";
 import Items from "./invoice/form/sections/Items";
 import PaymentInformation from "./invoice/form/sections/PaymentInformation";
 import InvoiceSummary from "./invoice/form/sections/InvoiceSummary";
 import ImportJsonButton from "./invoice/form/sections/ImportJsonButton";
+import ShippingDetailsSection from "./invoice/form/sections/ShippingDetailsSection";
+import SignatoryDetailsSection from "./invoice/form/sections/SignatoryDetailsSection";
 
 // * Actions
 import PdfViewer from "./invoice/actions/PdfViewer";
@@ -88,9 +91,21 @@ import DynamicInvoiceTemplate from "./templates/invoice-pdf/DynamicInvoiceTempla
 import InvoiceLayout from "./templates/invoice-pdf/InvoiceLayout";
 import InvoiceTemplate1 from "./templates/invoice-pdf/InvoiceTemplate1";
 import InvoiceTemplate2 from "./templates/invoice-pdf/InvoiceTemplate2";
+import InvoiceTemplate3 from "./templates/invoice-pdf/InvoiceTemplate3";
+
+// Packing List templates
+import PackingListTemplate from "./templates/invoice-pdf/PackingListTemplate";
 
 // Email templates
 import SendPdfEmail from "./templates/email/SendPdfEmail";
+
+/* =========================
+   * Packing List
+   ========================= */
+import PackingListMain from "./packing-list/PackingListMain";
+import PackingListForm from "./packing-list/PackingListForm";
+import PackingListItems from "./packing-list/PackingListItems";
+import PackingListActions from "./packing-list/PackingListActions";
 
 /* =========================
    ? DEV ONLY
@@ -104,6 +119,7 @@ export {
     InvoiceActions,
     BillFromSection,
     BillToSection,
+    ConsigneeSection,
     InvoiceDetails,
     Items,
     SingleItem,
@@ -114,6 +130,8 @@ export {
     WizardProgress,
     PaymentInformation,
     InvoiceSummary,
+    ShippingDetailsSection,
+    SignatoryDetailsSection,
     CurrencySelector,
     SavedInvoicesList,
     PdfViewer,
@@ -143,5 +161,11 @@ export {
     InvoiceLayout,
     InvoiceTemplate1,
     InvoiceTemplate2,
+    InvoiceTemplate3,
+    PackingListTemplate,
     SendPdfEmail,
+    PackingListMain,
+    PackingListForm,
+    PackingListItems,
+    PackingListActions,
 };

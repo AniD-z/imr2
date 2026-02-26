@@ -110,6 +110,16 @@ const InvoiceReceiverSchema = z.object({
     customInputs: z.array(CustomInputSchema).optional(),
 });
 
+const InvoiceConsigneeSchema = z.object({
+    name: fieldValidators.name,
+    address: fieldValidators.address,
+    zipCode: fieldValidators.zipCode.optional(),
+    city: fieldValidators.city,
+    country: fieldValidators.country,
+    email: fieldValidators.email.optional(),
+    phone: fieldValidators.phone.optional(),
+}).optional();
+
 const ItemSchema = z.object({
     name: fieldValidators.stringMin1,
     description: fieldValidators.stringOptional,
@@ -151,12 +161,35 @@ const SignatureSchema = z.object({
     fontFamily: fieldValidators.string.optional(),
 });
 
+const SignatoryDetailsSchema = z.object({
+    name: fieldValidators.stringOptional,
+    designation: fieldValidators.stringOptional,
+    department: fieldValidators.stringOptional,
+    phone: fieldValidators.stringOptional,
+    companyStamp: fieldValidators.stringOptional, // URL or base64 for company stamp
+});
+
 const InvoiceDetailsSchema = z.object({
     invoiceLogo: fieldValidators.stringOptional,
     invoiceNumber: fieldValidators.stringMin1,
     invoiceDate: fieldValidators.date,
     dueDate: fieldValidators.date,
     purchaseOrderNumber: fieldValidators.stringOptional,
+    modeOfPayment: fieldValidators.stringOptional,
+    referenceNumbers: fieldValidators.stringOptional, // For multiple reference numbers with dates
+    otherReferences: fieldValidators.stringOptional,
+    dispatchDocNumber: fieldValidators.stringOptional,
+    deliveryNoteDate: fieldValidators.stringOptional,
+    dispatchedThrough: fieldValidators.stringOptional, // e.g., "By Sea"
+    finalDestination: fieldValidators.stringOptional,
+    vesselFlightNo: fieldValidators.stringOptional,
+    portOfLoading: fieldValidators.stringOptional, // e.g., "Vizag, India"
+    placeOfReceipt: fieldValidators.stringOptional,
+    portOfDischarge: fieldValidators.stringOptional, // e.g., "Port Sudan, SUDAN"
+    consigneeCountry: fieldValidators.stringOptional, // e.g., "Sudan"
+    termsOfDelivery: fieldValidators.stringOptional,
+    countryOfOrigin: fieldValidators.stringOptional, // e.g., "INDIA"
+    countryOfDestination: fieldValidators.stringOptional, // e.g., "KOSTI, SUDAN"
     currency: fieldValidators.string,
     language: fieldValidators.string,
     items: z.array(ItemSchema),
@@ -170,6 +203,7 @@ const InvoiceDetailsSchema = z.object({
     additionalNotes: fieldValidators.stringOptional,
     paymentTerms: fieldValidators.stringMin1,
     signature: SignatureSchema.optional(),
+    signatoryDetails: SignatoryDetailsSchema.optional(),
     updatedAt: fieldValidators.stringOptional,
     pdfTemplate: z.number(),
 });
@@ -177,7 +211,40 @@ const InvoiceDetailsSchema = z.object({
 const InvoiceSchema = z.object({
     sender: InvoiceSenderSchema,
     receiver: InvoiceReceiverSchema,
+    consignee: InvoiceConsigneeSchema.optional(),
     details: InvoiceDetailsSchema,
 });
 
-export { InvoiceSchema, ItemSchema };
+// ========================================
+// PACKING LIST SCHEMAS
+// ========================================
+
+const PackingListItemSchema = z.object({
+    boxNo: fieldValidators.stringMin1,
+    description: fieldValidators.stringMin1,
+    hsnCode: fieldValidators.stringOptional,
+    quantity: fieldValidators.quantity,
+    netWeight: fieldValidators.nonNegativeNumber, // in KG
+    grossWeight: fieldValidators.nonNegativeNumber, // in KG
+});
+
+const PackingListDetailsSchema = z.object({
+    packingListNumber: fieldValidators.stringMin1,
+    date: fieldValidators.date,
+    invoiceNumber: fieldValidators.stringMin1,
+    buyerOrderNumber: fieldValidators.stringOptional,
+    referenceNumber: fieldValidators.stringOptional,
+    items: z.array(PackingListItemSchema),
+    totalNetWeight: fieldValidators.nonNegativeNumber,
+    totalGrossWeight: fieldValidators.nonNegativeNumber,
+    signatoryDetails: SignatoryDetailsSchema.optional(),
+});
+
+const PackingListSchema = z.object({
+    exporter: InvoiceSenderSchema, // Using same schema as sender
+    consignee: InvoiceReceiverSchema, // Ship to
+    buyer: InvoiceReceiverSchema, // Bill to
+    details: PackingListDetailsSchema,
+});
+
+export { InvoiceSchema, ItemSchema, PackingListSchema, PackingListItemSchema };

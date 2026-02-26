@@ -30,11 +30,8 @@ import { DATE_OPTIONS } from "@/lib/variables";
 // Icons
 import { CalendarIcon } from "lucide-react";
 
-// Types
-import { NameType } from "@/types";
-
 type DatePickerFormFieldProps = {
-    name: NameType;
+    name: string;
     label?: string;
 };
 
