@@ -343,7 +343,7 @@ export const PACKING_LIST_DEFAULT_VALUES = {
   },
   details: {
     packingListNumber: "",
-    date: new Date(),
+    date: new Date().toISOString().split("T")[0],
     invoiceNumber: "",
     buyerOrderNumber: "",
     referenceNumber: "",
