@@ -13,11 +13,11 @@ import { DATE_OPTIONS } from "@/lib/variables";
 import { PackingListType } from "@/types";
 
 const PackingListTemplate = (data: PackingListType) => {
-	const { exporter, consignee, buyer, details, items } = data;
+	const { exporter, consignee, buyer, details } = data;
 
 	// Calculate totals
-	const totalNetWeight = items.reduce((sum, item) => sum + (parseFloat(item.netWeight?.toString() || "0") || 0), 0);
-	const totalGrossWeight = items.reduce((sum, item) => sum + (parseFloat(item.grossWeight?.toString() || "0") || 0), 0);
+	const totalNetWeight = details.items.reduce((sum, item) => sum + (parseFloat(item.netWeight?.toString() || "0") || 0), 0);
+	const totalGrossWeight = details.items.reduce((sum, item) => sum + (parseFloat(item.grossWeight?.toString() || "0") || 0), 0);
 
 	return (
 		<InvoiceLayout data={data}>
@@ -114,7 +114,7 @@ const PackingListTemplate = (data: PackingListType) => {
 						</div>
 						<div className='col-span-1.5 p-2 text-xs font-bold text-center'>Gross Weight (KG)</div>
 					</div>
-					{items.map((item, index) => (
+					{details.items.map((item, index) => (
 						<div key={index} className='grid grid-cols-12 border-b border-gray-900'>
 							<div className='col-span-1 p-2 border-r border-gray-900 text-sm text-center'>{item.boxNo}</div>
 							<div className='col-span-5 p-2 border-r border-gray-900 text-sm'>
@@ -158,7 +158,7 @@ const PackingListTemplate = (data: PackingListType) => {
 					</div>
 					<div className='mt-4'>
 						<span className='font-bold text-sm'>Total Number of Boxes:</span>
-						<span className='ml-2 text-sm'>{items.length}</span>
+						<span className='ml-2 text-sm'>{details.items.length}</span>
 					</div>
 				</div>
 			</div>
