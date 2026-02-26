@@ -37,6 +37,13 @@ const TemplateSelector = () => {
     const formValues = watch();
     const templates = [
         {
+            id: 3,
+            name: "Template 3 (TAX INVOICE)",
+            description: "Tax invoice with detailed shipping information",
+            img: template1, // TODO: Add template3 image
+            component: <InvoiceTemplate3 {...formValues} />,
+        },
+        {
             id: 1,
             name: "Template 1",
             description: "Template 1 description",
@@ -49,13 +56,6 @@ const TemplateSelector = () => {
             description: "Second template",
             img: template2,
             component: <InvoiceTemplate2 {...formValues} />,
-        },
-        {
-            id: 3,
-            name: "Template 3 (TAX INVOICE)",
-            description: "Tax invoice with detailed shipping information",
-            img: template1, // TODO: Add template3 image
-            component: <InvoiceTemplate3 {...formValues} />,
         },
     ];
     return (
