@@ -34,6 +34,7 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
   const { getValues } = useFormContext<PackingListType>();
   const router = useRouter();
   const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
 
   const handleSaveToSheets = async () => {
     setSaving(true);
@@ -122,6 +123,51 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
     }
   };
 
+  const handleGeneratePDF = async () => {
+    setGenerating(true);
+    try {
+      const formValues = getValues();
+      
+      // Generate PDF by sending data to API
+      const response = await fetch("/api/packing-list/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formValues),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate PDF");
+      }
+
+      // Download the PDF
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Packing-List-${formValues.details?.packingListNumber || "draft"}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      toast({
+        title: "PDF Generated",
+        description: "Packing list PDF has been downloaded successfully.",
+      });
+    } catch (err) {
+      console.error("Generate PDF error:", err);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to generate PDF. Please try again.",
+      });
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   return (
     <div className={`xl:w-[45%]`}>
       <Card className="h-auto sticky top-0 px-2">
@@ -143,14 +189,15 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
               {saving ? "Saving..." : editMode ? "Update Packing List" : "Save to Sheets"}
             </BaseButton>
 
-            {/* Generate PDF button (placeholder for future implementation) */}
+            {/* Generate PDF button */}
             <BaseButton
               variant="outline"
               tooltipLabel="Generate packing list PDF"
-              disabled={true}
+              disabled={generating}
+              onClick={handleGeneratePDF}
             >
-              <FileInput />
-              Generate PDF
+              {generating ? <Loader2 className="animate-spin" /> : <FileInput />}
+              {generating ? "Generating..." : "Generate PDF"}
             </BaseButton>
           </div>
         </div>
