@@ -4,11 +4,16 @@
 import PackingListForm from "./PackingListForm";
 import PackingListActions from "./PackingListActions";
 
-const PackingListMain = () => {
+type PackingListMainProps = {
+    editMode?: boolean;
+    packingListNumber?: number;
+};
+
+const PackingListMain = ({ editMode, packingListNumber }: PackingListMainProps) => {
     return (
         <div className="flex flex-col lg:flex-row lg:items-start gap-5">
             <PackingListForm />
-            <PackingListActions />
+            <PackingListActions editMode={editMode} packingListNumber={packingListNumber} />
         </div>
     );
 };
