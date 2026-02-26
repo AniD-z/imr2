@@ -2,74 +2,105 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from "next/server";
-import puppeteer from "puppeteer";
-import { renderToStaticMarkup } from "react-dom/server";
+
+// Chromium
+import chromium from "@sparticuz/chromium";
 
 // Template
 import PackingListTemplate from "@/app/components/templates/invoice-pdf/PackingListTemplate";
+
+// Variables
+import { ENV, TAILWIND_CDN } from "@/lib/variables";
 
 // Types
 import { PackingListType } from "@/types";
 
 export async function POST(req: NextRequest) {
+    let browser;
+    let page;
+
     try {
         const data: PackingListType = await req.json();
 
+        // Dynamically import react-dom/server
+        const ReactDOMServer = (await import("react-dom/server")).default;
+        
         // Render the packing list template to HTML
-        const htmlContent = renderToStaticMarkup(PackingListTemplate(data));
-        const fullHtml = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <script src="https://cdn.tailwindcss.com"></script>
-            </head>
-            <body>
-                ${htmlContent}
-            </body>
-            </html>
-        `;
+        const htmlContent = ReactDOMServer.renderToStaticMarkup(
+            PackingListTemplate(data)
+        );
 
-        // Launch Puppeteer
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-gpu",
-            ],
+        // Launch Puppeteer based on environment
+        if (ENV === "production") {
+            const puppeteer = (await import("puppeteer-core")).default;
+            browser = await puppeteer.launch({
+                args: [...chromium.args, "--disable-dev-shm-usage", "--ignore-certificate-errors"],
+                executablePath: await chromium.executablePath(),
+                headless: true,
+            });
+        } else {
+            const puppeteer = (await import("puppeteer")).default;
+            browser = await puppeteer.launch({
+                args: ["--no-sandbox", "--disable-setuid-sandbox"],
+                headless: true,
+            });
+        }
+
+        if (!browser) {
+            throw new Error("Failed to launch browser");
+        }
+
+        page = await browser.newPage();
+        await page.setContent(await htmlContent, {
+            waitUntil: ["networkidle0", "load", "domcontentloaded"],
+            timeout: 30000,
         });
 
-        const page = await browser.newPage();
-        await page.setContent(fullHtml, { waitUntil: "networkidle0" });
+        await page.addStyleTag({
+            url: TAILWIND_CDN,
+        });
 
         // Generate PDF
-        const pdfBuffer = await page.pdf({
-            format: "A4",
+        const pdf = await page.pdf({
+            format: "a4",
             printBackground: true,
-            margin: {
-                top: "10mm",
-                bottom: "10mm",
-                left: "10mm",
-                right: "10mm",
-            },
+            preferCSSPageSize: true,
         });
 
-        await browser.close();
-
-        // Return PDF as response
-        return new NextResponse(Buffer.from(pdfBuffer), {
+        return new NextResponse(Buffer.from(pdf), {
             headers: {
                 "Content-Type": "application/pdf",
                 "Content-Disposition": `attachment; filename="Packing-List-${data.details?.packingListNumber || "draft"}.pdf"`,
+                "Cache-Control": "no-cache",
+                Pragma: "no-cache",
             },
+            status: 200,
         });
-    } catch (error) {
-        console.error("Error generating packing list PDF:", error);
-        return NextResponse.json(
-            { error: "Failed to generate PDF" },
-            { status: 500 }
+    } catch (error: any) {
+        console.error("Packing List PDF Generation Error:", error);
+        return new NextResponse(
+            JSON.stringify({ error: "Failed to generate PDF" }),
+            {
+                status: 500,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
         );
+    } finally {
+        if (page) {
+            try {
+                await page.close();
+            } catch (e) {
+                console.error("Error closing page:", e);
+            }
+        }
+        if (browser) {
+            try {
+                await browser.close();
+            } catch (e) {
+                console.error("Error closing browser:", e);
+            }
+        }
     }
 }
