@@ -155,7 +155,7 @@ export const FORM_DEFAULT_VALUES = {
     },
     shippingDetails: {
       cost: 0,
-      costType: "amount",
+      costType: "amount" as const,
     },
     paymentInformation: {
       bankName: "AXIS BANK LTD",
