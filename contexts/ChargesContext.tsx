@@ -189,7 +189,7 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
 
         let discountAmountType: string = "amount";
         let taxAmountType: string = "amount";
-        let shippingCostType: string = "amount";
+        let shippingCostType: "amount" = "amount";
 
         let total: number = totalSum;
 
