@@ -103,26 +103,29 @@ const WizardProgress = ({ wizard }: WizardProgressProps) => {
     ];
 
     return (
-        <div className="flex flex-wrap justify-around items-center gap-y-3">
-            {steps.map((step, idx) => (
-                <div key={step.id} className="flex items-center">
-                    <BaseButton
-                        variant={returnButtonVariant(step)}
-                        className="w-auto"
-                        onClick={() => {
-                            wizard.goToStep(step.id);
-                        }}
-                    >
-                        {step.id + 1}. {step.label}
-                    </BaseButton>
-
-                    {/* {step.id != stepCount - 1 && (
-                        <div>
-                            <Dot />
-                        </div>
-                    )} */}
-                </div>
-            ))}
+        <div className="w-full overflow-hidden">
+            <div className="flex gap-2 overflow-x-auto p-2">
+                {steps.map((step) => (
+                    <div key={step.id} className="flex items-center gap-2">
+                        <BaseButton
+                            variant={returnButtonVariant(step)}
+                            onClick={() => wizard.goToStep(step.id)}
+                            className="flex-shrink-0"
+                        >
+                            {step.label}
+                        </BaseButton>
+                        {step.id < stepCount - 1 && (
+                            <div
+                                className={`h-1 w-4 rounded-full ${
+                                    stepPassed(step)
+                                        ? "bg-green-500"
+                                        : "bg-gray-300"
+                                }`}
+                            ></div>
+                        )}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
