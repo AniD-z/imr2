@@ -141,12 +141,13 @@ const Charges = () => {
 
                     {shippingSwitch && (
                         <ChargeInput
-                            label={_t("form.steps.summary.shipping")}
+                            label="Shipping/Transportation Charges"
                             name="details.shippingDetails.cost"
                             switchAmountType={switchAmountType}
                             type={shippingType}
                             setType={setShippingType}
                             currency={currency}
+                            showToggle={false}
                         />
                     )}
 

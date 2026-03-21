@@ -33,6 +33,7 @@ type ChargeInputProps = {
     type: string;
     setType: React.Dispatch<React.SetStateAction<string>>;
     currency: string;
+    showToggle?: boolean;
 };
 
 const ChargeInput = ({
@@ -42,6 +43,7 @@ const ChargeInput = ({
     type,
     setType,
     currency,
+    showToggle = true,
 }: ChargeInputProps) => {
     const { control } = useFormContext();
 
@@ -51,13 +53,15 @@ const ChargeInput = ({
                 <div>{label}</div>
 
                 <div className="flex items-center gap-1">
-                    <BaseButton
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => switchAmountType(type, setType)}
-                    >
-                        <RefreshCw />
-                    </BaseButton>
+                    {showToggle && (
+                        <BaseButton
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => switchAmountType(type, setType)}
+                        >
+                            <RefreshCw />
+                        </BaseButton>
+                    )}
 
                     <FormField
                         control={control}
@@ -81,7 +85,7 @@ const ChargeInput = ({
                             </FormItem>
                         )}
                     />
-                    {type == "percentage" ? <Percent /> : <div>{currency}</div>}
+                    {showToggle && type == "percentage" ? <Percent /> : <div>{currency}</div>}
                 </div>
             </div>
         </>

@@ -183,7 +183,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 			{/* Items Table */}
 			<div className='mt-3 page-break-avoid'>
 				<div className='border border-gray-900'>
-					<div className='grid grid-cols-9 bg-gray-100 border-b border-gray-900'>
+					<div className='grid grid-cols-10 bg-gray-100 border-b border-gray-900'>
 						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>SL No</div>
 						<div className='col-span-3 p-2 border-r border-gray-900 text-xs font-bold text-center'>
 							Description of Goods
@@ -194,10 +194,10 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>
 							Rate in {details.currency}
 						</div>
-						<div className='p-2 text-xs font-bold text-center'>Unit</div>
+						<div className='p-2 text-xs font-bold text-center'>Total</div>
 					</div>
 					{details.items.map((item, index) => (
-						<div key={index} className='grid grid-cols-9 border-b border-gray-900'>
+						<div key={index} className='grid grid-cols-10 border-b border-gray-900'>
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{index + 1}</div>
 							<div className='col-span-3 p-2 border-r border-gray-900 text-sm'>
 								<div className='font-medium'>{item.name}</div>
@@ -207,7 +207,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{item.quantity}</div>
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{item.units || "-"}</div>
 							<div className='p-2 border-r border-gray-900 text-sm text-right'>{item.unitPrice}</div>
-							<div className='p-2 text-sm text-center'>{item.units || "-"}</div>
+							<div className='p-2 text-sm text-right'>{item.total} {details.currency}</div>
 						</div>
 					))}
 				</div>

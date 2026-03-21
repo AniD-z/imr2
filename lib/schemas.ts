@@ -12,34 +12,72 @@ const fieldValidators = {
     name: z
         .string()
         .min(2, { message: "Must be at least 2 characters" })
-        .max(50, { message: "Must be at most 50 characters" }),
+        .max(200, { message: "Must be at most 200 characters" }),
+    nameOptional: z
+        .string()
+        .min(2, { message: "Must be at least 2 characters" })
+        .max(200, { message: "Must be at most 200 characters" })
+        .optional(),
     address: z
         .string()
         .min(2, { message: "Must be at least 2 characters" })
         .max(70, { message: "Must be between 2 and 70 characters" }),
+    addressOptional: z
+        .string()
+        .min(2, { message: "Must be at least 2 characters" })
+        .max(70, { message: "Must be between 2 and 70 characters" })
+        .optional(),
     zipCode: z
         .string()
         .min(2, { message: "Must be between 2 and 20 characters" })
         .max(20, { message: "Must be between 2 and 20 characters" }),
+    zipCodeOptional: z
+        .string()
+        .min(2, { message: "Must be between 2 and 20 characters" })
+        .max(20, { message: "Must be between 2 and 20 characters" })
+        .optional(),
     city: z
         .string()
         .min(1, { message: "Must be between 1 and 50 characters" })
         .max(50, { message: "Must be between 1 and 50 characters" }),
+    cityOptional: z
+        .string()
+        .min(1, { message: "Must be between 1 and 50 characters" })
+        .max(50, { message: "Must be between 1 and 50 characters" })
+        .optional(),
     country: z
         .string()
         .min(1, { message: "Must be between 1 and 70 characters" })
         .max(70, { message: "Must be between 1 and 70 characters" }),
+    countryOptional: z
+        .string()
+        .min(1, { message: "Must be between 1 and 70 characters" })
+        .max(70, { message: "Must be between 1 and 70 characters" })
+        .optional(),
     email: z
         .string()
         .email({ message: "Email must be a valid email" })
         .min(5, { message: "Must be between 5 and 30 characters" })
         .max(30, { message: "Must be between 5 and 30 characters" }),
+    emailOptional: z
+        .string()
+        .email({ message: "Email must be a valid email" })
+        .min(5, { message: "Must be between 5 and 30 characters" })
+        .max(30, { message: "Must be between 5 and 30 characters" })
+        .optional(),
     phone: z
         .string()
         .min(1, { message: "Must be between 1 and 50 characters" })
         .max(50, {
             message: "Must be between 1 and 50 characters",
         }),
+    phoneOptional: z
+        .string()
+        .min(1, { message: "Must be between 1 and 50 characters" })
+        .max(50, {
+            message: "Must be between 1 and 50 characters",
+        })
+        .optional(),
 
     // Dates
     date: z
@@ -88,12 +126,12 @@ const CustomInputSchema = z.object({
 
 const InvoiceSenderSchema = z.object({
     name: fieldValidators.name,
-    address: fieldValidators.address,
-    zipCode: fieldValidators.zipCode,
-    city: fieldValidators.city,
-    country: fieldValidators.country,
-    email: fieldValidators.email,
-    phone: fieldValidators.phone,
+    address: fieldValidators.addressOptional,
+    zipCode: fieldValidators.zipCodeOptional,
+    city: fieldValidators.cityOptional,
+    country: fieldValidators.countryOptional,
+    email: fieldValidators.emailOptional,
+    phone: fieldValidators.phoneOptional,
     gst: fieldValidators.stringOptional,
     adCode: fieldValidators.stringOptional,
     customInputs: z.array(CustomInputSchema).optional(),
@@ -101,23 +139,23 @@ const InvoiceSenderSchema = z.object({
 
 const InvoiceReceiverSchema = z.object({
     name: fieldValidators.name,
-    address: fieldValidators.address,
-    zipCode: fieldValidators.zipCode,
-    city: fieldValidators.city,
-    country: fieldValidators.country,
-    email: fieldValidators.email,
-    phone: fieldValidators.phone,
+    address: fieldValidators.addressOptional,
+    zipCode: fieldValidators.zipCodeOptional,
+    city: fieldValidators.cityOptional,
+    country: fieldValidators.countryOptional,
+    email: fieldValidators.emailOptional,
+    phone: fieldValidators.phoneOptional,
     customInputs: z.array(CustomInputSchema).optional(),
 });
 
 const InvoiceConsigneeSchema = z.object({
-    name: fieldValidators.name,
-    address: fieldValidators.address,
-    zipCode: fieldValidators.zipCode.optional(),
-    city: fieldValidators.city,
-    country: fieldValidators.country,
-    email: fieldValidators.email.optional(),
-    phone: fieldValidators.phone.optional(),
+    name: fieldValidators.nameOptional,
+    address: fieldValidators.addressOptional,
+    zipCode: fieldValidators.zipCodeOptional,
+    city: fieldValidators.cityOptional,
+    country: fieldValidators.countryOptional,
+    email: fieldValidators.emailOptional,
+    phone: fieldValidators.phoneOptional,
 }).optional();
 
 const ItemSchema = z.object({
@@ -153,7 +191,7 @@ const TaxDetailsSchema = z.object({
 
 const ShippingDetailsSchema = z.object({
     cost: fieldValidators.stringToNumberWithMax,
-    costType: fieldValidators.string,
+    costType: z.literal("amount"),
 });
 
 const SignatureSchema = z.object({
