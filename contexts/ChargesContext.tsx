@@ -216,13 +216,8 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
         }
 
         if (!isNaN(shippingCost)) {
-            if (shippingType == "amount") {
-                total += shippingCost;
-                shippingCostType = "amount";
-            } else {
-                total += total * (shippingCost / 100);
-                shippingCostType = "percentage";
-            }
+            total += shippingCost;
+            shippingCostType = "amount";
             setValue("details.shippingDetails.cost", shippingCost);
         }
 
