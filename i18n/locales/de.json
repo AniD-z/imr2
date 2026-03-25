@@ -5,9 +5,12 @@
         "newInvBadge": "Neue Rechnung",
         "wizard": {
             "fromAndTo": "Von & An",
+            "consignee": "Empfänger",
             "invoiceDetails": "Rechnungsdetails",
+            "shippingDetails": "Versanddetails",
             "lineItems": "Positionen",
             "paymentInfo": "Zahlung",
+            "signatoryDetails": "Unterzeichnerdetails",
             "summary": "Zusammenfassung",
             "next": "Weiter",
             "back": "Zurück"

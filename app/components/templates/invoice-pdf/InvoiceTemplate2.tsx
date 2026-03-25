@@ -17,13 +17,19 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
     return (
         <InvoiceLayout data={data}>
             {/* Company Header */}
-            <div className='flex items-center justify-center mb-6 pb-4 border-b-2 border-gray-900 page-break-avoid'>
-                <img
-                    src='/assets/img/top.png'
-                    alt='IMR Engineering Services'
-                    style={{ maxWidth: '400px', height: 'auto' }}
-                />
-            </div>
+            {data.details?.headerImage && (
+                <div className='mb-4 -mx-10 -mt-10 page-break-avoid'>
+                    <img
+                        src={data.details.headerImage}
+                        alt='IMR Engineering Services'
+                        style={{
+                            width: '100%',
+                            height: 'auto',
+                            display: 'block',
+                        }}
+                    />
+                </div>
+            )}
 
             <div className="flex justify-between page-break-avoid">
                 <div>
@@ -349,6 +355,11 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                     </p>
                 </div>
             ) : null}
+
+            {/* Company Footer */}
+            <div className="mt-8 text-center text-sm text-gray-800 page-break-avoid">
+                <p>mail.imrengineering@gmail.com | <a href="https://www.imrengineeringservices.in/" target="_blank" rel="noopener noreferrer" className="text-blue-600">https://www.imrengineeringservices.in/</a></p>
+            </div>
         </InvoiceLayout>
     );
 };

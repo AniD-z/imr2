@@ -5,9 +5,12 @@
         "newInvBadge": "Nova Fatura",
         "wizard": {
             "fromAndTo": "De & Para",
+            "consignee": "Destinatário",
             "invoiceDetails": "Detalhes da Fatura",
+            "shippingDetails": "Detalhes de Envio",
             "lineItems": "Itens",
             "paymentInfo": "Informações de Pagamento",
+            "signatoryDetails": "Detalhes do Signatário",
             "summary": "Resumo",
             "next": "Próximo",
             "back": "Voltar"

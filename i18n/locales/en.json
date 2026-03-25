@@ -5,9 +5,12 @@
         "newInvBadge": "New Invoice",
         "wizard": {
             "fromAndTo": "From & To",
+            "consignee": "Consignee",
             "invoiceDetails": "Invoice Details",
+            "shippingDetails": "Shipping Details",
             "lineItems": "Line Items",
             "paymentInfo": "Payment Info",
+            "signatoryDetails": "Signatory Details",
             "summary": "Summary",
             "next": "Next",
             "back": "Back"

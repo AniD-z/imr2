@@ -5,9 +5,12 @@
         "newInvBadge": "Nova faktura",
         "wizard": {
             "fromAndTo": "Od i za",
+            "consignee": "Primalac",
             "invoiceDetails": "Detalji fakture",
+            "shippingDetails": "Detalji o pošiljci",
             "lineItems": "Stavke",
-            "paymentInfo": "Informacije o plaćanju",
+            "paymentInfo": "Informacije o plaćanju",
+            "signatoryDetails": "Detalji potpisnika",
             "summary": "Rezime",
             "next": "Dalje",
             "back": "Nazad"

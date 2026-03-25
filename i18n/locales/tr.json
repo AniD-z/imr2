@@ -5,9 +5,12 @@
     "newInvBadge": "Yeni Fatura",
     "wizard": {
       "fromAndTo": "Gönderen & Alıcı",
+      "consignee": "Alıcı",
       "invoiceDetails": "Fatura Detayları",
+      "shippingDetails": "Gönderim Detayları",
       "lineItems": "Kalemler",
       "paymentInfo": "Ödeme Bilgileri",
+      "signatoryDetails": "İmzalatancı Detayları",
       "summary": "Özet",
       "next": "İleri",
       "back": "Geri"

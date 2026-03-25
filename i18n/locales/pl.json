@@ -5,9 +5,12 @@
         "newInvBadge": "Nowa faktura",
         "wizard": {
             "fromAndTo": "Od & Do",
+            "consignee": "Odbiorca",
             "invoiceDetails": "Szczegóły faktury",
+            "shippingDetails": "Szczegóły dostawy",
             "lineItems": "Pozycje faktury",
             "paymentInfo": "Informacje o płatności",
+            "signatoryDetails": "Szczegóły podpisującego",
             "summary": "Podsumowanie",
             "next": "Dalej",
             "back": "Wstecz"

@@ -5,9 +5,12 @@
     "newInvBadge": "Faktur Baru",
     "wizard": {
       "fromAndTo": "Dari & Ke",
+      "consignee": "Penerima",
       "invoiceDetails": "Detail Faktur",
+      "shippingDetails": "Detail Pengiriman",
       "lineItems": "Daftar Item",
       "paymentInfo": "Info Pembayaran",
+      "signatoryDetails": "Detail Penandatangan",
       "summary": "Ringkasan",
       "next": "Selanjutnya",
       "back": "Kembali"

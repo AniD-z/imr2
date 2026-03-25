@@ -5,9 +5,12 @@
     "newInvBadge": "فاتورة جديدة",
     "wizard": {
       "fromAndTo": "من & إلى",
+      "consignee": "المستقبل",
       "invoiceDetails": "تفاصيل الفاتورة",
+      "shippingDetails": "تفاصيل الشحن",
       "lineItems": "عناصر الفاتورة",
       "paymentInfo": "معلومات الدفع",
+      "signatoryDetails": "تفاصيل الموقع",
       "summary": "الملخص",
       "next": "التالي",
       "back": "السابق"

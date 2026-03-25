@@ -5,9 +5,12 @@
         "newInvBadge": "Ny faktura",
         "wizard": {
             "fromAndTo": "Fra & til",
+            "consignee": "Mottaker",
             "invoiceDetails": "Fakturadetaljer",
+            "shippingDetails": "Forsendelsedetaljer",
             "lineItems": "Varelinjer",
             "paymentInfo": "Betalingsinformasjon",
+            "signatoryDetails": "Detaljer om underskriver",
             "summary": "Sammendrag",
             "next": "Neste",
             "back": "Tilbake"

@@ -2,6 +2,8 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
 // Chromium
 import chromium from "@sparticuz/chromium";
@@ -22,12 +24,27 @@ export async function POST(req: NextRequest) {
     try {
         const data: PackingListType = await req.json();
 
+        // Load the header image as base64
+        const imagePath = path.join(process.cwd(), "public/assets/img/top.png");
+        const imageBuffer = fs.readFileSync(imagePath);
+        const imageBase64 = imageBuffer.toString("base64");
+        const headerImageUrl = `data:image/png;base64,${imageBase64}`;
+
+        // Add header image to data
+        const enrichedData = {
+            ...data,
+            details: {
+                ...data.details,
+                headerImage: headerImageUrl,
+            },
+        };
+
         // Dynamically import react-dom/server
         const ReactDOMServer = (await import("react-dom/server")).default;
         
         // Render the packing list template to HTML
         const htmlContent = ReactDOMServer.renderToStaticMarkup(
-            PackingListTemplate(data)
+            PackingListTemplate(enrichedData)
         );
 
         // Launch Puppeteer based on environment

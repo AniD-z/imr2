@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 
 // RHF
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 
 // Zod
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -56,6 +56,19 @@ const Providers = ({ children }: ProvidersProps) => {
     defaultValues: FORM_DEFAULT_VALUES,
   });
 
+  const senderCountry = useWatch({
+    control: form.control,
+    name: "sender.country",
+  });
+
+  const invoiceNumber = useWatch({
+    control: form.control,
+    name: "details.invoiceNumber",
+  });
+
+  const lastCountryRef = React.useRef<string>("");
+  const isFetchingRef = React.useRef(false);
+
   // Hydrate once on mount
   useEffect(() => {
     const draft = readDraftFromLocalStorage();
@@ -64,6 +77,47 @@ const Providers = ({ children }: ProvidersProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Auto-generate invoice number when sender country changes
+  useEffect(() => {
+    const generateInvoiceNumber = async () => {
+      // Only generate if country changed and we don't have a number yet
+      if (!senderCountry || invoiceNumber || isFetchingRef.current) {
+        return;
+      }
+
+      // Only fetch if it's a different country than the last one we fetched for
+      if (lastCountryRef.current === senderCountry) {
+        return;
+      }
+
+      isFetchingRef.current = true;
+      lastCountryRef.current = senderCountry;
+
+      try {
+        const response = await fetch("/api/invoice/next-number", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ country: senderCountry }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          form.setValue("details.invoiceNumber", data.invoiceNumber, {
+            shouldValidate: false,
+            shouldDirty: false,
+            shouldTouch: false,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to generate invoice number:", error);
+      } finally {
+        isFetchingRef.current = false;
+      }
+    };
+
+    generateInvoiceNumber();
+  }, [senderCountry, invoiceNumber, form]);
 
   return (
     <ThemeProvider

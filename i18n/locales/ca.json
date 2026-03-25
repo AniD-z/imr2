@@ -5,9 +5,12 @@
 		"newInvBadge": "Nova Factura",
 		"wizard": {
 			"fromAndTo": "De qui & Per a qui",
-			"invoiceDetails": "Detalls factura",
-			"lineItems": "Items",
-			"paymentInfo": "Informació de Pagament",
+		"consignee": "Consignatari",
+		"invoiceDetails": "Detalls factura",
+		"shippingDetails": "Detalls d'Enviament",
+		"lineItems": "Items",
+		"paymentInfo": "Informació de Pagament",
+		"signatoryDetails": "Detalls del Signant",
 			"summary": "Sumari",
 			"next": "Sigüent",
 			"back": "Enrere"

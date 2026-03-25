@@ -7,7 +7,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 
 // Components
-import { FormInput, Subheading } from "@/app/components";
+import { FormInput, Subheading, BaseButton } from "@/app/components";
 
 // Icons
 import { Plus, Trash2 } from "lucide-react";
@@ -46,9 +46,13 @@ const PackingListItems = () => {
                 {fields.map((field, index) => (
                     <div
                         key={field.id}
-                        className="border rounded-lg p-4 relative"
+                        className="border rounded-lg p-3 sm:p-4 bg-gray-50 dark:bg-slate-800 dark:border-gray-600"
                     >
-                        <div className="absolute top-2 right-2">
+                        {/* Item Header */}
+                        <div className="flex justify-between items-center mb-4 pb-3 border-b">
+                            <p className="font-medium text-sm">
+                                Item #{index + 1}
+                            </p>
                             <Button
                                 type="button"
                                 variant="ghost"
@@ -60,70 +64,67 @@ const PackingListItems = () => {
                             </Button>
                         </div>
 
-                        <div className="space-y-3">
-                            {/* First Row: Box No, Description, HSN Code */}
-                            <div className="grid grid-cols-12 gap-3">
-                                <div className="col-span-2">
-                                    <FormInput
-                                        name={`details.items.${index}.boxNo`}
-                                        label="Box No"
-                                        placeholder="1"
-                                    />
-                                </div>
-                                <div className="col-span-6">
-                                    <FormInput
-                                        name={`details.items.${index}.description`}
-                                        label="Description"
-                                        placeholder="BUFFER FLY VALVES 200 MM"
-                                    />
-                                </div>
-                                <div className="col-span-4">
-                                    <FormInput
-                                        name={`details.items.${index}.hsnCode`}
-                                        label="HSN Code"
-                                        placeholder="84812900"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Second Row: Quantity, Net Weight, Gross Weight */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <FormInput
-                                    name={`details.items.${index}.quantity`}
-                                    label="Quantity"
-                                    placeholder="1"
-                                    type="number"
-                                />
-                                <FormInput
-                                    name={`details.items.${index}.netWeight`}
-                                    label="Net Weight (KG)"
-                                    placeholder="0.00"
-                                    type="number"
-                                    step="0.01"
-                                />
-                                <FormInput
-                                    name={`details.items.${index}.grossWeight`}
-                                    label="Gross Weight (KG)"
-                                    placeholder="0.00"
-                                    type="number"
-                                    step="0.01"
-                                />
-                            </div>
+                        {/* Form Fields */}
+                        <div className="flex flex-wrap gap-3">
+                            <FormInput
+                                name={`details.items.${index}.boxNo`}
+                                label="Box No"
+                                placeholder="1"
+                                className="w-[5rem]"
+                                vertical
+                            />
+                            <FormInput
+                                name={`details.items.${index}.description`}
+                                label="Description"
+                                placeholder="BUFFER FLY VALVES 200 MM"
+                                className="flex-1 min-w-[12rem]"
+                                vertical
+                            />
+                            <FormInput
+                                name={`details.items.${index}.hsnCode`}
+                                label="HSN Code"
+                                placeholder="84812900"
+                                className="w-[7rem]"
+                                vertical
+                            />
+                            <FormInput
+                                name={`details.items.${index}.quantity`}
+                                label="Qty"
+                                placeholder="1"
+                                type="number"
+                                className="w-[5rem]"
+                                vertical
+                            />
+                            <FormInput
+                                name={`details.items.${index}.netWeight`}
+                                label="Net Wt (KG)"
+                                placeholder="0.00"
+                                type="number"
+                                step="0.01"
+                                className="w-[7rem]"
+                                vertical
+                            />
+                            <FormInput
+                                name={`details.items.${index}.grossWeight`}
+                                label="Gross Wt (KG)"
+                                placeholder="0.00"
+                                type="number"
+                                step="0.01"
+                                className="w-[7rem]"
+                                vertical
+                            />
                         </div>
                     </div>
                 ))}
             </div>
 
-            <Button
-                type="button"
-                variant="outline"
-                size="sm"
+            <BaseButton
                 onClick={addNewItem}
                 className="w-fit gap-2"
             >
                 <Plus className="h-4 w-4" />
                 Add Item
-            </Button>
+            </BaseButton>
         </section>
     );
 };

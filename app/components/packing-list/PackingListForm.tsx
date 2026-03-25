@@ -54,7 +54,7 @@ const PackingListForm = () => {
     };
 
     return (
-        <div className="xl:w-[55%]">
+        <div className="w-full xl:w-[55%]">
             <Card>
                 <CardHeader>
                     <div className="flex justify-between items-start">
@@ -87,128 +87,160 @@ const PackingListForm = () => {
                         {/* Exporter Section */}
                         <section className="flex flex-col gap-3">
                             <Subheading>Exporter:</Subheading>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormInput
-                                    name="exporter.name"
-                                    label="Company Name"
-                                    placeholder="Company name"
-                                />
-                                <FormInput
-                                    name="exporter.address"
-                                    label="Address"
-                                    placeholder="Address"
-                                />
-                                <FormInput
-                                    name="exporter.city"
-                                    label="City"
-                                    placeholder="City"
-                                />
-                                <FormInput
-                                    name="exporter.zipCode"
-                                    label="Zip Code"
-                                    placeholder="Zip code"
-                                />
-                                <FormInput
-                                    name="exporter.country"
-                                    label="Country"
-                                    placeholder="Country"
-                                />
-                                <FormInput
-                                    name="exporter.gst"
-                                    label="GST"
-                                    placeholder="GST number"
-                                />
-                                <FormInput
-                                    name="exporter.adCode"
-                                    label="AD Code"
-                                    placeholder="AD Code"
-                                />
-                            </div>
+                            <FormInput
+                                name="exporter.name"
+                                label="Company Name"
+                                placeholder="Company name"
+                            />
+                            <FormInput
+                                name="exporter.address"
+                                label="Address"
+                                placeholder="Address"
+                            />
+                            <FormInput
+                                name="exporter.city"
+                                label="City"
+                                placeholder="City"
+                            />
+                            <FormInput
+                                name="exporter.zipCode"
+                                label="Zip Code"
+                                placeholder="Zip code"
+                            />
+                            <FormInput
+                                name="exporter.country"
+                                label="Country"
+                                placeholder="Country"
+                            />
+                            <FormInput
+                                name="exporter.gst"
+                                label="GST"
+                                placeholder="GST number"
+                            />
+                            <FormInput
+                                name="exporter.adCode"
+                                label="AD Code"
+                                placeholder="AD Code"
+                            />
                         </section>
 
                         {/* Consignee Section */}
                         <section className="flex flex-col gap-3">
                             <Subheading>Consignee:</Subheading>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormInput
-                                    name="consignee.name"
-                                    label="Name"
-                                    placeholder="Consignee name"
-                                />
-                                <FormInput
-                                    name="consignee.address"
-                                    label="Address"
-                                    placeholder="Address"
-                                />
-                                <FormInput
-                                    name="consignee.city"
-                                    label="City"
-                                    placeholder="City"
-                                />
-                                <FormInput
-                                    name="consignee.country"
-                                    label="Country"
-                                    placeholder="Country"
-                                />
-                            </div>
+                            <FormInput
+                                name="consignee.name"
+                                label="Name"
+                                placeholder="Consignee name"
+                            />
+                            <FormInput
+                                name="consignee.address"
+                                label="Address"
+                                placeholder="Address"
+                            />
+                            <FormInput
+                                name="consignee.city"
+                                label="City"
+                                placeholder="City"
+                            />
+                            <FormInput
+                                name="consignee.country"
+                                label="Country"
+                                placeholder="Country"
+                            />
                         </section>
 
                         {/* Buyer Section */}
                         <section className="flex flex-col gap-3">
                             <Subheading>Buyer:</Subheading>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormInput
-                                    name="buyer.name"
-                                    label="Name"
-                                    placeholder="Buyer name"
-                                />
-                                <FormInput
-                                    name="buyer.address"
-                                    label="Address"
-                                    placeholder="Address"
-                                />
-                                <FormInput
-                                    name="buyer.city"
-                                    label="City"
-                                    placeholder="City"
-                                />
-                                <FormInput
-                                    name="buyer.country"
-                                    label="Country"
-                                    placeholder="Country"
-                                />
-                            </div>
+                            <FormInput
+                                name="buyer.name"
+                                label="Name"
+                                placeholder="Buyer name"
+                            />
+                            <FormInput
+                                name="buyer.address"
+                                label="Address"
+                                placeholder="Address"
+                            />
+                            <FormInput
+                                name="buyer.city"
+                                label="City"
+                                placeholder="City"
+                            />
+                            <FormInput
+                                name="buyer.country"
+                                label="Country"
+                                placeholder="Country"
+                            />
                         </section>
 
                         {/* Packing List Details */}
                         <section className="flex flex-col gap-3">
                             <Subheading>Packing List Details:</Subheading>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormInput
-                                    name="details.packingListNumber"
-                                    label="Packing List No"
-                                    placeholder="PL-001/2025"
-                                />
-                                <DatePickerFormField
-                                    name="details.date"
-                                    label="Date"
-                                />
-                                <FormInput
-                                    name="details.invoiceNumber"
-                                    label="Invoice No"
-                                    placeholder="INV-001"
-                                />
-                                <FormInput
-                                    name="details.buyerOrderNumber"
-                                    label="Buyer's Order No"
-                                    placeholder="PO-001"
-                                />
-                                <FormInput
-                                    name="details.referenceNumber"
-                                    label="Reference No"
-                                    placeholder="REF-001"
-                                />
-                            </div>
+                            <FormInput
+                                name="details.packingListNumber"
+                                label="Packing List No"
+                                placeholder="PL-001/2025"
+                            />
+                            <DatePickerFormField
+                                name="details.date"
+                                label="Date"
+                            />
+                            <FormInput
+                                name="details.invoiceNumber"
+                                label="Invoice No"
+                                placeholder="INV-001"
+                            />
+                            <FormInput
+                                name="details.buyerOrderNumber"
+                                label="Buyer's Order No"
+                                placeholder="PO-001"
+                            />
+                            <FormInput
+                                name="details.referenceNumber"
+                                label="Reference No"
+                                placeholder="REF-001"
+                            />
+                        </section>
+
+                        {/* Shipment Details */}
+                        <section className="flex flex-col gap-3">
+                            <Subheading>Shipment Details:</Subheading>
+                            <FormInput
+                                name="details.iecNo"
+                                label="IEC No"
+                                placeholder="IEC number"
+                            />
+                            <FormInput
+                                name="details.freightMode"
+                                label="Freight Mode"
+                                placeholder="e.g., By Sea, By Air"
+                            />
+                            <FormInput
+                                name="details.portOfLoading"
+                                label="Port of Loading"
+                                placeholder="e.g., Mumbai - India"
+                            />
+                            <FormInput
+                                name="details.countryOfOrigin"
+                                label="Country of Origin"
+                                placeholder="e.g., INDIA"
+                            />
+                            <FormInput
+                                name="details.portOfDischarge"
+                                label="Port of Discharge"
+                                placeholder="e.g., Port Sudan, SUDAN"
+                            />
+                            <FormInput
+                                name="details.finalDestination"
+                                label="Final Destination"
+                                placeholder="e.g., Kosti, Sudan"
+                            />
+                            <FormInput
+                                name="details.countryOfFinalDestination"
+                                label="Country of Final Destination"
+                                placeholder="e.g., SUDAN"
+                            />
                         </section>
 
                         {/* Items */}
@@ -217,22 +249,20 @@ const PackingListForm = () => {
                         {/* Total Weights */}
                         <section className="flex flex-col gap-3">
                             <Subheading>Total Weights:</Subheading>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormInput
-                                    name="details.totalNetWeight"
-                                    label="Total Net Weight (KG)"
-                                    placeholder="0.00"
-                                    type="number"
-                                    step="0.01"
-                                />
-                                <FormInput
-                                    name="details.totalGrossWeight"
-                                    label="Total Gross Weight (KG)"
-                                    placeholder="0.00"
-                                    type="number"
-                                    step="0.01"
-                                />
-                            </div>
+                            <FormInput
+                                name="details.totalNetWeight"
+                                label="Total Net Weight (KG)"
+                                placeholder="0.00"
+                                type="number"
+                                step="0.01"
+                            />
+                            <FormInput
+                                name="details.totalGrossWeight"
+                                label="Total Gross Weight (KG)"
+                                placeholder="0.00"
+                                type="number"
+                                step="0.01"
+                            />
                         </section>
                     </div>
                 </CardContent>

@@ -29,21 +29,24 @@ const WizardProgress = ({ wizard }: WizardProgressProps) => {
     const { _t } = useTranslationContext();
 
     const step1Valid = !errors.sender && !errors.receiver;
-    const step2Valid =
+    const step2Valid = !errors.consignee;
+    const step3Valid =
         !errors.details?.invoiceNumber &&
         !errors.details?.dueDate &&
         !errors.details?.invoiceDate &&
         !errors.details?.currency;
 
-    const step3Valid = !errors.details?.items;
-    const step4Valid = !errors.details?.paymentInformation;
-    const step5Valid =
+    const step4Valid = !errors.details?.items;
+    const step5Valid = !errors.details?.paymentInformation;
+    const step6Valid =
         !errors.details?.paymentTerms &&
         !errors.details?.subTotal &&
         !errors.details?.totalAmount &&
         !errors.details?.discountDetails?.amount &&
         !errors.details?.taxDetails?.amount &&
         !errors.details?.shippingDetails?.cost;
+    const step7Valid = !errors.details?.signatoryDetails;
+    const step8Valid = true; // Summary step
 
     /**
      * Determines the button variant based on the given WizardStepType.
@@ -82,23 +85,38 @@ const WizardProgress = ({ wizard }: WizardProgressProps) => {
         },
         {
             id: 1,
-            label: _t("form.wizard.invoiceDetails"),
+            label: _t("form.wizard.consignee") || "Consignee",
             isValid: step2Valid,
         },
         {
             id: 2,
-            label: _t("form.wizard.lineItems"),
+            label: _t("form.wizard.invoiceDetails"),
             isValid: step3Valid,
         },
         {
             id: 3,
-            label: _t("form.wizard.paymentInfo"),
-            isValid: step4Valid,
+            label: _t("form.wizard.shippingDetails") || "Shipping",
+            isValid: true,
         },
         {
             id: 4,
-            label: _t("form.wizard.summary"),
+            label: _t("form.wizard.lineItems"),
+            isValid: step4Valid,
+        },
+        {
+            id: 5,
+            label: _t("form.wizard.paymentInfo"),
             isValid: step5Valid,
+        },
+        {
+            id: 6,
+            label: _t("form.wizard.signatoryDetails") || "Signatory",
+            isValid: step7Valid,
+        },
+        {
+            id: 7,
+            label: _t("form.wizard.summary"),
+            isValid: step8Valid,
         },
     ];
 

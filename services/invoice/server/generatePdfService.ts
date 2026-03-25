@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
 // Chromium
 import chromium from "@sparticuz/chromium";
@@ -26,11 +28,26 @@ export async function generatePdfService(req: NextRequest) {
     let page;
 
     try {
+        // Load the header image as base64
+        const imagePath = path.join(process.cwd(), "public/assets/img/top.png");
+        const imageBuffer = fs.readFileSync(imagePath);
+        const imageBase64 = imageBuffer.toString("base64");
+        const headerImageUrl = `data:image/png;base64,${imageBase64}`;
+
+        // Add header image to data
+        const enrichedData = {
+            ...body,
+            details: {
+                ...body.details,
+                headerImage: headerImageUrl,
+            },
+        };
+
         const ReactDOMServer = (await import("react-dom/server")).default;
-        const templateId = body.details.pdfTemplate;
+        const templateId = enrichedData.details.pdfTemplate;
         const InvoiceTemplate = await getInvoiceTemplate(templateId);
         const htmlTemplate = ReactDOMServer.renderToStaticMarkup(
-            InvoiceTemplate(body)
+            InvoiceTemplate(enrichedData)
         );
 
 		if (ENV === "production") {

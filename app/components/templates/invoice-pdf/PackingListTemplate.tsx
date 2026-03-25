@@ -22,13 +22,19 @@ const PackingListTemplate = (data: PackingListType) => {
 	return (
 		<InvoiceLayout data={data}>
 			{/* Company Header */}
-			<div className='flex items-center justify-center mb-6 pb-4 border-b-2 border-gray-900 page-break-avoid'>
-				<img
-					src='/assets/img/top.png'
-					alt='IMR Engineering Services'
-					style={{ maxWidth: '400px', height: 'auto' }}
-				/>
-			</div>
+			{data.details?.headerImage && (
+				<div className='mb-4 -mx-10 -mt-10 page-break-avoid'>
+					<img
+						src={data.details.headerImage}
+						alt='IMR Engineering Services'
+						style={{
+							width: '100%',
+							height: 'auto',
+							display: 'block',
+						}}
+					/>
+				</div>
+			)}
 
 			{/* Header */}
 			<div className='text-center mb-4'>
@@ -39,10 +45,10 @@ const PackingListTemplate = (data: PackingListType) => {
 			<div className='border-2 border-gray-900 mb-3 page-break-avoid'>
 				{/* Row 1: Exporter Section and Consignee Section */}
 				<div className='grid grid-cols-2 border-b-2 border-gray-900'>
-					{/* Exporter Section */}
+					{/* Exporter and Details Section */}
 					<div className='border-r-2 border-gray-900 p-3'>
 						<div className='font-bold text-gray-900 mb-2'>Exporter</div>
-						<div className='text-sm'>
+						<div className='text-sm mb-3'>
 							<div className='font-semibold'>{exporter.name}</div>
 							<div>{exporter.address}</div>
 							<div>
@@ -51,6 +57,17 @@ const PackingListTemplate = (data: PackingListType) => {
 							<div>{exporter.country}.</div>
 							{exporter.gst && <div>GST: {exporter.gst}</div>}
 							{exporter.adCode && <div>AD Code: {exporter.adCode}</div>}
+						</div>
+						
+						{/* Shipment Details */}
+						<div className='border-t border-gray-900 pt-2 text-xs'>
+							{details.iecNo && <div className='mb-1'><span className='font-semibold'>IEC No:</span> {details.iecNo}</div>}
+							{details.freightMode && <div className='mb-1'><span className='font-semibold'>Freight Mode:</span> {details.freightMode}</div>}
+							{details.portOfLoading && <div className='mb-1'><span className='font-semibold'>Port of Loading:</span> {details.portOfLoading}</div>}
+							{details.countryOfOrigin && <div className='mb-1'><span className='font-semibold'>Country of Origin:</span> {details.countryOfOrigin}</div>}
+							{details.portOfDischarge && <div className='mb-1'><span className='font-semibold'>Port of Discharge:</span> {details.portOfDischarge}</div>}
+							{details.finalDestination && <div className='mb-1'><span className='font-semibold'>Final Destination:</span> {details.finalDestination}</div>}
+							{details.countryOfFinalDestination && <div className='mb-1'><span className='font-semibold'>Country of Final Destination:</span> {details.countryOfFinalDestination}</div>}
 						</div>
 					</div>
 
@@ -157,6 +174,11 @@ const PackingListTemplate = (data: PackingListType) => {
 			{/* Footer Note */}
 			<div className='mt-6 text-sm text-gray-600 page-break-avoid'>
 				<p className='italic'>This packing list is issued for customs clearance purposes.</p>
+			</div>
+
+			{/* Company Footer */}
+			<div className='mt-8 text-center text-sm text-gray-800 page-break-avoid'>
+				<p>mail.imrengineering@gmail.com | <a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>https://www.imrengineeringservices.in/</a></p>
 			</div>
 		</InvoiceLayout>
 	);

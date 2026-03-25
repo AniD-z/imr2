@@ -5,9 +5,12 @@
         "newInvBadge": "新しい請求書",
         "wizard": {
             "fromAndTo": "送信者 & 受信者",
-            "invoiceDetails": "請求書の詳細",
+            "consignee": "受負人",
+            "invoiceDetails": "請武書の詳細",
+            "shippingDetails": "配送詳細",
             "lineItems": "品目",
             "paymentInfo": "支払い情報",
+            "signatoryDetails": "类署者の詳細",
             "summary": "概要",
             "next": "次へ",
             "back": "戻る"

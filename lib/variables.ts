@@ -216,7 +216,7 @@ export const FORM_FILL_VALUES = {
   },
   details: {
     invoiceLogo: "",
-    invoiceNumber: "INV0001",
+    invoiceNumber: "IMR/USA25-26/001",
     invoiceDate: new Date(),
     dueDate: new Date(),
     purchaseOrderNumber: "PO-2025-001",
@@ -400,11 +400,18 @@ export const PACKING_LIST_FILL_VALUES = {
     phone: "",
   },
   details: {
-    packingListNumber: "PL-001/2025",
+    packingListNumber: "IMR/SUDAN/2025/01",
     date: "2025-12-23",
-    invoiceNumber: "IMR/SDN25-26/053",
+    invoiceNumber: "IMR/IND25-26/001",
     buyerOrderNumber: "PO-2025-HQ02317",
     referenceNumber: "FPNO:2025/PO-HQ02367",
+    iecNo: "AAGCI8227A",
+    freightMode: "By Sea",
+    portOfLoading: "Mumbai - India",
+    countryOfOrigin: "INDIA",
+    portOfDischarge: "Port Sudan, SUDAN",
+    finalDestination: "M/s. Kossi Thermal Power Station, Kosti",
+    countryOfFinalDestination: "SUDAN",
     items: [
       {
         boxNo: "1",
