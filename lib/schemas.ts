@@ -209,6 +209,7 @@ const SignatoryDetailsSchema = z.object({
 
 const InvoiceDetailsSchema = z.object({
     invoiceLogo: fieldValidators.stringOptional,
+    headerImage: fieldValidators.stringOptional, // Company header image (base64)
     invoiceNumber: fieldValidators.stringMin1,
     invoiceDate: fieldValidators.date,
     dueDate: fieldValidators.date,
@@ -270,6 +271,7 @@ const PackingListDetailsSchema = z.object({
     packingListNumber: fieldValidators.stringMin1,
     date: fieldValidators.date,
     invoiceNumber: fieldValidators.stringMin1,
+    headerImage: fieldValidators.stringOptional, // Company header image (base64)
     buyerOrderNumber: fieldValidators.stringOptional,
     referenceNumber: fieldValidators.stringOptional,
     iecNo: fieldValidators.stringOptional,
