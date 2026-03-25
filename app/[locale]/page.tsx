@@ -15,8 +15,8 @@ export default async function HomePage(props: {
 
   return (
     <main className="py-10 h-screen overflow-hidden">
-      <div className="h-full px-4 lg:container grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Invoices Column */}
+      <div className="h-full px-4 lg:px-0 container mx-auto grid grid-rows-2 gap-6">
+        {/* Invoices Section */}
         <div className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
           <div className="px-6 py-4 border-b border-border">
             <h2 className="text-lg font-semibold">Invoices</h2>
@@ -41,7 +41,7 @@ export default async function HomePage(props: {
           </div>
         </div>
 
-        {/* Packing Lists Column */}
+        {/* Packing Lists Section */}
         <div className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
           <div className="px-6 py-4 border-b border-border">
             <h2 className="text-lg font-semibold">Packing Lists</h2>
