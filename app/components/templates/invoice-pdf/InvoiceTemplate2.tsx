@@ -16,6 +16,15 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
     const { sender, receiver, details } = data;
     return (
         <InvoiceLayout data={data}>
+            {/* Company Header */}
+            <div className='flex items-center justify-center mb-6 pb-4 border-b-2 border-gray-900 page-break-avoid'>
+                <img
+                    src='/assets/img/top.png'
+                    alt='IMR Engineering Services'
+                    style={{ maxWidth: '400px', height: 'auto' }}
+                />
+            </div>
+
             <div className="flex justify-between page-break-avoid">
                 <div>
                     <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">

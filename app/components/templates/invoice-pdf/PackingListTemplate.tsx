@@ -21,6 +21,15 @@ const PackingListTemplate = (data: PackingListType) => {
 
 	return (
 		<InvoiceLayout data={data}>
+			{/* Company Header */}
+			<div className='flex items-center justify-center mb-6 pb-4 border-b-2 border-gray-900 page-break-avoid'>
+				<img
+					src='/assets/img/top.png'
+					alt='IMR Engineering Services'
+					style={{ maxWidth: '400px', height: 'auto' }}
+				/>
+			</div>
+
 			{/* Header */}
 			<div className='text-center mb-4'>
 				<h1 className='text-3xl font-bold text-gray-900'>PACKING LIST</h1>
@@ -28,7 +37,7 @@ const PackingListTemplate = (data: PackingListType) => {
 
 			{/* Main Information Table */}
 			<div className='border-2 border-gray-900 mb-3 page-break-avoid'>
-				{/* Row 1: Exporter Section and Packing List Details */}
+				{/* Row 1: Exporter Section and Consignee Section */}
 				<div className='grid grid-cols-2 border-b-2 border-gray-900'>
 					{/* Exporter Section */}
 					<div className='border-r-2 border-gray-900 p-3'>
@@ -45,48 +54,30 @@ const PackingListTemplate = (data: PackingListType) => {
 						</div>
 					</div>
 
-					{/* Packing List Details */}
-					<div className='p-0'>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Packing List No:</div>
-							<div className='p-2 font-semibold text-sm'>Date:</div>
-						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 text-sm'>{details.packingListNumber}</div>
-							<div className='p-2 text-sm'>
-								{new Date(details.date).toLocaleDateString("en-US", DATE_OPTIONS)}
+					{/* Consignee Section (Right side) */}
+					<div className='p-3'>
+						<div className='font-bold text-gray-900 mb-2'>Consignee</div>
+						<div className='text-sm mb-4'>
+							<div className='font-semibold'>{consignee.name}</div>
+							<div>{consignee.address}</div>
+							<div>
+								{consignee.city}, {consignee.country}
 							</div>
 						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Invoice Number</div>
-							<div className='p-2 font-semibold text-sm'>Buyer's Order No.</div>
-						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 text-sm'>{details.invoiceNumber || "-"}</div>
-							<div className='p-2 text-sm'>{details.buyerOrderNumber || "-"}</div>
-						</div>
-						<div className='border-b border-gray-900'>
-							<div className='p-2 font-semibold text-sm'>Reference No.</div>
-						</div>
-						<div>
-							<div className='p-2 text-sm whitespace-pre-line'>{details.referenceNumber || "-"}</div>
+						<div className='border-t border-gray-900 pt-2'>
+							<div className='font-bold text-gray-900 text-xs mb-2'>Reference Details</div>
+							<div className='text-xs'>
+								<div className='mb-1'><span className='font-semibold'>Packing List No:</span> {details.packingListNumber}</div>
+								<div className='mb-1'><span className='font-semibold'>Date:</span> {new Date(details.date).toLocaleDateString("en-US", DATE_OPTIONS)}</div>
+								<div className='mb-1'><span className='font-semibold'>Invoice Number:</span> {details.invoiceNumber || "-"}</div>
+								<div className='mb-1'><span className='font-semibold'>Buyer's Order No:</span> {details.buyerOrderNumber || "-"}</div>
+								{details.referenceNumber && <div className='mb-1'><span className='font-semibold'>Reference No:</span> {details.referenceNumber}</div>}
+							</div>
 						</div>
 					</div>
 				</div>
 
-				{/* Row 2: Consignee Section */}
-				<div className='border-b-2 border-gray-900 p-3'>
-					<div className='font-bold text-gray-900 mb-2'>Consignee (Ship to)</div>
-					<div className='text-sm'>
-						<div className='font-semibold'>{consignee.name}</div>
-						<div>{consignee.address}</div>
-						<div>
-							{consignee.city}, {consignee.country}
-						</div>
-					</div>
-				</div>
-
-				{/* Row 3: Buyer Section */}
+				{/* Row 2: Buyer Section */}
 				<div className='p-3'>
 					<div className='font-bold text-gray-900 mb-2'>Buyer (Bill to)</div>
 					<div className='text-sm'>
