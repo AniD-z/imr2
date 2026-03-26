@@ -58,35 +58,31 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 
 					{/* Invoice Details */}
 					<div className='p-0'>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Invoice No: -</div>
-							<div className='p-2 font-semibold text-sm'>
-								Date: - {new Date(details.invoiceDate).toLocaleDateString("en-US", DATE_OPTIONS)}
-							</div>
+						<div className='border-b border-gray-900'>
+							<div className='p-2 text-sm'><span className='font-semibold'>Invoice No: </span>{details.invoiceNumber}</div>
+						</div>
+						<div className='border-b border-gray-900'>
+							<div className='p-2 text-sm'><span className='font-semibold'>Date: </span>{new Date(details.invoiceDate).toLocaleDateString("en-US", DATE_OPTIONS)}</div>
 						</div>
 						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 text-sm'>{details.invoiceNumber}</div>
-							<div className='p-2 text-sm'></div>
+						<div className='p-2 border-r border-gray-900'>
+							<div className='font-semibold text-sm'>Buyer's Order No.</div>
+							<div className='text-sm'>{details.purchaseOrderNumber || "-"}</div>
 						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>
-								Buyer's Order No.
-							</div>
-							<div className='p-2 font-semibold text-sm'>Mode/Terms of Payment</div>
+						<div className='p-2'>
+							<div className='font-semibold text-sm'>Mode/Terms of Payment</div>
+							<div className='text-sm'>{details.modeOfPayment || ""}</div>
 						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 text-sm'>{details.purchaseOrderNumber || "-"}</div>
-							<div className='p-2 text-sm'>{details.modeOfPayment || ""}</div>
 						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Reference No. & Date.</div>
-							<div className='p-2 font-semibold text-sm'>Other References</div>
+					<div className='grid grid-cols-2'>
+						<div className='p-2 border-r border-gray-900'>
+							<div className='font-semibold text-sm'>Reference No.</div>
+							<div className='text-sm whitespace-pre-line'>{(details.referenceNumbers || "").replace(/\\n/g, '\n')}</div>
 						</div>
-						<div className='grid grid-cols-2'>
-							<div className='p-2 border-r border-gray-900 text-sm whitespace-pre-line'>
-								{details.referenceNumbers || ""}
-							</div>
-							<div className='p-2 text-sm whitespace-pre-line'>{details.otherReferences || ""}</div>
+						<div className='p-2'>
+							<div className='font-semibold text-sm'>Other References</div>
+							<div className='text-sm whitespace-pre-line'>{details.otherReferences || ""}</div>
+						</div>
 						</div>
 					</div>
 				</div>
@@ -107,26 +103,20 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 					{/* Dispatch and Delivery Details */}
 					<div className='p-0'>
 						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Dispatch Doc No.</div>
-							<div className='p-2 font-semibold text-sm'>Delivery Note Date</div>
+						<div className='p-2 border-r border-gray-900'>
+							<div className='font-semibold text-sm'>Freight Mode</div>
+							<div className='text-sm'>{details.dispatchedThrough || ""}</div>
 						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 text-sm'>{details.dispatchDocNumber || ""}</div>
-							<div className='p-2 text-sm'>{details.deliveryNoteDate || ""}</div>
+						<div className='p-2'>
+							<div className='font-semibold text-sm'>Final Destination</div>
+							<div className='text-sm'>{details.finalDestination || ""}</div>
 						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Dispatched through</div>
-							<div className='p-2 font-semibold text-sm'>Final Destination Final Destination:</div>
-						</div>
-						<div className='grid grid-cols-2'>
-							<div className='p-2 border-r border-gray-900 text-sm'>{details.dispatchedThrough || ""}</div>
-							<div className='p-2 text-sm'>{details.finalDestination || ""}</div>
 						</div>
 					</div>
 				</div>
 
 				{/* Row 3: Buyer Section and Vessel Details */}
-				<div className='grid grid-cols-2 border-b-2 border-gray-900'>
+			<div className='grid grid-cols-2 border-b-2 border-gray-900'>
 					{/* Buyer (Bill to) */}
 					<div className='border-r-2 border-gray-900 p-3'>
 						<div className='font-bold text-gray-900 mb-2'>Buyer (Bill to)</div>
@@ -142,56 +132,31 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 					{/* Vessel and Port Details */}
 					<div className='p-0'>
 						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Vessel/Flight No.</div>
-							<div className='p-2 font-semibold text-sm'>Place of receipt by shipper:</div>
+
+						<div className='p-2 border-r border-gray-900'>
+							<div className='font-semibold text-sm'>City/Port of Loading</div>
+							<div className='text-sm'>{details.portOfLoading || ""}</div>
 						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 text-sm'>{details.vesselFlightNo || ""}</div>
-							<div className='p-2 text-sm'>{details.placeOfReceipt || ""}</div>
+						<div className='p-2'>
+							<div className='font-semibold text-sm'>City/Port of Discharge</div>
+							<div className='text-sm'>{details.portOfDischarge || ""}</div>
 						</div>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>City/Port of Loading</div>
-							<div className='p-2 font-semibold text-sm'>City/Port of Discharge</div>
-						</div>
-						<div className='grid grid-cols-2'>
-							<div className='p-2 border-r border-gray-900 text-sm'>{details.portOfLoading || ""}</div>
-							<div className='p-2 text-sm'>{details.portOfDischarge || ""}</div>
 						</div>
 					</div>
 				</div>
 
 				{/* Row 4: Country Information */}
-				<div className='border-b border-gray-900'>
-					<div className='grid grid-cols-3'>
-						<div className='p-2 border-r border-gray-900'>
-							<div className='font-semibold text-sm'>Country of Origin of Goods</div>
-						</div>
-						<div className='p-2 border-r border-gray-900'>
-							<div className='font-semibold text-sm'>Country of Final Destination</div>
-						</div>
-						<div className='p-2'>
-							<div className='text-sm'></div>
-						</div>
-					</div>
-					<div className='grid grid-cols-3 border-t border-gray-900'>
-						<div className='p-2 border-r border-gray-900 text-sm'>{details.countryOfOrigin || ""}</div>
-						<div className='p-2 border-r border-gray-900 text-sm'>{details.countryOfDestination || ""}</div>
-						<div className='p-2 text-sm'></div>
-					</div>
-				</div>
-
-				{/* Row 5: Country and Terms of Delivery */}
-				<div className='grid grid-cols-2'>
+			<div>
+				<div className='grid grid-cols-2 border-b border-gray-900'>
 					<div className='p-2 border-r border-gray-900'>
-						<div className='font-semibold text-sm'>Country: {details.consigneeCountry || ""}</div>
+						<div className='font-semibold text-sm'>Country of Origin of Goods</div>
+						<div className='text-sm'>{details.countryOfOrigin || ""}</div>
 					</div>
 					<div className='p-2'>
-						<div className='font-semibold text-sm'>Terms of Delivery</div>
+						<div className='font-semibold text-sm'>Country of Final Destination</div>
+						<div className='text-sm'>{details.countryOfDestination || ""}</div>
 					</div>
-				</div>
-				<div className='grid grid-cols-2 border-t border-gray-900'>
-					<div className='p-2 border-r border-gray-900 text-sm'></div>
-					<div className='p-2 text-sm'>{details.termsOfDelivery || ""}</div>
+					</div>
 				</div>
 			</div>
 
@@ -370,20 +335,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 										</div>
 									) : null}
 								</div>
-								<div className='text-sm text-right'>
-									{details.signatoryDetails?.name && (
-										<div className='font-semibold'>{details.signatoryDetails.name}</div>
-									)}
-									{details.signatoryDetails?.designation && (
-										<div>{details.signatoryDetails.designation}</div>
-									)}
-									{details.signatoryDetails?.department && (
-										<div>{details.signatoryDetails.department}</div>
-									)}
-									{details.signatoryDetails?.phone && (
-										<div>{details.signatoryDetails.phone}</div>
-									)}
-								</div>
+								<div className='text-sm text-right font-semibold'>Authorized Signature</div>
 							</div>
 						</div>
 					</div>
@@ -396,30 +348,25 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 						<div className='text-sm text-gray-800'>{details.additionalNotes}</div>
 					</div>
 				)}
-
-				{/* Payment Terms */}
-				{details.paymentTerms && (
-					<div className='mb-3'>
-						<div className='font-bold text-gray-900 mb-1'>Payment terms:</div>
-						<div className='text-sm text-gray-800'>{details.paymentTerms}</div>
-					</div>
-				)}
-			</div>
-
-			{/* Contact Information */}
-			<div className='mt-4'>
-				<p className='text-gray-600 text-sm mb-1'>
-					If you have any questions concerning this invoice, use the following contact information:
-				</p>
-				<div className='text-sm'>
-					<div className='font-medium text-gray-800'>{sender.email}</div>
-					<div className='font-medium text-gray-800'>{sender.phone}</div>
-				</div>
 			</div>
 
 			{/* Company Footer */}
-			<div className='mt-8 text-center text-sm text-gray-800 page-break-avoid'>
-				<p>mail.imrengineering@gmail.com | <a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>https://www.imrengineeringservices.in/</a></p>
+			<div className='mt-8 text-xs text-gray-800 page-break-avoid'>
+				<div className='grid grid-cols-2 gap-4'>
+					<div>
+						<p className='mb-1'><span className='font-semibold'>Head Office :</span> H.No. 15-11-28/204, VDOS Colony, HYDERABAD, Telangana, INDIA. Pin:500 201</p>
+						<p className='mb-1'><span className='font-semibold'>CELL No :</span> 9059597743</p>
+						<p className='mb-1'><span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com</p>
+					<p><span className='font-semibold'>Website :</span> <a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>https://www.imrengineeringservices.in/</a></p>
+					</div>
+					<div>
+						<p className='mb-1'><span className='font-semibold'>CIN No :</span> U52599TG2020PLC166005</p>
+						<p className='mb-1'><span className='font-semibold'>GSTIN :</span> 36AAGCI8221A1S</p>
+						<p className='mb-1'><span className='font-semibold'>PAN :</span> AAGC18221A</p>
+						<p className='mb-1'><span className='font-semibold'>IEC No :</span> AAGC18227A</p>
+						<p><span className='font-semibold'>TAN No :</span> HYD107889A</p>
+					</div>
+				</div>
 			</div>
 		</InvoiceLayout>
 	);

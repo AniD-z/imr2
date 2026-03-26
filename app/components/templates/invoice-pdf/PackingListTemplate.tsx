@@ -171,14 +171,33 @@ const PackingListTemplate = (data: PackingListType) => {
 				</div>
 			</div>
 
+			{/* Authorized Signature */}
+			<div className='mt-6 flex justify-end page-break-avoid'>
+				<div className='text-sm text-right font-semibold'>Authorized Signature</div>
+			</div>
+
 			{/* Footer Note */}
 			<div className='mt-6 text-sm text-gray-600 page-break-avoid'>
 				<p className='italic'>This packing list is issued for customs clearance purposes.</p>
 			</div>
 
 			{/* Company Footer */}
-			<div className='mt-8 text-center text-sm text-gray-800 page-break-avoid'>
-				<p>mail.imrengineering@gmail.com | <a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>https://www.imrengineeringservices.in/</a></p>
+			<div className='mt-8 text-xs text-gray-800 page-break-avoid'>
+				<div className='grid grid-cols-2 gap-4'>
+					<div>
+						<p className='mb-1'><span className='font-semibold'>Head Office :</span> H.No. 15-11-28/204, VDOS Colony, HYDERABAD, Telangana, INDIA. Pin:500 201</p>
+						<p className='mb-1'><span className='font-semibold'>CELL No :</span> 9059597743</p>
+						<p className='mb-1'><span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com</p>
+					<p><span className='font-semibold'>Website :</span> <a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>https://www.imrengineeringservices.in/</a></p>
+					</div>
+					<div>
+						<p className='mb-1'><span className='font-semibold'>CIN No :</span> U52599TG2020PLC166005</p>
+						<p className='mb-1'><span className='font-semibold'>GSTIN :</span> 36AAGCI8221A1S</p>
+						<p className='mb-1'><span className='font-semibold'>PAN :</span> AAGC18221A</p>
+						<p className='mb-1'><span className='font-semibold'>IEC No :</span> AAGC18227A</p>
+						<p><span className='font-semibold'>TAN No :</span> HYD107889A</p>
+					</div>
+				</div>
 			</div>
 		</InvoiceLayout>
 	);
