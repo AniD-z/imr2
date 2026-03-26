@@ -29,6 +29,7 @@ const PackingListItems = () => {
             description: "",
             hsnCode: "",
             quantity: 1,
+            boxDimension: "",
             netWeight: 0,
             grossWeight: 0,
         });
@@ -93,6 +94,13 @@ const PackingListItems = () => {
                                 placeholder="1"
                                 type="number"
                                 className="w-[5rem]"
+                                vertical
+                            />
+                            <FormInput
+                                name={`details.items.${index}.boxDimension`}
+                                label="Box Dimension"
+                                placeholder="L x W x H"
+                                className="w-[8rem]"
                                 vertical
                             />
                             <FormInput

@@ -93,66 +93,52 @@ const PackingListTemplate = (data: PackingListType) => {
 						</div>
 					</div>
 				</div>
-
-				{/* Row 2: Buyer Section */}
-				<div className='p-3'>
-					<div className='font-bold text-gray-900 mb-2'>Buyer (Bill to)</div>
-					<div className='text-sm'>
-						<div className='font-semibold'>{buyer.name}</div>
-						<div>{buyer.address}</div>
-						<div>
-							{buyer.city}, {buyer.country}
-						</div>
-					</div>
-				</div>
 			</div>
 
 			{/* Items Table */}
-			<div className='mt-3 page-break-avoid'>
-				<div className='border border-gray-900'>
-					<div className='grid grid-cols-12 bg-gray-100 border-b border-gray-900'>
-						<div className='col-span-1 p-2 border-r border-gray-900 text-xs font-bold text-center'>Box No.</div>
-						<div className='col-span-5 p-2 border-r border-gray-900 text-xs font-bold text-center'>
-							Description of Goods
-						</div>
-						<div className='col-span-2 p-2 border-r border-gray-900 text-xs font-bold text-center'>HSN CODE</div>
-						<div className='col-span-1 p-2 border-r border-gray-900 text-xs font-bold text-center'>Quantity</div>
-						<div className='col-span-1.5 p-2 border-r border-gray-900 text-xs font-bold text-center'>
-							Net Weight (KG)
-						</div>
-						<div className='col-span-1.5 p-2 text-xs font-bold text-center'>Gross Weight (KG)</div>
+			<div className='mt-3'>
+				<div className='border-2 border-gray-900'>
+					{/* Header Row */}
+					<div className='grid grid-cols-12 bg-gray-100 border-b-2 border-gray-900'>
+						<div className='col-span-1 px-1 py-2 border-r-2 border-gray-900 text-xs font-bold text-center'>Box No.</div>
+						<div className='col-span-4 p-2 border-r-2 border-gray-900 text-xs font-bold text-center'>Description of Goods</div>
+						<div className='col-span-2 p-2 border-r-2 border-gray-900 text-xs font-bold text-center'>HSN CODE</div>
+						<div className='col-span-1 px-1 py-2 border-r-2 border-gray-900 text-xs font-bold text-center'>Qty</div>
+						<div className='col-span-2 p-2 border-r-2 border-gray-900 text-xs font-bold text-center'>Box Dimension</div>
+						<div className='col-span-1 p-2 border-r-2 border-gray-900 text-xs font-bold text-center'>Net Wt (Kg)</div>
+						<div className='col-span-1 p-2 text-xs font-bold text-center'>Gross Wt</div>
 					</div>
+
+					{/* Items */}
 					{details.items.map((item, index) => (
-						<div key={index} className='grid grid-cols-12 border-b border-gray-900'>
-							<div className='col-span-1 p-2 border-r border-gray-900 text-sm text-center'>{item.boxNo}</div>
-							<div className='col-span-5 p-2 border-r border-gray-900 text-sm'>
-								<div className='whitespace-pre-line'>{item.description}</div>
+						<div key={index} className='grid grid-cols-12 border-b-2 border-gray-900'>
+							<div className='col-span-1 px-1 py-2 border-r-2 border-gray-900 text-sm font-bold text-center'>{item.boxNo}</div>
+							<div className='col-span-4 p-2 border-r-2 border-gray-900 text-sm'>
+							<div>{item.description}</div>
 							</div>
-							<div className='col-span-2 p-2 border-r border-gray-900 text-sm text-center'>{item.hsnCode || "-"}</div>
-							<div className='col-span-1 p-2 border-r border-gray-900 text-sm text-center'>{item.quantity}</div>
-							<div className='col-span-1.5 p-2 border-r border-gray-900 text-sm text-right'>
-								{formatNumberWithCommas(Number(item.netWeight))}
-							</div>
-							<div className='col-span-1.5 p-2 text-sm text-right'>
-								{formatNumberWithCommas(Number(item.grossWeight))}
-							</div>
+							<div className='col-span-2 p-2 border-r-2 border-gray-900 text-sm text-center'>{item.hsnCode || "-"}</div>
+							<div className='col-span-1 px-1 py-2 border-r-2 border-gray-900 text-sm text-center'>{item.quantity}</div>
+							<div className='col-span-2 p-2 border-r-2 border-gray-900 text-xs text-center'>{item.boxDimension || "-"}</div>
+							<div className='col-span-1 p-2 border-r-2 border-gray-900 text-sm text-right font-semibold'>{formatNumberWithCommas(Number(item.netWeight))}</div>
+							<div className='col-span-1 p-2 text-sm text-right font-semibold'>{formatNumberWithCommas(Number(item.grossWeight))}</div>
 						</div>
 					))}
+
 					{/* Totals Row */}
-					<div className='grid grid-cols-12 bg-gray-100'>
-						<div className='col-span-9 p-2 border-r border-gray-900 text-sm font-bold text-right'>Total:</div>
-						<div className='col-span-1.5 p-2 border-r border-gray-900 text-sm font-bold text-right'>
-							{formatNumberWithCommas(totalNetWeight)} KG
-						</div>
-						<div className='col-span-1.5 p-2 text-sm font-bold text-right'>
-							{formatNumberWithCommas(totalGrossWeight)} KG
-						</div>
+					<div className='grid grid-cols-12 bg-gray-100 border-t-2 border-gray-900'>
+						<div className='col-span-1 px-1 py-2 border-r-2 border-gray-900'>&nbsp;</div>
+						<div className='col-span-4 p-2 border-r-2 border-gray-900 text-sm font-bold'>Total:</div>
+						<div className='col-span-2 p-2 border-r-2 border-gray-900'>&nbsp;</div>
+						<div className='col-span-1 px-1 py-2 border-r-2 border-gray-900'>&nbsp;</div>
+						<div className='col-span-2 p-2 border-r-2 border-gray-900'>&nbsp;</div>
+						<div className='col-span-1 p-2 border-r-2 border-gray-900 text-sm font-bold text-right'>{formatNumberWithCommas(totalNetWeight)} KG</div>
+						<div className='col-span-1 p-2 text-sm font-bold text-right'>{formatNumberWithCommas(totalGrossWeight)} KG</div>
 					</div>
 				</div>
 			</div>
 
 			{/* Total Summary */}
-			<div className='mt-6 page-break-avoid'>
+			<div className='mt-3'>
 				<div className='border-2 border-gray-900 p-4'>
 					<div className='grid grid-cols-2 gap-4'>
 						<div>
@@ -171,9 +157,16 @@ const PackingListTemplate = (data: PackingListType) => {
 				</div>
 			</div>
 
-			{/* Authorized Signature */}
-			<div className='mt-6 flex justify-end page-break-avoid'>
-				<div className='text-sm text-right font-semibold'>Authorized Signature</div>
+			{/* Signature Section */}
+			<div className='mt-4 page-break-avoid'>
+				<div className='border-2 border-gray-900'>
+					<div className='p-4 flex justify-end'>
+						<div className='text-right'>
+							<div className='font-bold text-gray-900 mb-8'>For {exporter.name}</div>
+							<div className='text-sm font-semibold'>Authorized Signature</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			{/* Footer Note */}

@@ -263,6 +263,7 @@ const PackingListItemSchema = z.object({
     description: fieldValidators.stringMin1,
     hsnCode: fieldValidators.stringOptional,
     quantity: fieldValidators.quantity,
+    boxDimension: fieldValidators.stringOptional,
     netWeight: fieldValidators.nonNegativeNumber, // in KG
     grossWeight: fieldValidators.nonNegativeNumber, // in KG
 });
