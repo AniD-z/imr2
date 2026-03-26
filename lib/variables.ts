@@ -159,10 +159,10 @@ export const FORM_DEFAULT_VALUES = {
     },
     paymentInformation: {
       bankName: "AXIS BANK LTD",
-      accountName: "IMR ENGINEERING SERVICES (OPC) PVT LTD",
-      accountNumber: "925020023971253",
+      accountName: "IMR ENGINEERING SSERVICE (OPC)",
+      accountNumber: "92SO2O02399T1253",
       ifscCode: "UTIB0000273",
-      branch: "KHAMMAM TOWN, KHAMMAM, TELANGANA, INDIA",
+      branch: "KHAMMAM TOWN, KHAMMAM",
       swiftCode: "AXISINBB292",
       adCode: "6360846-9030761",
     },
