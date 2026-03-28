@@ -165,31 +165,31 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 			{/* Items Table */}
 			<div className='mt-3 page-break-avoid'>
 				<div className='border border-gray-900'>
-					<div className='grid grid-cols-10 bg-gray-100 border-b border-gray-900'>
+					<div className='grid grid-cols-12 bg-gray-100 border-b border-gray-900'>
 						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>SL No</div>
 						<div className='col-span-3 p-2 border-r border-gray-900 text-xs font-bold text-center'>
 							Description of Goods
 						</div>
-						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>HSN CODE</div>
+						<div className='col-span-2 p-2 border-r border-gray-900 text-xs font-bold text-center'>HSN CODE</div>
 						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>Quantity</div>
 						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>Units</div>
-						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>
+						<div className='col-span-2 p-2 border-r border-gray-900 text-xs font-bold text-center'>
 							Rate in {details.currency}
 						</div>
-						<div className='p-2 text-xs font-bold text-center'>Total in {details.currency}</div>
+						<div className='col-span-2 p-2 text-xs font-bold text-center'>Total in {details.currency}</div>
 					</div>
 					{details.items.map((item, index) => (
-						<div key={index} className='grid grid-cols-10 border-b border-gray-900'>
+						<div key={index} className='grid grid-cols-12 border-b border-gray-900'>
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{index + 1}</div>
 							<div className='col-span-3 p-2 border-r border-gray-900 text-sm'>
 								<div className='font-medium'>{item.name}</div>
 								{item.description && <div className='text-xs text-gray-600 whitespace-pre-line'>{item.description}</div>}
 							</div>
-							<div className='p-2 border-r border-gray-900 text-sm text-center'>{item.hsnCode || "-"}</div>
+							<div className='col-span-2 p-2 border-r border-gray-900 text-sm text-center'>{item.hsnCode || "-"}</div>
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{item.quantity}</div>
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{item.units || "-"}</div>
-							<div className='p-2 border-r border-gray-900 text-sm text-right'>{formatNumberWithCommas(Number(item.unitPrice))}</div>
-							<div className='p-2 text-sm text-right'>{formatNumberWithCommas(Number(item.total))} {details.currency}</div>
+							<div className='col-span-2 p-2 border-r border-gray-900 text-sm text-right'>{formatNumberWithCommas(Number(item.unitPrice))}</div>
+							<div className='col-span-2 p-2 text-sm text-right'>{formatNumberWithCommas(Number(item.total))} {details.currency}</div>
 						</div>
 					))}
 				</div>

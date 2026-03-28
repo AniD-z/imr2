@@ -126,14 +126,14 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
 
             <div className="mt-3 page-break-avoid">
                 <div className="border border-gray-200 p-1 rounded-lg space-y-1">
-                    <div className="hidden sm:grid sm:grid-cols-8 gap-1">
+                    <div className="hidden sm:grid sm:grid-cols-12 gap-1">
                         <div className="text-xs font-medium text-gray-500 uppercase">
                             SL No
                         </div>
-                        <div className="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">
+                        <div className="sm:col-span-3 text-xs font-medium text-gray-500 uppercase">
                             Description
                         </div>
-                        <div className="text-xs font-medium text-gray-500 uppercase">
+                        <div className="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">
                             HSN CODE
                         </div>
                         <div className="text-xs font-medium text-gray-500 uppercase">
@@ -142,21 +142,21 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                         <div className="text-xs font-medium text-gray-500 uppercase">
                             Units
                         </div>
-                        <div className="text-right text-xs font-medium text-gray-500 uppercase">
+                        <div className="sm:col-span-2 text-right text-xs font-medium text-gray-500 uppercase">
                             Unit/Rate in {details.currency}
                         </div>
-                        <div className="text-right text-xs font-medium text-gray-500 uppercase">
+                        <div className="sm:col-span-2 text-right text-xs font-medium text-gray-500 uppercase">
                             Total in {details.currency}
                         </div>
                     </div>
                     <div className="hidden sm:block border-b border-gray-200"></div>
-                    <div className="grid grid-cols-3 sm:grid-cols-8 gap-1">
+                    <div className="grid grid-cols-3 sm:grid-cols-12 gap-1">
                         {details.items.map((item, index) => (
                             <React.Fragment key={index}>
                                 <div className="border-b border-gray-300">
                                     <p className="text-gray-800">{index + 1}</p>
                                 </div>
-                                <div className="col-span-full sm:col-span-2 border-b border-gray-300">
+                                <div className="col-span-full sm:col-span-3 border-b border-gray-300">
                                     <p className="font-medium text-gray-800">
                                         {item.name}
                                     </p>
@@ -164,7 +164,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                         {item.description}
                                     </p>
                                 </div>
-                                <div className="border-b border-gray-300">
+                                <div className="sm:col-span-2 border-b border-gray-300">
                                     <p className="text-gray-800 text-xs">{item.hsnCode || '-'}</p>
                                 </div>
                                 <div className="border-b border-gray-300">
@@ -175,12 +175,12 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                 <div className="border-b border-gray-300">
                                     <p className="text-gray-800 text-xs">{item.units || '-'}</p>
                                 </div>
-                                <div className="border-b border-gray-300">
+                                <div className="sm:col-span-2 border-b border-gray-300">
                                     <p className="sm:text-right text-gray-800">
                                         {formatNumberWithCommas(Number(item.unitPrice))} {details.currency}
                                     </p>
                                 </div>
-                                <div className="border-b border-gray-300">
+                                <div className="sm:col-span-2 border-b border-gray-300">
                                     <p className="sm:text-right text-gray-800">
                                         {formatNumberWithCommas(Number(item.total))} {details.currency}
                                     </p>
