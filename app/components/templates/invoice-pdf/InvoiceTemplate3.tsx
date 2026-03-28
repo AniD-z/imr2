@@ -163,9 +163,9 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 			</div>
 
 			{/* Items Table */}
-			<div className='mt-3 page-break-avoid'>
+			<div className='mt-3'>
 				<div className='border border-gray-900'>
-					<div className='grid grid-cols-12 bg-gray-100 border-b border-gray-900'>
+					<div className='grid grid-cols-12 bg-gray-100 border-b border-gray-900 page-break-avoid'>
 						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>SL No</div>
 						<div className='col-span-3 p-2 border-r border-gray-900 text-xs font-bold text-center'>
 							Description of Goods
@@ -179,7 +179,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 						<div className='col-span-2 p-2 text-xs font-bold text-center'>Total in {details.currency}</div>
 					</div>
 					{details.items.map((item, index) => (
-						<div key={index} className='grid grid-cols-12 border-b border-gray-900'>
+						<div key={index} className='grid grid-cols-12 border-b border-gray-900 item-row'>
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{index + 1}</div>
 							<div className='col-span-3 p-2 border-r border-gray-900 text-sm'>
 								<div className='font-medium'>{item.name}</div>

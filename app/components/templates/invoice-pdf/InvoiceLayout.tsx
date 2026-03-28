@@ -52,6 +52,14 @@ export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
                         page-break-after: always;
                         break-after: always;
                     }
+                    .page-break-auto {
+                        page-break-inside: auto;
+                        break-inside: auto;
+                    }
+                    .item-row {
+                        page-break-inside: avoid;
+                        break-inside: avoid;
+                    }
                 }
             `}</style>
         </>

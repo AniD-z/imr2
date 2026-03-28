@@ -1,5 +1,3 @@
-import React from "react";
-
 // Components
 import { InvoiceLayout } from "@/app/components";
 
@@ -124,9 +122,9 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                 </div>
             </div>
 
-            <div className="mt-3 page-break-avoid">
+            <div className="mt-3">
                 <div className="border border-gray-200 p-1 rounded-lg space-y-1">
-                    <div className="hidden sm:grid sm:grid-cols-12 gap-1">
+                    <div className="hidden sm:grid sm:grid-cols-12 gap-1 page-break-avoid">
                         <div className="text-xs font-medium text-gray-500 uppercase">
                             SL No
                         </div>
@@ -150,44 +148,42 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                         </div>
                     </div>
                     <div className="hidden sm:block border-b border-gray-200"></div>
-                    <div className="grid grid-cols-3 sm:grid-cols-12 gap-1">
-                        {details.items.map((item, index) => (
-                            <React.Fragment key={index}>
-                                <div className="border-b border-gray-300">
-                                    <p className="text-gray-800">{index + 1}</p>
-                                </div>
-                                <div className="col-span-full sm:col-span-3 border-b border-gray-300">
-                                    <p className="font-medium text-gray-800">
-                                        {item.name}
-                                    </p>
-                                    <p className="text-xs text-gray-600 whitespace-pre-line">
-                                        {item.description}
-                                    </p>
-                                </div>
-                                <div className="sm:col-span-2 border-b border-gray-300">
-                                    <p className="text-gray-800 text-xs">{item.hsnCode || '-'}</p>
-                                </div>
-                                <div className="border-b border-gray-300">
-                                    <p className="text-gray-800">
-                                        {item.quantity}
-                                    </p>
-                                </div>
-                                <div className="border-b border-gray-300">
-                                    <p className="text-gray-800 text-xs">{item.units || '-'}</p>
-                                </div>
-                                <div className="sm:col-span-2 border-b border-gray-300">
-                                    <p className="sm:text-right text-gray-800">
-                                        {formatNumberWithCommas(Number(item.unitPrice))} {details.currency}
-                                    </p>
-                                </div>
-                                <div className="sm:col-span-2 border-b border-gray-300">
-                                    <p className="sm:text-right text-gray-800">
-                                        {formatNumberWithCommas(Number(item.total))} {details.currency}
-                                    </p>
-                                </div>
-                            </React.Fragment>
-                        ))}
-                    </div>
+                    {details.items.map((item, index) => (
+                        <div key={index} className="grid grid-cols-3 sm:grid-cols-12 gap-1 item-row">
+                            <div className="border-b border-gray-300">
+                                <p className="text-gray-800">{index + 1}</p>
+                            </div>
+                            <div className="col-span-full sm:col-span-3 border-b border-gray-300">
+                                <p className="font-medium text-gray-800">
+                                    {item.name}
+                                </p>
+                                <p className="text-xs text-gray-600 whitespace-pre-line">
+                                    {item.description}
+                                </p>
+                            </div>
+                            <div className="sm:col-span-2 border-b border-gray-300">
+                                <p className="text-gray-800 text-xs">{item.hsnCode || '-'}</p>
+                            </div>
+                            <div className="border-b border-gray-300">
+                                <p className="text-gray-800">
+                                    {item.quantity}
+                                </p>
+                            </div>
+                            <div className="border-b border-gray-300">
+                                <p className="text-gray-800 text-xs">{item.units || '-'}</p>
+                            </div>
+                            <div className="sm:col-span-2 border-b border-gray-300">
+                                <p className="sm:text-right text-gray-800">
+                                    {formatNumberWithCommas(Number(item.unitPrice))} {details.currency}
+                                </p>
+                            </div>
+                            <div className="sm:col-span-2 border-b border-gray-300">
+                                <p className="sm:text-right text-gray-800">
+                                    {formatNumberWithCommas(Number(item.total))} {details.currency}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
                     <div className="sm:hidden border-b border-gray-200"></div>
                 </div>
             </div>
