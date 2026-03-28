@@ -140,12 +140,12 @@ const InvoiceTemplate = (data: InvoiceType) => {
 								</div>
 								<div className='border-b border-gray-300'>
 									<p className='sm:text-right text-gray-800'>
-										{item.unitPrice} {details.currency}
+										{formatNumberWithCommas(Number(item.unitPrice))} {details.currency}
 									</p>
 								</div>
 								<div className='border-b border-gray-300'>
 									<p className='sm:text-right text-gray-800'>
-										{item.total} {details.currency}
+										{formatNumberWithCommas(Number(item.total))} {details.currency}
 									</p>
 								</div>
 							</React.Fragment>
@@ -170,7 +170,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 									<dt className='col-span-3 font-semibold text-gray-800'>Discount:</dt>
 									<dd className='col-span-2 text-gray-500'>
 										{details.discountDetails.amountType === "amount"
-											? `- ${details.discountDetails.amount} ${details.currency}`
+											? `- ${formatNumberWithCommas(Number(details.discountDetails.amount))} ${details.currency}`
 											: `- ${details.discountDetails.amount}%`}
 									</dd>
 								</dl>
@@ -180,7 +180,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 								<dt className='col-span-3 font-semibold text-gray-800'>Tax:</dt>
 								<dd className='col-span-2 text-gray-500'>
 									{details.taxDetails.amountType === "amount"
-										? `+ ${details.taxDetails.amount} ${details.currency}`
+										? `+ ${formatNumberWithCommas(Number(details.taxDetails.amount))} ${details.currency}`
 										: `+ ${details.taxDetails.amount}%`}
 								</dd>
 							</dl>
@@ -190,7 +190,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 								<dt className='col-span-3 font-semibold text-gray-800'>Shipping:</dt>
 								<dd className='col-span-2 text-gray-500'>
 									{details.shippingDetails.costType === "amount"
-										? `+ ${details.shippingDetails.cost} ${details.currency}`
+										? `+ ${formatNumberWithCommas(Number(details.shippingDetails.cost))} ${details.currency}`
 										: `+ ${details.shippingDetails.cost}%`}
 								</dd>
 							</dl>

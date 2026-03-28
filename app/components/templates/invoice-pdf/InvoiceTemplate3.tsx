@@ -188,8 +188,8 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{item.hsnCode || "-"}</div>
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{item.quantity}</div>
 							<div className='p-2 border-r border-gray-900 text-sm text-center'>{item.units || "-"}</div>
-							<div className='p-2 border-r border-gray-900 text-sm text-right'>{item.unitPrice}</div>
-							<div className='p-2 text-sm text-right'>{item.total} {details.currency}</div>
+							<div className='p-2 border-r border-gray-900 text-sm text-right'>{formatNumberWithCommas(Number(item.unitPrice))}</div>
+							<div className='p-2 text-sm text-right'>{formatNumberWithCommas(Number(item.total))} {details.currency}</div>
 						</div>
 					))}
 				</div>
@@ -210,7 +210,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 								<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Discount:</div>
 								<div className='p-2 text-sm text-right'>
 									{details.discountDetails.amountType === "amount"
-										? `- ${details.discountDetails.amount} ${details.currency}`
+										? `- ${formatNumberWithCommas(Number(details.discountDetails.amount))} ${details.currency}`
 										: `- ${details.discountDetails.amount}%`}
 								</div>
 							</div>
@@ -220,7 +220,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 								<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Tax:</div>
 								<div className='p-2 text-sm text-right'>
 									{details.taxDetails.amountType === "amount"
-										? `+ ${details.taxDetails.amount} ${details.currency}`
+										? `+ ${formatNumberWithCommas(Number(details.taxDetails.amount))} ${details.currency}`
 										: `+ ${details.taxDetails.amount}%`}
 								</div>
 							</div>
@@ -230,7 +230,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 								<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Shipping:</div>
 								<div className='p-2 text-sm text-right'>
 									{details.shippingDetails.costType === "amount"
-										? `+ ${details.shippingDetails.cost} ${details.currency}`
+										? `+ ${formatNumberWithCommas(Number(details.shippingDetails.cost))} ${details.currency}`
 										: `+ ${details.shippingDetails.cost}%`}
 								</div>
 							</div>
