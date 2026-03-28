@@ -66,6 +66,12 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                 <br />
                             </>
                         )}
+                        {sender.iecNo && (
+                            <>
+                                IEC No: {sender.iecNo}
+                                <br />
+                            </>
+                        )}
                         {sender.adCode && (
                             <>
                                 AD Code: {sender.adCode}
@@ -140,7 +146,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                             Unit/Rate in {details.currency}
                         </div>
                         <div className="text-right text-xs font-medium text-gray-500 uppercase">
-                            Total
+                            Total in {details.currency}
                         </div>
                     </div>
                     <div className="hidden sm:block border-b border-gray-200"></div>

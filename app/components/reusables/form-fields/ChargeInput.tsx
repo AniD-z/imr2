@@ -36,6 +36,35 @@ type ChargeInputProps = {
     showToggle?: boolean;
 };
 
+const normalizeNumericInput = (value: string) => {
+    const sanitized = value.replace(/,/g, "").replace(/[^\d.]/g, "");
+    const [wholePart, ...decimalParts] = sanitized.split(".");
+    const decimalPart = decimalParts.join("");
+
+    if (decimalParts.length === 0) {
+        return wholePart;
+    }
+
+    return `${wholePart}.${decimalPart}`;
+};
+
+const formatWithThousands = (value: string) => {
+    if (!value) {
+        return "";
+    }
+
+    const [wholePart, decimalPart] = value.split(".");
+    const formattedWhole = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    if (value.endsWith(".")) {
+        return `${formattedWhole}.`;
+    }
+
+    return decimalPart != undefined
+        ? `${formattedWhole}.${decimalPart}`
+        : formattedWhole;
+};
+
 const ChargeInput = ({
     label,
     name,
@@ -72,12 +101,20 @@ const ChargeInput = ({
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            value={formatWithThousands(String(field.value ?? ""))}
                                             className="w-[7rem]"
                                             placeholder={label}
-                                            type="number"
+                                            type="text"
+                                            inputMode="decimal"
                                             min="0"
                                             max="1000000"
                                             step="0.01"
+                                            onChange={(event) => {
+                                                field.onChange(normalizeNumericInput(event.target.value));
+                                            }}
+                                            onBlur={(event) => {
+                                                field.onBlur();
+                                            }}
                                         />
                                     </FormControl>
                                 </div>

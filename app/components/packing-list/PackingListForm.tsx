@@ -54,7 +54,7 @@ const PackingListForm = () => {
     };
 
     return (
-        <div className="w-full xl:w-[55%]">
+        <div className="w-full xl:w-[55%]" data-enter-nav-scope="true">
             <Card>
                 <CardHeader>
                     <div className="flex justify-between items-start">

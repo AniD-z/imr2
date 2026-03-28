@@ -32,13 +32,6 @@ const ShippingDetailsSection = () => {
                 rows={3}
             />
 
-            <FormTextarea
-                name="details.otherReferences"
-                label="Other References"
-                placeholder="Additional reference information"
-                rows={2}
-            />
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormInput
                     name="details.dispatchDocNumber"

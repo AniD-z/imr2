@@ -133,6 +133,7 @@ const InvoiceSenderSchema = z.object({
     email: fieldValidators.emailOptional,
     phone: fieldValidators.phoneOptional,
     gst: fieldValidators.stringOptional,
+    iecNo: fieldValidators.stringOptional,
     adCode: fieldValidators.stringOptional,
     customInputs: z.array(CustomInputSchema).optional(),
 });

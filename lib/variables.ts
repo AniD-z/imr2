@@ -113,6 +113,7 @@ export const FORM_DEFAULT_VALUES = {
     email: "",
     phone: "",
     gst: "36AAGCI8227A1ZS",
+    iecNo: "",
     adCode: "6360846-9030761",
     customInputs: [],
   },
@@ -194,6 +195,7 @@ export const FORM_FILL_VALUES = {
     email: "johndoe@example.com",
     phone: "123-456-7890",
     gst: "GST123456",
+    iecNo: "AAGC18227A",
     adCode: "AD123456",
   },
   receiver: {

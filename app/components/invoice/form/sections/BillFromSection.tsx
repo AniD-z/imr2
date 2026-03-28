@@ -91,6 +91,11 @@ const BillFromSection = () => {
                 placeholder="GST Number"
             />
             <FormInput
+                name="sender.iecNo"
+                label="IEC No"
+                placeholder="IEC Number"
+            />
+            <FormInput
                 name="sender.adCode"
                 label="AD Code"
                 placeholder="Authorized Dealer Code"

@@ -199,6 +199,7 @@ const SingleItem = ({
                 <FormInput
                     name={`${name}[${index}].unitPrice`}
                     type="number"
+                    formatWithCommas
                     label={`Unit / Rate in ${currency}`}
                     placeholder="Rate"
                     className="w-[8rem]"

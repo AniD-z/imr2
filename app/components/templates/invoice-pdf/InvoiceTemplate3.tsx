@@ -52,6 +52,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 							</div>
 							<div>{sender.country}.</div>
 							{sender.gst && <div>GST:{sender.gst}</div>}
+							{sender.iecNo && <div>IEC No: {sender.iecNo}</div>}
 							{sender.adCode && <div>AD Code: {sender.adCode}</div>}
 						</div>
 					</div>
@@ -74,16 +75,12 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 							<div className='text-sm'>{details.modeOfPayment || ""}</div>
 						</div>
 						</div>
-					<div className='grid grid-cols-2'>
-						<div className='p-2 border-r border-gray-900'>
-							<div className='font-semibold text-sm'>Reference No.</div>
-							<div className='text-sm whitespace-pre-line'>{(details.referenceNumbers || "").replace(/\\n/g, '\n')}</div>
-						</div>
+					<div>
 						<div className='p-2'>
-							<div className='font-semibold text-sm'>Other References</div>
-							<div className='text-sm whitespace-pre-line'>{details.otherReferences || ""}</div>
+							<div className='font-semibold text-sm'>Reference No. & Date</div>
+							<div className='text-sm whitespace-pre-line'>{(details.referenceNumbers || details.otherReferences || "").replace(/\\n/g, '\n')}</div>
 						</div>
-						</div>
+					</div>
 					</div>
 				</div>
 
@@ -101,17 +98,32 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 					</div>
 
 					{/* Dispatch and Delivery Details */}
-					<div className='p-0'>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-						<div className='p-2 border-r border-gray-900'>
-							<div className='font-semibold text-sm'>Freight Mode</div>
-							<div className='text-sm'>{details.dispatchedThrough || ""}</div>
-						</div>
-						<div className='p-2'>
-							<div className='font-semibold text-sm'>Final Destination</div>
-							<div className='text-sm'>{details.finalDestination || ""}</div>
-						</div>
-						</div>
+					<div className='p-0 relative'>
+						<div className='absolute top-0 bottom-0 left-1/2 w-px -translate-x-1/2 bg-gray-900 z-10 pointer-events-none' />
+						<table className='w-full border-collapse'>
+							<tbody>
+								<tr className='border-b border-gray-900'>
+									<td className='w-1/2 p-2 align-top'>
+										<div className='font-semibold text-sm'>Freight Mode</div>
+										<div className='text-sm'>{details.dispatchedThrough || ""}</div>
+									</td>
+									<td className='w-1/2 p-2 align-top'>
+										<div className='font-semibold text-sm'>Final Destination</div>
+										<div className='text-sm'>{details.finalDestination || ""}</div>
+									</td>
+								</tr>
+								<tr>
+									<td className='w-1/2 p-2 align-top'>
+										<div className='font-semibold text-sm'>City/Port of Loading</div>
+										<div className='text-sm'>{details.portOfLoading || ""}</div>
+									</td>
+									<td className='w-1/2 p-2 align-top'>
+										<div className='font-semibold text-sm'>City/Port of Discharge</div>
+										<div className='text-sm'>{details.portOfDischarge || ""}</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 
@@ -129,33 +141,23 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 						</div>
 					</div>
 
-					{/* Vessel and Port Details */}
-					<div className='p-0'>
-						<div className='grid grid-cols-2 border-b border-gray-900'>
-
-						<div className='p-2 border-r border-gray-900'>
-							<div className='font-semibold text-sm'>City/Port of Loading</div>
-							<div className='text-sm'>{details.portOfLoading || ""}</div>
-						</div>
-						<div className='p-2'>
-							<div className='font-semibold text-sm'>City/Port of Discharge</div>
-							<div className='text-sm'>{details.portOfDischarge || ""}</div>
-						</div>
-						</div>
-					</div>
-				</div>
-
-				{/* Row 4: Country Information */}
-			<div>
-				<div className='grid grid-cols-2 border-b border-gray-900'>
-					<div className='p-2 border-r border-gray-900'>
-						<div className='font-semibold text-sm'>Country of Origin of Goods</div>
-						<div className='text-sm'>{details.countryOfOrigin || ""}</div>
-					</div>
-					<div className='p-2'>
-						<div className='font-semibold text-sm'>Country of Final Destination</div>
-						<div className='text-sm'>{details.countryOfDestination || ""}</div>
-					</div>
+					{/* Country Details */}
+					<div className='p-0 relative'>
+						<div className='absolute top-0 bottom-0 left-1/2 w-px -translate-x-1/2 bg-gray-900 z-10 pointer-events-none' />
+						<table className='w-full border-collapse'>
+							<tbody>
+								<tr>
+									<td className='w-1/2 p-2 align-top'>
+										<div className='font-semibold text-sm'>Country of Origin of Goods</div>
+										<div className='text-sm'>{details.countryOfOrigin || ""}</div>
+									</td>
+									<td className='w-1/2 p-2 align-top'>
+										<div className='font-semibold text-sm'>Country of Final Destination</div>
+										<div className='text-sm'>{details.countryOfDestination || ""}</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -174,7 +176,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 						<div className='p-2 border-r border-gray-900 text-xs font-bold text-center'>
 							Rate in {details.currency}
 						</div>
-						<div className='p-2 text-xs font-bold text-center'>Total</div>
+						<div className='p-2 text-xs font-bold text-center'>Total in {details.currency}</div>
 					</div>
 					{details.items.map((item, index) => (
 						<div key={index} className='grid grid-cols-10 border-b border-gray-900'>
