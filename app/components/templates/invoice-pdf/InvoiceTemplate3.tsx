@@ -305,8 +305,8 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 										<div className='mb-3 flex justify-end'>
 											<img
 												src={details.signatoryDetails.companyStamp}
-												width={100}
-												height={100}
+												width={160}
+												height={160}
 												alt='Company Stamp'
 												className='object-contain'
 											/>
@@ -316,8 +316,8 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 										<div className='mb-2 flex justify-end'>
 											<img
 												src={details.signature.data}
-												width={120}
-												height={60}
+												width={200}
+												height={100}
 												alt={`Signature`}
 												className='object-contain'
 											/>
