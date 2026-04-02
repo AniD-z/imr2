@@ -4,6 +4,7 @@ import path from "path";
 
 // Chromium
 import chromium from "@sparticuz/chromium";
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 
 // Helpers
 import { getInvoiceTemplate } from "@/lib/helpers";
@@ -84,6 +85,72 @@ export async function generatePdfService(req: NextRequest) {
 			printBackground: true,
 			preferCSSPageSize: true,
 		});
+
+		// Template 3: add footer details only on the last page (bottom-aligned)
+		// and draw the footer separator line on every page (without affecting layout/pagination).
+		if (String(templateId) === "3") {
+			const pdfDoc = await PDFDocument.load(pdf);
+			const pages = pdfDoc.getPages();
+			const lastPageIndex = Math.max(0, pages.length - 1);
+			const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+			const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+			const marginX = 24;
+			const footerLineY = 30; // points from bottom (kept above the footer text)
+			const footerColor = rgb(0.6118, 0.6392, 0.6863); // gray-400 (#9ca3af)
+
+			// Footer details (last page only), positioned below the line
+			const lastPage = pages[lastPageIndex];
+			const { width: lastWidth } = lastPage.getSize();
+			// Footer separator line (last page only)
+			lastPage.drawLine({
+				start: { x: marginX, y: footerLineY },
+				end: { x: lastWidth - marginX, y: footerLineY },
+				thickness: 1,
+				color: footerColor,
+			});
+			const fontSize = 8;
+			const bottomPadding = 14;
+			const sep = "  |  ";
+			const segments: Array<{ text: string; font: typeof fontRegular }> = [
+				{ text: "E-Mail: ", font: fontBold },
+				{ text: "mail.imrengineeringsg@gmail.com", font: fontRegular },
+				{ text: sep, font: fontRegular },
+				{ text: "Website: ", font: fontBold },
+				{ text: "https://www.imrengineeringservices.in/", font: fontRegular },
+				{ text: sep, font: fontRegular },
+				{ text: "GSTIN: ", font: fontBold },
+				{ text: "36AAGCI8221A1S", font: fontRegular },
+			];
+
+			const totalWidth = segments.reduce(
+				(sum, s) => sum + s.font.widthOfTextAtSize(s.text, fontSize),
+				0
+			);
+			let x = (lastWidth - totalWidth) / 2;
+			const y = bottomPadding;
+			for (const s of segments) {
+				lastPage.drawText(s.text, {
+					x,
+					y,
+					size: fontSize,
+					font: s.font,
+					color: rgb(0, 0, 0),
+				});
+				x += s.font.widthOfTextAtSize(s.text, fontSize);
+			}
+
+			const stampedPdf = await pdfDoc.save();
+			return new NextResponse(new Blob([stampedPdf], { type: "application/pdf" }), {
+				headers: {
+					"Content-Type": "application/pdf",
+					"Content-Disposition": "attachment; filename=invoice.pdf",
+					"Cache-Control": "no-cache",
+					Pragma: "no-cache",
+				},
+				status: 200,
+			});
+		}
 
 		return new NextResponse(new Blob([pdf], { type: "application/pdf" }), {
 			headers: {

@@ -16,16 +16,23 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
         <InvoiceLayout data={data}>
             {/* Company Header */}
             {data.details?.headerImage && (
-                <div className='mb-4 -mx-10 -mt-10 page-break-avoid'>
-                    <img
-                        src={data.details.headerImage}
-                        alt='IMR Engineering Services'
-                        style={{
-                            width: '100%',
-                            height: 'auto',
-                            display: 'block',
-                        }}
-                    />
+                <div className='mb-4 -mx-10 -mt-10 px-10 pt-4 pb-3 border-b border-gray-400 page-break-avoid'>
+                    <div className='flex items-center gap-4'>
+                        <img
+                            src={data.details.headerImage}
+                            alt='IMR Engineering Services'
+                            style={{
+                                width: 120,
+                                height: 'auto',
+                                display: 'block',
+                            }}
+                        />
+                        <div className='flex-1 text-center leading-tight'>
+                            <div className='text-2xl font-extrabold text-gray-900'>IMR ENGINEERING SERVICES</div>
+                            <div className='border-b-2 border-gray-900 mt-1 w-2/3 max-w-md mx-auto'></div>
+                            <div className='text-lg font-semibold text-gray-900 mt-1'>(OPC) PRIVATE LIMITED</div>
+                        </div>
+                    </div>
                 </div>
             )}
 

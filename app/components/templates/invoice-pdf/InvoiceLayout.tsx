@@ -11,6 +11,7 @@ type InvoiceLayoutProps = {
 export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
     // Type guard to check if data is InvoiceType
     const isInvoice = 'sender' in data;
+    const isTemplate3Invoice = isInvoice && String(data.details.pdfTemplate) === "3";
     
     // For invoice signature font, handle conditionally
     const fontHref = isInvoice && data.details.signature?.fontFamily
@@ -44,6 +45,15 @@ export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
                         -webkit-print-color-adjust: exact;
                         print-color-adjust: exact;
                     }
+                    .invoice-page-footer-line {
+                        display: block;
+                    }
+                    .invoice-layout-template-3 .invoice-page-footer-line {
+                        display: none;
+                    }
+                    .invoice-layout-template-3 .template3-footer-details {
+                        display: none !important;
+                    }
                     .page-break-avoid {
                         page-break-inside: avoid;
                         break-inside: avoid;
@@ -61,18 +71,29 @@ export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
                         break-inside: avoid;
                     }
                 }
+                .invoice-page-footer-line {
+                    display: none;
+                    position: fixed;
+                    left: 24px;
+                    right: 24px;
+                    bottom: 12px;
+                    border-top: 1px solid #9ca3af;
+                    z-index: 100;
+                    pointer-events: none;
+                }
             `}</style>
         </>
     );
 
     return (
-        <>
+        <div className={isTemplate3Invoice ? "invoice-layout-template-3" : ""}>
             {head}
             <section style={{ fontFamily: "Outfit, sans-serif" }}>
                 <div className="flex flex-col p-4 sm:p-10 bg-white rounded-xl min-h-[60rem]">
                     {children}
                 </div>
             </section>
-        </>
+            <div className="invoice-page-footer-line" aria-hidden="true" />
+        </div>
     );
 }

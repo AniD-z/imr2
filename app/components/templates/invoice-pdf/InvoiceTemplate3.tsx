@@ -19,16 +19,23 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 		<InvoiceLayout data={data}>
 			{/* Company Header */}
 			{data.details?.headerImage && (
-				<div className='mb-4 -mx-10 -mt-10 page-break-avoid'>
-					<img
-						src={data.details.headerImage}
-						alt='IMR Engineering Services'
-						style={{
-							width: '100%',
-							height: 'auto',
-							display: 'block',
-						}}
-					/>
+				<div className='mb-4 -mx-10 -mt-10 px-10 pt-4 pb-3 border-b border-gray-400 page-break-avoid'>
+					<div className='flex items-center gap-4'>
+						<img
+							src={data.details.headerImage}
+							alt='IMR Engineering Services'
+							style={{
+								width: 120,
+								height: 'auto',
+								display: 'block',
+							}}
+						/>
+						<div className='flex-1 text-center leading-tight'>
+							<div className='text-2xl font-extrabold text-gray-900'>IMR ENGINEERING SERVICES</div>
+							<div className='border-b-2 border-gray-900 mt-1 w-2/3 max-w-md mx-auto'></div>
+							<div className='text-lg font-semibold text-gray-900 mt-1'>(OPC) PRIVATE LIMITED</div>
+						</div>
+					</div>
 				</div>
 			)}
 
@@ -196,8 +203,8 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 			</div>
 
 			{/* Totals */}
-			<div className='mt-3 flex justify-end page-break-avoid'>
-				<div className='w-1/2'>
+			<div className='mt-3 page-break-avoid'>
+				<div className='w-full'>
 					<div className='border border-gray-900'>
 						<div className='grid grid-cols-2 border-b border-gray-900'>
 							<div className='p-2 border-r border-gray-900 font-semibold text-sm'>Subtotal:</div>
@@ -343,32 +350,18 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 					</div>
 				)}
 
-				{/* Additional Notes */}
-				{details.additionalNotes && (
-					<div className='mb-3'>
-						<div className='font-bold text-gray-900 mb-1'>Additional notes:</div>
-						<div className='text-sm text-gray-800'>{details.additionalNotes}</div>
-					</div>
-				)}
 			</div>
 
-			{/* Company Footer */}
-			<div className='mt-8 text-xs text-gray-800 page-break-avoid'>
-				<div className='grid grid-cols-2 gap-4'>
-					<div>
-						<p className='mb-1'><span className='font-semibold'>Head Office :</span> H.No. 15-11-28/204, VDOS Colony, HYDERABAD, Telangana, INDIA. Pin:500 201</p>
-						<p className='mb-1'><span className='font-semibold'>CELL No :</span> 9059597743</p>
-						<p className='mb-1'><span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com</p>
-					<p><span className='font-semibold'>Website :</span> <a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>https://www.imrengineeringservices.in/</a></p>
-					</div>
-					<div>
-						<p className='mb-1'><span className='font-semibold'>CIN No :</span> U52599TG2020PLC166005</p>
-						<p className='mb-1'><span className='font-semibold'>GSTIN :</span> 36AAGCI8221A1S</p>
-						<p className='mb-1'><span className='font-semibold'>PAN :</span> AAGC18221A</p>
-						<p className='mb-1'><span className='font-semibold'>IEC No :</span> AAGC18227A</p>
-						<p><span className='font-semibold'>TAN No :</span> HYD107889A</p>
-					</div>
-				</div>
+			{/* Company Footer (hidden in print; stamped into PDF last page) */}
+			<div className='template3-footer-details mt-8 pt-2 border-t border-gray-400 text-xs text-gray-800 page-break-avoid text-center space-y-1'>
+				<p><span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com</p>
+				<p>
+					<span className='font-semibold'>Website :</span>{" "}
+					<a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>
+						https://www.imrengineeringservices.in/
+					</a>
+				</p>
+				<p><span className='font-semibold'>GSTIN :</span> 36AAGCI8221A1S</p>
 			</div>
 		</InvoiceLayout>
 	);
