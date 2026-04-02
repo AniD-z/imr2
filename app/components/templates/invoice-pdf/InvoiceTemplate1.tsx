@@ -28,7 +28,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 								display: 'block',
 							}}
 						/>
-						<div className='flex-1 leading-tight'>
+						<div className='flex-1 leading-tight flex justify-center'>
 							<div className='inline-block text-left'>
 								<div className='text-2xl font-extrabold text-gray-900 underline decoration-2 decoration-gray-900 underline-offset-4'>
 									IMR ENGINEERING SERVICES
