@@ -28,10 +28,13 @@ const InvoiceTemplate = (data: InvoiceType) => {
 								display: 'block',
 							}}
 						/>
-						<div className='flex-1 text-center leading-tight'>
-							<div className='text-2xl font-extrabold text-gray-900'>IMR ENGINEERING SERVICES</div>
-							<div className='border-b-2 border-gray-900 mt-1 w-2/3 max-w-md mx-auto'></div>
-							<div className='text-lg font-semibold text-gray-900 mt-1'>(OPC) PRIVATE LIMITED</div>
+						<div className='flex-1 leading-tight'>
+							<div className='inline-block text-left'>
+								<div className='text-2xl font-extrabold text-gray-900 underline decoration-2 decoration-gray-900 underline-offset-4'>
+									IMR ENGINEERING SERVICES
+								</div>
+								<div className='text-lg font-semibold text-gray-900 mt-1'>(OPC) PRIVATE LIMITED</div>
+							</div>
 						</div>
 					</div>
 				</div>
