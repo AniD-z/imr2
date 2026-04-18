@@ -25,10 +25,19 @@ const COUNTRY_ABBREVIATIONS: Record<string, string> = {
  */
 export function getCountryAbbreviation(country: string): string {
   const countryUpper = country.toUpperCase().trim();
+
   // Try direct match first
   if (COUNTRY_ABBREVIATIONS[countryUpper]) {
     return COUNTRY_ABBREVIATIONS[countryUpper];
   }
+
+  // Handle compound values such as "Telangana - INDIA"
+  for (const [knownCountry, abbreviation] of Object.entries(COUNTRY_ABBREVIATIONS)) {
+    if (countryUpper.includes(knownCountry)) {
+      return abbreviation;
+    }
+  }
+
   // If no match, extract first 3 letters
   return countryUpper.substring(0, 3);
 }

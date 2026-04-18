@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllInvoices } from "@/lib/sheets";
 import { 
-  generateInvoiceNumber, 
   extractInvoiceSequence,
   getCountryAbbreviation,
   getFiscalYearRange 
@@ -21,32 +20,44 @@ export async function POST(request: NextRequest) {
     // Get all invoices from sheets
     const invoices = await getAllInvoices();
 
-    // Filter invoices for the current country and fiscal year
+    // Determine the next sequence globally from existing invoice numbers.
+    // This prevents resets when country/fiscal prefixes vary between invoices.
     const abbrev = getCountryAbbreviation(country);
-    const fiscalYear = getFiscalYearRange();
-    const currentPattern = `IMR/${abbrev}${fiscalYear}/`;
-
-    // Find invoices matching the current pattern
-    const matchingInvoices = invoices.filter(inv => {
-      const fullData = JSON.parse(inv.full_data || "{}");
-      const invoiceNumber = fullData.details?.invoiceNumber || "";
-      return invoiceNumber.startsWith(currentPattern);
-    });
-
-    // Find the highest sequence number
     let maxSequence = 0;
-    for (const inv of matchingInvoices) {
-      const fullData = JSON.parse(inv.full_data || "{}");
-      const invoiceNumber = fullData.details?.invoiceNumber || "";
+    let sequenceDigits = 0;
+    let fiscalYear = getFiscalYearRange();
+
+    for (const inv of invoices) {
+      let fullData: Record<string, unknown> = {};
+      try {
+        fullData = JSON.parse(inv.full_data || "{}");
+      } catch {
+        fullData = {};
+      }
+
+      const details = (fullData as { details?: { invoiceNumber?: string } }).details;
+      const invoiceNumber = details?.invoiceNumber || "";
+      const sequenceMatch = invoiceNumber.match(/\/(\d+)$/);
       const sequence = extractInvoiceSequence(invoiceNumber);
+
       if (sequence > maxSequence) {
         maxSequence = sequence;
+        sequenceDigits = sequenceMatch ? sequenceMatch[1].length : 0;
+
+        const fiscalMatch = invoiceNumber.match(/\d{2}-\d{2}/);
+        if (fiscalMatch) {
+          fiscalYear = fiscalMatch[0];
+        }
       }
     }
 
-    // Generate next invoice number
+    // Keep numbering continuous with the latest stored invoice.
     const nextSequence = maxSequence + 1;
-    const nextInvoiceNumber = generateInvoiceNumber(country, nextSequence);
+    const nextSequencePart =
+      sequenceDigits > 0
+        ? nextSequence.toString().padStart(sequenceDigits, "0")
+        : nextSequence.toString();
+    const nextInvoiceNumber = `IMR/${abbrev}${fiscalYear}/${nextSequencePart}`;
 
     return NextResponse.json({
       invoiceNumber: nextInvoiceNumber,
