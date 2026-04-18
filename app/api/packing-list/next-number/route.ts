@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllPackingLists } from "@/lib/sheets";
 import { 
-  generatePackingListNumber, 
-  extractPackingListSequence,
-  getCurrentYear 
+  extractPackingListSequence
 } from "@/lib/numberGenerator";
 
 export async function POST(request: NextRequest) {
@@ -20,32 +18,44 @@ export async function POST(request: NextRequest) {
     // Get all packing lists from sheets
     const packingLists = await getAllPackingLists();
 
-    // Filter packing lists for the current country and year
+    // Determine next sequence globally from existing packing list numbers.
+    // This prevents resets when country/year prefixes vary.
     const countryUpper = country.toUpperCase().trim();
-    const year = getCurrentYear("4digit");
-    const currentPattern = `IMR/${countryUpper}/${year}/`;
-
-    // Find packing lists matching the current pattern
-    const matchingLists = packingLists.filter(pl => {
-      const fullData = JSON.parse(pl.full_data || "{}");
-      const packingListNumber = fullData.details?.packingListNumber || "";
-      return packingListNumber.startsWith(currentPattern);
-    });
-
-    // Find the highest sequence number
     let maxSequence = 0;
-    for (const pl of matchingLists) {
-      const fullData = JSON.parse(pl.full_data || "{}");
-      const packingListNumber = fullData.details?.packingListNumber || "";
+    let sequenceDigits = 0;
+    let year = new Date().getFullYear().toString();
+
+    for (const pl of packingLists) {
+      let fullData: Record<string, unknown> = {};
+      try {
+        fullData = JSON.parse(pl.full_data || "{}");
+      } catch {
+        fullData = {};
+      }
+
+      const details = (fullData as { details?: { packingListNumber?: string } }).details;
+      const packingListNumber = details?.packingListNumber || "";
+      const sequenceMatch = packingListNumber.match(/\/(\d+)$/);
       const sequence = extractPackingListSequence(packingListNumber);
+
       if (sequence > maxSequence) {
         maxSequence = sequence;
+        sequenceDigits = sequenceMatch ? sequenceMatch[1].length : 0;
+
+        const yearMatch = packingListNumber.match(/\/([12]\d{3})\//);
+        if (yearMatch) {
+          year = yearMatch[1];
+        }
       }
     }
 
-    // Generate next packing list number
+    // Keep numbering continuous with latest stored packing list.
     const nextSequence = maxSequence + 1;
-    const nextPackingListNumber = generatePackingListNumber(country, nextSequence);
+    const nextSequencePart =
+      sequenceDigits > 0
+        ? nextSequence.toString().padStart(sequenceDigits, "0")
+        : nextSequence.toString();
+    const nextPackingListNumber = `IMR/${countryUpper}/${year}/${nextSequencePart}`;
 
     return NextResponse.json({
       packingListNumber: nextPackingListNumber,
