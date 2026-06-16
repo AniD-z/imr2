@@ -21,7 +21,7 @@ const InvoiceDetails = () => {
             <Subheading>{_t("form.steps.invoiceDetails.heading")}:</Subheading>
 
             <div className="flex flex-col lg:flex-row gap-8">
-                <div className="flex flex-col gap-3 flex-1 max-w-sm">
+                <div className="flex flex-col gap-3 flex-1 max-w-lg">
                     <FormFile
                         name="details.invoiceLogo"
                         label={_t("form.steps.invoiceDetails.invoiceLogo.label")}

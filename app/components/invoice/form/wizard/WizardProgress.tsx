@@ -121,29 +121,33 @@ const WizardProgress = ({ wizard }: WizardProgressProps) => {
     ];
 
     return (
-        <div className="w-full overflow-hidden">
-            <div className="flex gap-2 overflow-x-auto p-2">
+        <div className="w-full">
+            <div className="flex flex-wrap gap-1.5 p-1">
                 {steps.map((step) => (
-                    <div key={step.id} className="flex items-center gap-2">
+                    <div key={step.id} className="flex items-center gap-1.5">
                         <BaseButton
                             variant={returnButtonVariant(step)}
                             onClick={() => wizard.goToStep(step.id)}
-                            className="flex-shrink-0"
+                            className="shrink-0 sm:px-3 px-2.5"
+                            size="sm"
                         >
-                            {step.label}
+                            <span className="sm:hidden text-xs font-semibold">{step.id + 1}</span>
+                            <span className="hidden sm:inline text-xs">{step.label}</span>
                         </BaseButton>
                         {step.id < stepCount - 1 && (
                             <div
-                                className={`h-1 w-4 rounded-full ${
-                                    stepPassed(step)
-                                        ? "bg-green-500"
-                                        : "bg-gray-300"
+                                className={`h-1 w-3 rounded-full shrink-0 ${
+                                    stepPassed(step) ? "bg-green-500" : "bg-gray-300"
                                 }`}
-                            ></div>
+                            />
                         )}
                     </div>
                 ))}
             </div>
+            {/* Show current step name below on mobile */}
+            <p className="sm:hidden text-xs text-muted-foreground px-1 mt-1">
+                Step {activeStep + 1}: {steps[activeStep]?.label}
+            </p>
         </div>
     );
 };

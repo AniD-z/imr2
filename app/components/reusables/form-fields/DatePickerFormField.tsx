@@ -46,64 +46,52 @@ const DatePickerFormField = ({ name, label }: DatePickerFormFieldProps) => {
                 control={control}
                 name={name}
                 render={({ field }) => (
-                    <FormItem>
-                        <div className="flex items-center gap-5 text-sm min-w-0">
-                            <div className="min-w-0">
-                                <FormLabel className="whitespace-nowrap">{label}:</FormLabel>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <Popover
-                                    open={isPopoverOpen}
-                                    onOpenChange={setIsPopoverOpen}
-                                >
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant={"outline"}
-                                                className={cn(
-                                                    "w-full sm:w-[13rem]",
-                                                    !field.value &&
-                                                        "text-muted-foreground"
-                                                )}
-                                            >
-                                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                                {field.value ? (
-                                                    new Date(
-                                                        field.value
-                                                    ).toLocaleDateString(
-                                                        "en-US",
-                                                        DATE_OPTIONS
-                                                    )
-                                                ) : (
-                                                    <span>Pick a date</span>
-                                                )}
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0">
-                                        <Calendar
-                                            mode="single"
-                                            captionLayout="dropdown-buttons"
-                                            defaultMonth={field.value}
-                                            selected={new Date(field.value)}
-                                            onSelect={(e) => {
-                                                field.onChange(e);
-                                                setIsPopoverOpen(false);
-                                            }}
-                                            disabled={(date) =>
-                                                date < new Date("1900-01-01")
-                                            }
-                                            fromYear={1960}
-                                            toYear={
-                                                new Date().getFullYear() + 30
-                                            }
-                                            initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                                <FormMessage />
-                            </div>
-                        </div>
+                    <FormItem className="flex flex-col gap-1">
+                        <FormLabel>{label}:</FormLabel>
+                        <Popover
+                            open={isPopoverOpen}
+                            onOpenChange={setIsPopoverOpen}
+                        >
+                            <PopoverTrigger asChild>
+                                <FormControl>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full justify-start",
+                                            !field.value && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+                                        <span className="truncate">
+                                            {field.value ? (
+                                                new Date(field.value).toLocaleDateString("en-US", DATE_OPTIONS)
+                                            ) : (
+                                                "Pick a date"
+                                            )}
+                                        </span>
+                                    </Button>
+                                </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    captionLayout="dropdown-buttons"
+                                    defaultMonth={field.value}
+                                    selected={new Date(field.value)}
+                                    onSelect={(e) => {
+                                        field.onChange(e);
+                                        setIsPopoverOpen(false);
+                                    }}
+                                    disabled={(date) =>
+                                        date < new Date("1900-01-01")
+                                    }
+                                    fromYear={1960}
+                                    toYear={new Date().getFullYear() + 30}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
+                        <FormMessage />
                     </FormItem>
                 )}
             />
