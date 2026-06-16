@@ -25,6 +25,14 @@ const useToasts = () => {
         });
     };
 
+    const pdfGenerationError = () => {
+        toast({
+            variant: "destructive",
+            title: "PDF generation failed",
+            description: "Something went wrong generating your PDF. Please try again.",
+        });
+    };
+
     const saveInvoiceSuccess = () => {
         toast({
             variant: "default",
@@ -76,6 +84,7 @@ const useToasts = () => {
     return {
         newInvoiceSuccess,
         pdfGenerationSuccess,
+        pdfGenerationError,
         saveInvoiceSuccess,
         modifiedInvoiceSuccess,
         sendPdfSuccess,

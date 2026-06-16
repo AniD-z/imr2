@@ -91,37 +91,55 @@ const PackingListForm = () => {
                                 name="exporter.name"
                                 label="Company Name"
                                 placeholder="Company name"
+                                vertical
+                                className="w-full"
                             />
                             <FormInput
                                 name="exporter.address"
                                 label="Address"
                                 placeholder="Address"
+                                vertical
+                                className="w-full"
                             />
-                            <FormInput
-                                name="exporter.city"
-                                label="City"
-                                placeholder="City"
-                            />
-                            <FormInput
-                                name="exporter.zipCode"
-                                label="Zip Code"
-                                placeholder="Zip code"
-                            />
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="exporter.zipCode"
+                                    label="Zip Code"
+                                    placeholder="Zip code"
+                                    vertical
+                                    className="w-full"
+                                />
+                                <FormInput
+                                    name="exporter.city"
+                                    label="City"
+                                    placeholder="City"
+                                    vertical
+                                    className="w-full"
+                                />
+                            </div>
                             <FormInput
                                 name="exporter.country"
                                 label="Country"
                                 placeholder="Country"
+                                vertical
+                                className="w-full"
                             />
-                            <FormInput
-                                name="exporter.gst"
-                                label="GST"
-                                placeholder="GST number"
-                            />
-                            <FormInput
-                                name="exporter.adCode"
-                                label="AD Code"
-                                placeholder="AD Code"
-                            />
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="exporter.gst"
+                                    label="GST"
+                                    placeholder="GST number"
+                                    vertical
+                                    className="w-full"
+                                />
+                                <FormInput
+                                    name="exporter.adCode"
+                                    label="AD Code"
+                                    placeholder="AD Code"
+                                    vertical
+                                    className="w-full"
+                                />
+                            </div>
                         </section>
 
                         {/* Consignee Section */}
@@ -131,22 +149,32 @@ const PackingListForm = () => {
                                 name="consignee.name"
                                 label="Name"
                                 placeholder="Consignee name"
+                                vertical
+                                className="w-full"
                             />
                             <FormInput
                                 name="consignee.address"
                                 label="Address"
                                 placeholder="Address"
+                                vertical
+                                className="w-full"
                             />
-                            <FormInput
-                                name="consignee.city"
-                                label="City"
-                                placeholder="City"
-                            />
-                            <FormInput
-                                name="consignee.country"
-                                label="Country"
-                                placeholder="Country"
-                            />
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="consignee.city"
+                                    label="City"
+                                    placeholder="City"
+                                    vertical
+                                    className="w-full"
+                                />
+                                <FormInput
+                                    name="consignee.country"
+                                    label="Country"
+                                    placeholder="Country"
+                                    vertical
+                                    className="w-full"
+                                />
+                            </div>
                         </section>
 
                         {/* Buyer Section */}
@@ -156,22 +184,32 @@ const PackingListForm = () => {
                                 name="buyer.name"
                                 label="Name"
                                 placeholder="Buyer name"
+                                vertical
+                                className="w-full"
                             />
                             <FormInput
                                 name="buyer.address"
                                 label="Address"
                                 placeholder="Address"
+                                vertical
+                                className="w-full"
                             />
-                            <FormInput
-                                name="buyer.city"
-                                label="City"
-                                placeholder="City"
-                            />
-                            <FormInput
-                                name="buyer.country"
-                                label="Country"
-                                placeholder="Country"
-                            />
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="buyer.city"
+                                    label="City"
+                                    placeholder="City"
+                                    vertical
+                                    className="w-full"
+                                />
+                                <FormInput
+                                    name="buyer.country"
+                                    label="Country"
+                                    placeholder="Country"
+                                    vertical
+                                    className="w-full"
+                                />
+                            </div>
                         </section>
 
                         {/* Packing List Details */}
@@ -181,65 +219,95 @@ const PackingListForm = () => {
                                 name="details.packingListNumber"
                                 label="Packing List No"
                                 placeholder="PL-001/2025"
+                                vertical
+                                className="w-full"
                             />
                             <DatePickerFormField
                                 name="details.date"
                                 label="Date"
                             />
-                            <FormInput
-                                name="details.invoiceNumber"
-                                label="Invoice No"
-                                placeholder="INV-001"
-                            />
-                            <FormInput
-                                name="details.buyerOrderNumber"
-                                label="Buyer's Order No"
-                                placeholder="PO-001"
-                            />
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="details.invoiceNumber"
+                                    label="Invoice No"
+                                    placeholder="INV-001"
+                                    vertical
+                                    className="w-full"
+                                />
+                                <FormInput
+                                    name="details.buyerOrderNumber"
+                                    label="Buyer's Order No"
+                                    placeholder="PO-001"
+                                    vertical
+                                    className="w-full"
+                                />
+                            </div>
                             <FormInput
                                 name="details.referenceNumber"
                                 label="Reference No"
                                 placeholder="REF-001"
+                                vertical
+                                className="w-full"
                             />
                         </section>
 
                         {/* Shipment Details */}
                         <section className="flex flex-col gap-3">
                             <Subheading>Shipment Details:</Subheading>
-                            <FormInput
-                                name="details.iecNo"
-                                label="IEC No"
-                                placeholder="IEC number"
-                            />
-                            <FormInput
-                                name="details.freightMode"
-                                label="Freight Mode"
-                                placeholder="e.g., By Sea, By Air"
-                            />
-                            <FormInput
-                                name="details.portOfLoading"
-                                label="Port of Loading"
-                                placeholder="e.g., Mumbai - India"
-                            />
-                            <FormInput
-                                name="details.countryOfOrigin"
-                                label="Country of Origin"
-                                placeholder="e.g., INDIA"
-                            />
-                            <FormInput
-                                name="details.portOfDischarge"
-                                label="Port of Discharge"
-                                placeholder="e.g., Port Sudan, SUDAN"
-                            />
-                            <FormInput
-                                name="details.finalDestination"
-                                label="Final Destination"
-                                placeholder="e.g., Kosti, Sudan"
-                            />
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="details.iecNo"
+                                    label="IEC No"
+                                    placeholder="IEC number"
+                                    vertical
+                                    className="w-full"
+                                />
+                                <FormInput
+                                    name="details.freightMode"
+                                    label="Freight Mode"
+                                    placeholder="e.g., By Sea"
+                                    vertical
+                                    className="w-full"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="details.portOfLoading"
+                                    label="Port of Loading"
+                                    placeholder="e.g., Mumbai - India"
+                                    vertical
+                                    className="w-full"
+                                />
+                                <FormInput
+                                    name="details.countryOfOrigin"
+                                    label="Country of Origin"
+                                    placeholder="e.g., INDIA"
+                                    vertical
+                                    className="w-full"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="details.portOfDischarge"
+                                    label="Port of Discharge"
+                                    placeholder="e.g., Port Sudan"
+                                    vertical
+                                    className="w-full"
+                                />
+                                <FormInput
+                                    name="details.finalDestination"
+                                    label="Final Destination"
+                                    placeholder="e.g., Kosti, Sudan"
+                                    vertical
+                                    className="w-full"
+                                />
+                            </div>
                             <FormInput
                                 name="details.countryOfFinalDestination"
                                 label="Country of Final Destination"
                                 placeholder="e.g., SUDAN"
+                                vertical
+                                className="w-full"
                             />
                         </section>
 
@@ -249,20 +317,26 @@ const PackingListForm = () => {
                         {/* Total Weights */}
                         <section className="flex flex-col gap-3">
                             <Subheading>Total Weights:</Subheading>
-                            <FormInput
-                                name="details.totalNetWeight"
-                                label="Total Net Weight (KG)"
-                                placeholder="0.00"
-                                type="number"
-                                step="0.01"
-                            />
-                            <FormInput
-                                name="details.totalGrossWeight"
-                                label="Total Gross Weight (KG)"
-                                placeholder="0.00"
-                                type="number"
-                                step="0.01"
-                            />
+                            <div className="grid grid-cols-2 gap-3">
+                                <FormInput
+                                    name="details.totalNetWeight"
+                                    label="Total Net Weight (KG)"
+                                    placeholder="0.00"
+                                    vertical
+                                    className="w-full"
+                                    type="number"
+                                    step="0.01"
+                                />
+                                <FormInput
+                                    name="details.totalGrossWeight"
+                                    label="Total Gross Weight (KG)"
+                                    placeholder="0.00"
+                                    vertical
+                                    className="w-full"
+                                    type="number"
+                                    step="0.01"
+                                />
+                            </div>
                         </section>
                     </div>
                 </CardContent>

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 // ShadCn
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -18,8 +19,6 @@ import {
   PdfViewer,
   BaseButton,
   NewInvoiceAlert,
-  InvoiceLoaderModal,
-  InvoiceExportModal,
 } from "@/app/components";
 
 // Contexts
@@ -33,7 +32,7 @@ import { createNewInvoice, updateExistingInvoice } from "@/lib/actions";
 import { InvoiceType } from "@/types";
 
 // Icons
-import { FileInput, FolderUp, Import, Plus, RotateCcw, Save, Loader2 } from "lucide-react";
+import { FileInput, Plus, RotateCcw, Save, Loader2 } from "lucide-react";
 
 type InvoiceActionsProps = {
   editMode?: boolean;
@@ -106,7 +105,6 @@ const InvoiceActions = ({ editMode, invoiceNumber }: InvoiceActionsProps) => {
             title: "Invoice created",
             description: `Invoice #${result.data?.invoice_number} has been saved to Google Sheets.`,
           });
-          // Navigate to the invoices list
           router.push("/invoices");
         } else {
           toast({
@@ -136,51 +134,45 @@ const InvoiceActions = ({ editMode, invoiceNumber }: InvoiceActionsProps) => {
           <CardDescription>{_t("actions.description")}</CardDescription>
         </CardHeader>
 
-        <div className="flex flex-col flex-wrap items-center gap-2">
-          <div className="flex flex-wrap gap-3">
-            {/* Save to Google Sheets button */}
+        <CardContent className="flex flex-col gap-4 pb-4">
+          {/* Primary action — save to Sheets */}
+          <div className="flex flex-col gap-1">
             <BaseButton
               variant="default"
+              className="w-full"
               tooltipLabel={editMode ? "Update invoice in Google Sheets" : "Save invoice to Google Sheets"}
               disabled={saving || invoicePdfLoading}
               onClick={handleSaveToSheets}
             >
               {saving ? <Loader2 className="animate-spin" /> : <Save />}
-              {saving ? "Saving..." : editMode ? "Update Invoice" : "Save to Sheets"}
+              {saving ? "Saving..." : editMode ? "Update Invoice" : "Save Invoice"}
             </BaseButton>
+            <p className="text-xs text-muted-foreground text-center">
+              {editMode
+                ? "Save your changes before closing"
+                : "Save your invoice before closing"}
+            </p>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            {/* Load modal button */}
-            <InvoiceLoaderModal>
-              <BaseButton
-                variant="outline"
-                tooltipLabel="Open load invoice menu"
-                disabled={invoicePdfLoading}
-              >
-                <FolderUp />
-                {_t("actions.loadInvoice")}
-              </BaseButton>
-            </InvoiceLoaderModal>
+          {/* Generate PDF */}
+          <BaseButton
+            type="submit"
+            variant="outline"
+            className="w-full"
+            tooltipLabel="Generate your invoice PDF"
+            loading={invoicePdfLoading}
+            loadingText="Generating your invoice"
+          >
+            <FileInput />
+            {_t("actions.generatePdf")}
+          </BaseButton>
 
-            {/* Export modal button */}
-            <InvoiceExportModal>
-              <BaseButton
-                variant="outline"
-                tooltipLabel="Open load invoice menu"
-                disabled={invoicePdfLoading}
-              >
-                <Import />
-                {_t("actions.exportInvoice")}
-              </BaseButton>
-            </InvoiceExportModal>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            {/* New invoice button */}
+          {/* Secondary actions */}
+          <div className="flex flex-wrap gap-2 justify-center pt-1 border-t">
             <NewInvoiceAlert>
               <BaseButton
-                variant="outline"
+                variant="ghost"
+                size="sm"
                 tooltipLabel="Get a new invoice form"
                 disabled={invoicePdfLoading}
               >
@@ -189,7 +181,6 @@ const InvoiceActions = ({ editMode, invoiceNumber }: InvoiceActionsProps) => {
               </BaseButton>
             </NewInvoiceAlert>
 
-            {/* Reset form button */}
             <NewInvoiceAlert
               title="Reset form?"
               description="This will clear all fields and the saved draft."
@@ -197,7 +188,8 @@ const InvoiceActions = ({ editMode, invoiceNumber }: InvoiceActionsProps) => {
               onConfirm={newInvoice}
             >
               <BaseButton
-                variant="destructive"
+                variant="ghost"
+                size="sm"
                 tooltipLabel="Reset entire form"
                 disabled={invoicePdfLoading}
               >
@@ -205,24 +197,13 @@ const InvoiceActions = ({ editMode, invoiceNumber }: InvoiceActionsProps) => {
                 Reset Form
               </BaseButton>
             </NewInvoiceAlert>
-
-            {/* Generate pdf button */}
-            <BaseButton
-              type="submit"
-              tooltipLabel="Generate your invoice"
-              loading={invoicePdfLoading}
-              loadingText="Generating your invoice"
-            >
-              <FileInput />
-              {_t("actions.generatePdf")}
-            </BaseButton>
           </div>
 
+          {/* PDF Viewer */}
           <div className="w-full">
-            {/* Live preview and Final pdf */}
             <PdfViewer />
           </div>
-        </div>
+        </CardContent>
       </Card>
     </div>
   );

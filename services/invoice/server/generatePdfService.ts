@@ -120,7 +120,7 @@ export async function generatePdfService(req: NextRequest) {
 				{ text: "https://www.imrengineeringservices.in/", font: fontRegular },
 				{ text: sep, font: fontRegular },
 				{ text: "GSTIN: ", font: fontBold },
-				{ text: "36AAGCI8221A1S", font: fontRegular },
+				{ text: "36AAGCI8227A1ZS", font: fontRegular },
 			];
 
 			const totalWidth = segments.reduce(

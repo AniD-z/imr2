@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 // ShadCn
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -101,7 +102,6 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
             title: "Packing List created",
             description: `Packing List #${result.data?.packing_list_number} has been saved to Google Sheets.`,
           });
-          // Navigate to the packing lists page (we'll create this later)
           router.push("/packing-lists");
         } else {
           toast({
@@ -127,13 +127,10 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
     setGenerating(true);
     try {
       const formValues = getValues();
-      
-      // Generate PDF by sending data to API
+
       const response = await fetch("/api/packing-list/generate", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formValues),
       });
 
@@ -141,7 +138,6 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
         throw new Error("Failed to generate PDF");
       }
 
-      // Download the PDF
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -153,14 +149,14 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
       document.body.removeChild(a);
 
       toast({
-        title: "PDF Generated",
+        title: "PDF Downloaded",
         description: "Packing list PDF has been downloaded successfully.",
       });
     } catch (err) {
       console.error("Generate PDF error:", err);
       toast({
         variant: "destructive",
-        title: "Error",
+        title: "PDF generation failed",
         description: "Failed to generate PDF. Please try again.",
       });
     } finally {
@@ -176,31 +172,38 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
           <CardDescription>Save and manage your packing list</CardDescription>
         </CardHeader>
 
-        <div className="flex flex-col flex-wrap items-center gap-2">
-          <div className="flex flex-wrap gap-3">
-            {/* Save to Google Sheets button */}
+        <CardContent className="flex flex-col gap-4 pb-4">
+          {/* Primary action — save to Sheets */}
+          <div className="flex flex-col gap-1">
             <BaseButton
               variant="default"
+              className="w-full"
               tooltipLabel={editMode ? "Update packing list in Google Sheets" : "Save packing list to Google Sheets"}
               disabled={saving}
               onClick={handleSaveToSheets}
             >
               {saving ? <Loader2 className="animate-spin" /> : <Save />}
-              {saving ? "Saving..." : editMode ? "Update Packing List" : "Save to Sheets"}
+              {saving ? "Saving..." : editMode ? "Update Packing List" : "Save Packing List"}
             </BaseButton>
-
-            {/* Generate PDF button */}
-            <BaseButton
-              variant="outline"
-              tooltipLabel="Generate packing list PDF"
-              disabled={generating}
-              onClick={handleGeneratePDF}
-            >
-              {generating ? <Loader2 className="animate-spin" /> : <FileInput />}
-              {generating ? "Generating..." : "Generate PDF"}
-            </BaseButton>
+            <p className="text-xs text-muted-foreground text-center">
+              {editMode
+                ? "Save your changes before closing"
+                : "Save your packing list before closing"}
+            </p>
           </div>
-        </div>
+
+          {/* Generate PDF */}
+          <BaseButton
+            variant="outline"
+            className="w-full"
+            tooltipLabel="Generate and download packing list PDF"
+            disabled={generating}
+            onClick={handleGeneratePDF}
+          >
+            {generating ? <Loader2 className="animate-spin" /> : <FileInput />}
+            {generating ? "Generating..." : "Generate PDF"}
+          </BaseButton>
+        </CardContent>
       </Card>
     </div>
   );

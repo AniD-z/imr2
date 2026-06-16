@@ -69,6 +69,7 @@ export const InvoiceContextProvider = ({
   const {
     newInvoiceSuccess,
     pdfGenerationSuccess,
+    pdfGenerationError,
     saveInvoiceSuccess,
     sendPdfSuccess,
     sendPdfError,
@@ -158,14 +159,22 @@ export const InvoiceContextProvider = ({
         body: JSON.stringify(data),
       });
 
+      if (!response.ok) {
+        pdfGenerationError();
+        return;
+      }
+
       const result = await response.blob();
       setInvoicePdf(result);
 
       if (result.size > 0) {
         pdfGenerationSuccess();
+      } else {
+        pdfGenerationError();
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      pdfGenerationError();
     } finally {
       setInvoicePdfLoading(false);
     }
@@ -261,7 +270,7 @@ export const InvoiceContextProvider = ({
     const fd = new FormData();
     fd.append("email", email);
     fd.append("invoicePdf", invoicePdf, "invoice.pdf");
-    fd.append("invoiceNumber", getValues().details.invoiceNumber);
+    fd.append("invoiceNumber", getValues().details.invoiceNumber ?? "");
 
     return fetch(SEND_PDF_API, {
       method: "POST",

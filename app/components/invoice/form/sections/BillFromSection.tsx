@@ -29,10 +29,7 @@ const BillFromSection = () => {
     });
 
     const addNewCustomInput = () => {
-        append({
-            key: "",
-            value: "",
-        });
+        append({ key: "", value: "" });
     };
 
     const removeCustomInput = (index: number) => {
@@ -42,65 +39,96 @@ const BillFromSection = () => {
     return (
         <section className="flex flex-col gap-3">
             <Subheading>{_t("form.steps.fromAndTo.billFrom")}:</Subheading>
+
             <FormInput
                 name="sender.name"
                 label={_t("form.steps.fromAndTo.name")}
                 placeholder="Your name"
+                vertical
+                className="w-full"
             />
             <FormInput
                 name="sender.address"
                 label={_t("form.steps.fromAndTo.address")}
                 placeholder="Your address"
+                vertical
+                className="w-full"
             />
-            <FormInput
-                name="sender.zipCode"
-                label={_t("form.steps.fromAndTo.zipCode")}
-                placeholder="Your zip code"
-            />
-            <FormInput
-                name="sender.city"
-                label={_t("form.steps.fromAndTo.city")}
-                placeholder="Your city"
-            />
+
+            <div className="grid grid-cols-2 gap-3">
+                <FormInput
+                    name="sender.zipCode"
+                    label={_t("form.steps.fromAndTo.zipCode")}
+                    placeholder="Zip code"
+                    vertical
+                    className="w-full"
+                />
+                <FormInput
+                    name="sender.city"
+                    label={_t("form.steps.fromAndTo.city")}
+                    placeholder="City"
+                    vertical
+                    className="w-full"
+                />
+            </div>
+
             <FormInput
                 name="sender.country"
                 label={_t("form.steps.fromAndTo.country")}
                 placeholder="Your country"
+                vertical
+                className="w-full"
             />
-            <FormInput
-                name="sender.email"
-                label={_t("form.steps.fromAndTo.email")}
-                placeholder="Your email"
-            />
-            <FormInput
-                name="sender.phone"
-                label={_t("form.steps.fromAndTo.phone")}
-                placeholder="Your phone number"
-                type="text"
-                inputMode="tel"
-                pattern="[0-9+\-\(\)\s]*"
-                aria-describedby="phone-format"
-                onInput={(e) => {
-                    const target = e.target as HTMLInputElement;
-                    target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
-                }}
-            />
-            <FormInput
-                name="sender.gst"
-                label="GST"
-                placeholder="GST Number"
-            />
-            <FormInput
-                name="sender.iecNo"
-                label="IEC No"
-                placeholder="IEC Number"
-            />
+
+            <div className="grid grid-cols-2 gap-3">
+                <FormInput
+                    name="sender.email"
+                    label={_t("form.steps.fromAndTo.email")}
+                    placeholder="Email"
+                    vertical
+                    className="w-full"
+                />
+                <FormInput
+                    name="sender.phone"
+                    label={_t("form.steps.fromAndTo.phone")}
+                    placeholder="Phone"
+                    vertical
+                    className="w-full"
+                    type="text"
+                    inputMode="tel"
+                    pattern="[0-9+\-\(\)\s]*"
+                    onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
+                    }}
+                />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+                <FormInput
+                    name="sender.gst"
+                    label="GST"
+                    placeholder="GST Number"
+                    vertical
+                    className="w-full"
+                />
+                <FormInput
+                    name="sender.iecNo"
+                    label="IEC No"
+                    placeholder="IEC Number"
+                    vertical
+                    className="w-full"
+                />
+            </div>
+
             <FormInput
                 name="sender.adCode"
                 label="AD Code"
                 placeholder="Authorized Dealer Code"
+                vertical
+                className="w-full"
             />
-            {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
+
             {fields?.map((field, index) => (
                 <FormCustomInput
                     key={field.id}
@@ -109,6 +137,7 @@ const BillFromSection = () => {
                     removeField={removeCustomInput}
                 />
             ))}
+
             <BaseButton
                 tooltipLabel="Add custom input to sender"
                 size="sm"

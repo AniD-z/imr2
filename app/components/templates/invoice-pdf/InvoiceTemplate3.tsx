@@ -6,9 +6,6 @@ import { InvoiceLayout } from "@/app/components";
 // Helpers
 import { formatNumberWithCommas, isDataUrl } from "@/lib/helpers";
 
-// Variables
-import { DATE_OPTIONS } from "@/lib/variables";
-
 // Types
 import { InvoiceType } from "@/types";
 
@@ -61,7 +58,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 								{sender.city} - {sender.zipCode},
 							</div>
 							<div>{sender.country}.</div>
-							{sender.gst && <div>GST:{sender.gst}</div>}
+							{sender.gst && <div>GST: {sender.gst}</div>}
 							{sender.iecNo && <div>IEC No: {sender.iecNo}</div>}
 							{sender.adCode && <div>AD Code: {sender.adCode}</div>}
 						</div>
@@ -73,7 +70,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 							<div className='p-2 text-sm'><span className='font-semibold'>Invoice No: </span>{details.invoiceNumber}</div>
 						</div>
 						<div className='border-b border-gray-900'>
-							<div className='p-2 text-sm'><span className='font-semibold'>Date: </span>{new Date(details.invoiceDate).toLocaleDateString("en-US", DATE_OPTIONS)}</div>
+							<div className='p-2 text-sm'><span className='font-semibold'>Date: </span>{details.invoiceDate ?? ""}</div>
 						</div>
 						<div className='grid grid-cols-2 border-b border-gray-900'>
 						<div className='p-2 border-r border-gray-900'>

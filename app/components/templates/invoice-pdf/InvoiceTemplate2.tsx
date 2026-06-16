@@ -4,9 +4,6 @@ import { InvoiceLayout } from "@/app/components";
 // Helpers
 import { formatNumberWithCommas, isDataUrl } from "@/lib/helpers";
 
-// Variables
-import { DATE_OPTIONS } from "@/lib/variables";
-
 // Types
 import { InvoiceType } from "@/types";
 
@@ -112,9 +109,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                 Invoice date:
                             </dt>
                             <dd className="col-span-3 text-gray-500">
-                                {new Date(
-                                    details.invoiceDate
-                                ).toLocaleDateString("en-US", DATE_OPTIONS)}
+                                {details.invoiceDate ?? ""}
                             </dd>
                         </dl>
                         <dl className="grid sm:grid-cols-6 gap-x-3">
@@ -122,10 +117,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                 Due date:
                             </dt>
                             <dd className="col-span-3 text-gray-500">
-                                {new Date(details.dueDate).toLocaleDateString(
-                                    "en-US",
-                                    DATE_OPTIONS
-                                )}
+                                {details.dueDate ?? ""}
                             </dd>
                         </dl>
                     </div>

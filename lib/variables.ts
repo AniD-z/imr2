@@ -113,9 +113,14 @@ export const FORM_DEFAULT_VALUES = {
     email: "",
     phone: "",
     gst: "36AAGCI8227A1ZS",
-    iecNo: "",
+    iecNo: "AAGCI8227A",
     adCode: "6360846-9030761",
-    customInputs: [],
+    customInputs: [
+      { key: "PAN No", value: "AAGCI8277" },
+      { key: "TAN No", value: "HYD107889A" },
+      { key: "PF No", value: "NZWGL2745662000" },
+      { key: "ESI No", value: "52001145320000999" },
+    ],
   },
   receiver: {
     name: "",
@@ -315,15 +320,15 @@ export const FORM_FILL_VALUES = {
 
 export const PACKING_LIST_DEFAULT_VALUES = {
   exporter: {
-    name: "",
-    address: "",
-    zipCode: "",
-    city: "",
-    country: "INDIA",
+    name: "M/s. IMR Engineering Services (OPC) Private Limited",
+    address: "H.No15-11-28/204, VDOS Colony",
+    zipCode: "507001",
+    city: "Khammam",
+    country: "Telangana - INDIA",
     email: "",
     phone: "",
-    gst: "",
-    adCode: "",
+    gst: "36AAGCI8227A1ZS",
+    adCode: "6360846-9030761",
   },
   consignee: {
     name: "",
@@ -349,7 +354,7 @@ export const PACKING_LIST_DEFAULT_VALUES = {
     invoiceNumber: "",
     buyerOrderNumber: "",
     referenceNumber: "",
-    iecNo: "",
+    iecNo: "AAGCI8227A",
     freightMode: "",
     portOfLoading: "",
     countryOfOrigin: "",

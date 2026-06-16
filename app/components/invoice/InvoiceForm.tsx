@@ -98,9 +98,9 @@ const InvoiceForm = () => {
                     <div className="space-y-8">
                         <Wizard>
                             <WizardStep>
-                                <div className="flex gap-x-20 gap-y-10">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                     <BillFromSection />
-
+                                    <div className="hidden lg:block w-px bg-border self-stretch" />
                                     <BillToSection />
                                 </div>
                             </WizardStep>

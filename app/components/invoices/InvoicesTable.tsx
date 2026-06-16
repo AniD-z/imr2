@@ -248,10 +248,12 @@ export default function InvoicesTable({ invoices, locale }: InvoicesTableProps) 
                       {invoice.invoice_date}
                     </TableCell>
                     <TableCell className="font-semibold whitespace-nowrap">
-                      ${invoice.total.toLocaleString("en-US", {
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: invoice.currency || "INR",
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
-                      })}
+                      }).format(invoice.total)}
                     </TableCell>
                     <TableCell>
                       <Badge

@@ -14,6 +14,7 @@ export type SheetInvoiceRow = {
   subtotal: number;
   tax: number;
   total: number;
+  currency: string;
   status: string;
   created_at: string;
   pdf_url: string;
@@ -113,21 +114,27 @@ export async function getAllInvoices(): Promise<SheetInvoiceRow[]> {
   const sheet = await getSheet();
   const rows = await sheet.getRows();
 
-  const invoices: SheetInvoiceRow[] = rows.map((row) => ({
-    invoice_number: parseInt(row.get("invoice_number") || "0", 10),
-    customer_name: row.get("customer_name") || "",
-    customer_email: row.get("customer_email") || "",
-    invoice_date: row.get("invoice_date") || "",
-    due_date: row.get("due_date") || "",
-    items: row.get("items") || "[]",
-    subtotal: parseFloat(row.get("subtotal") || "0"),
-    tax: parseFloat(row.get("tax") || "0"),
-    total: parseFloat(row.get("total") || "0"),
-    status: row.get("status") || "draft",
-    created_at: row.get("created_at") || "",
-    pdf_url: row.get("pdf_url") || "",
-    full_data: row.get("full_data") || "{}",
-  }));
+  const invoices: SheetInvoiceRow[] = rows.map((row) => {
+    const fullData = row.get("full_data") || "{}";
+    let currency = "INR";
+    try { currency = JSON.parse(fullData)?.details?.currency || "INR"; } catch {}
+    return {
+      invoice_number: parseInt(row.get("invoice_number") || "0", 10),
+      customer_name: row.get("customer_name") || "",
+      customer_email: row.get("customer_email") || "",
+      invoice_date: row.get("invoice_date") || "",
+      due_date: row.get("due_date") || "",
+      items: row.get("items") || "[]",
+      subtotal: parseFloat(row.get("subtotal") || "0"),
+      tax: parseFloat(row.get("tax") || "0"),
+      total: parseFloat(row.get("total") || "0"),
+      currency,
+      status: row.get("status") || "draft",
+      created_at: row.get("created_at") || "",
+      pdf_url: row.get("pdf_url") || "",
+      full_data: fullData,
+    };
+  });
 
   // Sort by invoice_number descending
   invoices.sort((a, b) => b.invoice_number - a.invoice_number);
@@ -150,6 +157,10 @@ export async function getInvoiceByNumber(
 
   if (!row) return null;
 
+  const fullData = row.get("full_data") || "{}";
+  let currency = "INR";
+  try { currency = JSON.parse(fullData)?.details?.currency || "INR"; } catch {}
+
   return {
     invoice_number: parseInt(row.get("invoice_number") || "0", 10),
     customer_name: row.get("customer_name") || "",
@@ -160,10 +171,11 @@ export async function getInvoiceByNumber(
     subtotal: parseFloat(row.get("subtotal") || "0"),
     tax: parseFloat(row.get("tax") || "0"),
     total: parseFloat(row.get("total") || "0"),
+    currency,
     status: row.get("status") || "draft",
     created_at: row.get("created_at") || "",
     pdf_url: row.get("pdf_url") || "",
-    full_data: row.get("full_data") || "{}",
+    full_data: fullData,
   };
 }
 
@@ -177,6 +189,9 @@ export async function createInvoice(
   const invoiceNumber = await getNextInvoiceNumber();
   const createdAt = new Date().toISOString();
 
+  let parsedCurrency = "INR";
+  try { parsedCurrency = JSON.parse(data.full_data)?.details?.currency || "INR"; } catch {}
+
   const rowData = {
     invoice_number: invoiceNumber,
     customer_name: data.customer_name,
@@ -187,6 +202,7 @@ export async function createInvoice(
     subtotal: data.subtotal,
     tax: data.tax,
     total: data.total,
+    currency: data.currency || parsedCurrency,
     status: data.status || "draft",
     created_at: createdAt,
     pdf_url: data.pdf_url || "",
@@ -232,6 +248,10 @@ export async function updateInvoiceByNumber(
 
   await row.save();
 
+  const updatedFullData = row.get("full_data") || "{}";
+  let updatedCurrency = "INR";
+  try { updatedCurrency = JSON.parse(updatedFullData)?.details?.currency || "INR"; } catch {}
+
   return {
     invoice_number: invoiceNumber,
     customer_name: row.get("customer_name") || "",
@@ -242,10 +262,11 @@ export async function updateInvoiceByNumber(
     subtotal: parseFloat(row.get("subtotal") || "0"),
     tax: parseFloat(row.get("tax") || "0"),
     total: parseFloat(row.get("total") || "0"),
+    currency: updatedCurrency,
     status: row.get("status") || "draft",
     created_at: row.get("created_at") || "",
     pdf_url: row.get("pdf_url") || "",
-    full_data: row.get("full_data") || "{}",
+    full_data: updatedFullData,
   };
 }
 

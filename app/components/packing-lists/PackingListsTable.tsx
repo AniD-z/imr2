@@ -172,7 +172,7 @@ export default function PackingListsTable({ packingLists, locale }: PackingLists
               Manage your packing lists stored in Google Sheets
             </CardDescription>
           </div>
-          <Link href={`/${locale}/new`}>
+          <Link href={`/${locale}/new?tab=packing-list`}>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
               New Packing List

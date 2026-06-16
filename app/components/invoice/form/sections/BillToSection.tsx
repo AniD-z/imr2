@@ -30,10 +30,7 @@ const BillToSection = () => {
     });
 
     const addNewCustomInput = () => {
-        append({
-            key: "",
-            value: "",
-        });
+        append({ key: "", value: "" });
     };
 
     const removeCustomInput = (index: number) => {
@@ -43,50 +40,71 @@ const BillToSection = () => {
     return (
         <section className="flex flex-col gap-3">
             <Subheading>{_t("form.steps.fromAndTo.billTo")}:</Subheading>
+
             <FormInput
                 name="receiver.name"
                 label={_t("form.steps.fromAndTo.name")}
                 placeholder="Receiver name"
+                vertical
+                className="w-full"
             />
             <FormInput
                 name="receiver.address"
                 label={_t("form.steps.fromAndTo.address")}
                 placeholder="Receiver address"
+                vertical
+                className="w-full"
             />
-            <FormInput
-                name="receiver.zipCode"
-                label={_t("form.steps.fromAndTo.zipCode")}
-                placeholder="Receiver zip code"
-            />
-            <FormInput
-                name="receiver.city"
-                label={_t("form.steps.fromAndTo.city")}
-                placeholder="Receiver city"
-            />
+
+            <div className="grid grid-cols-2 gap-3">
+                <FormInput
+                    name="receiver.zipCode"
+                    label={_t("form.steps.fromAndTo.zipCode")}
+                    placeholder="Zip code"
+                    vertical
+                    className="w-full"
+                />
+                <FormInput
+                    name="receiver.city"
+                    label={_t("form.steps.fromAndTo.city")}
+                    placeholder="City"
+                    vertical
+                    className="w-full"
+                />
+            </div>
+
             <FormInput
                 name="receiver.country"
                 label={_t("form.steps.fromAndTo.country")}
                 placeholder="Receiver country"
+                vertical
+                className="w-full"
             />
-            <FormInput
-                name="receiver.email"
-                label={_t("form.steps.fromAndTo.email")}
-                placeholder="Receiver email"
-            />
-            <FormInput
-                name="receiver.phone"
-                label={_t("form.steps.fromAndTo.phone")}
-                placeholder="Receiver phone number"
-                type="text"
-                inputMode="tel"
-                pattern="[0-9+\-\(\)\s]*"
-                aria-describedby="phone-format"
-                onInput={(e) => {
-                    const target = e.target as HTMLInputElement;
-                    target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
-                }}
-            />
-            {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
+
+            <div className="grid grid-cols-2 gap-3">
+                <FormInput
+                    name="receiver.email"
+                    label={_t("form.steps.fromAndTo.email")}
+                    placeholder="Email"
+                    vertical
+                    className="w-full"
+                />
+                <FormInput
+                    name="receiver.phone"
+                    label={_t("form.steps.fromAndTo.phone")}
+                    placeholder="Phone"
+                    vertical
+                    className="w-full"
+                    type="text"
+                    inputMode="tel"
+                    pattern="[0-9+\-\(\)\s]*"
+                    onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
+                    }}
+                />
+            </div>
+
             {fields?.map((field, index) => (
                 <FormCustomInput
                     key={field.id}
@@ -95,6 +113,7 @@ const BillToSection = () => {
                     removeField={removeCustomInput}
                 />
             ))}
+
             <BaseButton
                 tooltipLabel="Add custom input to receiver"
                 size="sm"

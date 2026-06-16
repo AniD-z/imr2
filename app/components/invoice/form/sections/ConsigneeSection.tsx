@@ -1,65 +1,77 @@
 "use client";
 
-// RHF
-import { useFormContext } from "react-hook-form";
-
 // Components
-import {
-    FormInput,
-    Subheading,
-} from "@/app/components";
-
-// Contexts
-import { useTranslationContext } from "@/contexts/TranslationContext";
+import { FormInput, Subheading } from "@/app/components";
 
 const ConsigneeSection = () => {
-    const { _t } = useTranslationContext();
-
     return (
-        <section className="flex flex-col gap-3">
+        <section className="flex flex-col gap-3 max-w-xl">
             <Subheading>Consignee (Ship to):</Subheading>
+            <p className="text-sm text-muted-foreground -mt-1">All fields are optional</p>
+
             <FormInput
                 name="consignee.name"
                 label="Consignee Name"
                 placeholder="Consignee name"
+                vertical
+                className="w-full"
             />
             <FormInput
                 name="consignee.address"
-                label="Consignee Address"
+                label="Address"
                 placeholder="Consignee address"
+                vertical
+                className="w-full"
             />
-            <FormInput
-                name="consignee.zipCode"
-                label="Zip Code"
-                placeholder="Consignee zip code"
-            />
-            <FormInput
-                name="consignee.city"
-                label="City"
-                placeholder="Consignee city"
-            />
+
+            <div className="grid grid-cols-2 gap-3">
+                <FormInput
+                    name="consignee.zipCode"
+                    label="Zip Code"
+                    placeholder="Zip code"
+                    vertical
+                    className="w-full"
+                />
+                <FormInput
+                    name="consignee.city"
+                    label="City"
+                    placeholder="City"
+                    vertical
+                    className="w-full"
+                />
+            </div>
+
             <FormInput
                 name="consignee.country"
                 label="Country"
-                placeholder="Consignee country"
+                placeholder="Country"
+                vertical
+                className="w-full"
             />
-            <FormInput
-                name="consignee.email"
-                label="Email (Optional)"
-                placeholder="Consignee email"
-            />
-            <FormInput
-                name="consignee.phone"
-                label="Phone (Optional)"
-                placeholder="Consignee phone number"
-                type="text"
-                inputMode="tel"
-                pattern="[0-9+\\-\\(\\)\\s]*"
-                onInput={(e) => {
-                    const target = e.target as HTMLInputElement;
-                    target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
-                }}
-            />
+
+            <div className="grid grid-cols-2 gap-3">
+                <FormInput
+                    name="consignee.email"
+                    label="Email"
+                    placeholder="Email"
+                    vertical
+                    className="w-full"
+                />
+                <FormInput
+                    name="consignee.phone"
+                    label="Phone"
+                    placeholder="Phone"
+                    vertical
+                    className="w-full"
+                    type="text"
+                    inputMode="tel"
+                    pattern="[0-9+\-\(\)\s]*"
+                    onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
+                    }}
+                />
+            </div>
         </section>
     );
 };

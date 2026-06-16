@@ -85,6 +85,12 @@ const fieldValidators = {
         .transform((date) =>
             new Date(date).toLocaleDateString("en-US", DATE_OPTIONS)
         ),
+    dateOptional: z
+        .date()
+        .transform((date) =>
+            new Date(date).toLocaleDateString("en-US", DATE_OPTIONS)
+        )
+        .optional(),
 
     // Items
     quantity: z.coerce
@@ -125,7 +131,7 @@ const CustomInputSchema = z.object({
 });
 
 const InvoiceSenderSchema = z.object({
-    name: fieldValidators.name,
+    name: fieldValidators.nameOptional,
     address: fieldValidators.addressOptional,
     zipCode: fieldValidators.zipCodeOptional,
     city: fieldValidators.cityOptional,
@@ -139,7 +145,7 @@ const InvoiceSenderSchema = z.object({
 });
 
 const InvoiceReceiverSchema = z.object({
-    name: fieldValidators.name,
+    name: fieldValidators.nameOptional,
     address: fieldValidators.addressOptional,
     zipCode: fieldValidators.zipCodeOptional,
     city: fieldValidators.cityOptional,
@@ -211,9 +217,9 @@ const SignatoryDetailsSchema = z.object({
 const InvoiceDetailsSchema = z.object({
     invoiceLogo: fieldValidators.stringOptional,
     headerImage: fieldValidators.stringOptional, // Company header image (base64)
-    invoiceNumber: fieldValidators.stringMin1,
-    invoiceDate: fieldValidators.date,
-    dueDate: fieldValidators.date,
+    invoiceNumber: fieldValidators.stringOptional,
+    invoiceDate: fieldValidators.dateOptional,
+    dueDate: fieldValidators.dateOptional,
     purchaseOrderNumber: fieldValidators.stringOptional,
     modeOfPayment: fieldValidators.stringOptional,
     referenceNumbers: fieldValidators.stringOptional, // For multiple reference numbers with dates
@@ -241,7 +247,7 @@ const InvoiceDetailsSchema = z.object({
     totalAmount: fieldValidators.nonNegativeNumber,
     totalAmountInWords: fieldValidators.string,
     additionalNotes: fieldValidators.stringOptional,
-    paymentTerms: fieldValidators.stringMin1,
+    paymentTerms: fieldValidators.stringOptional,
     signature: SignatureSchema.optional(),
     signatoryDetails: SignatoryDetailsSchema.optional(),
     updatedAt: fieldValidators.stringOptional,
