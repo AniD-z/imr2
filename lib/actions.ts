@@ -88,6 +88,7 @@ export async function createNewInvoice(
       subtotal,
       tax,
       total,
+      currency: "",
       status,
       pdf_url: "",
       full_data: fullData,
