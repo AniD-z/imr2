@@ -36,7 +36,7 @@ const InvoiceDetails = () => {
                         className="w-full"
                     />
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <DatePickerFormField
                             name="details.invoiceDate"
                             label={_t("form.steps.invoiceDetails.issuedDate")}
