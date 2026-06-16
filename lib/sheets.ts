@@ -1,7 +1,32 @@
 "use server";
 
-import { GoogleSpreadsheet } from "google-spreadsheet";
+import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
+
+// ============================================
+// IN-MEMORY CACHE
+// ============================================
+// Data cache: 60 seconds TTL (invalidated on writes)
+const DATA_TTL_MS = 60_000;
+// Sheet connection cache: 25 minutes TTL (JWT tokens last ~1 hour)
+const SHEET_TTL_MS = 25 * 60_000;
+
+const _cache = new Map<string, { value: unknown; expiresAt: number }>();
+
+function getFromCache<T>(key: string): T | null {
+  const entry = _cache.get(key);
+  if (entry && Date.now() < entry.expiresAt) return entry.value as T;
+  _cache.delete(key);
+  return null;
+}
+
+function setInCache<T>(key: string, value: T, ttl = DATA_TTL_MS): void {
+  _cache.set(key, { value, expiresAt: Date.now() + ttl });
+}
+
+function invalidateCache(...keys: string[]): void {
+  keys.forEach((k) => _cache.delete(k));
+}
 
 // Types for sheet rows
 export type SheetInvoiceRow = {
@@ -40,9 +65,17 @@ const SHEET_HEADERS = [
 ];
 
 /**
- * Gets an authenticated Google Spreadsheet instance
+ * Returns an authenticated sheet tab, caching the reference for 25 minutes.
+ * Avoids calling doc.loadInfo() + loadHeaderRow() on every request.
  */
-async function getSheet() {
+async function getNamedSheet(
+  title: string,
+  headers: string[]
+) {
+  const cacheKey = `sheet:${title}`;
+  const cached = getFromCache<GoogleSpreadsheetWorksheet>(cacheKey);
+  if (cached) return cached;
+
   const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
   const sheetId = process.env.GOOGLE_SHEET_ID;
 
@@ -52,10 +85,10 @@ async function getSheet() {
     );
   }
 
-  let credentials;
+  let credentials: { client_email: string; private_key: string };
   try {
     credentials = JSON.parse(serviceAccountJson);
-  } catch (error) {
+  } catch {
     throw new Error(
       "Invalid GOOGLE_SERVICE_ACCOUNT_JSON format. Please ensure it's valid JSON."
     );
@@ -70,47 +103,47 @@ async function getSheet() {
   const doc = new GoogleSpreadsheet(sheetId, jwt);
   await doc.loadInfo();
 
-  // Get or create the "Invoice" sheet
-  let sheet = doc.sheetsByTitle["Invoice"];
-
+  let sheet = doc.sheetsByTitle[title];
   if (!sheet) {
-    sheet = await doc.addSheet({
-      title: "Invoice",
-      headerValues: SHEET_HEADERS,
-    });
+    sheet = await doc.addSheet({ title, headerValues: headers });
   } else {
-    // Ensure headers exist
     try {
       await sheet.loadHeaderRow();
     } catch {
-      await sheet.setHeaderRow(SHEET_HEADERS);
+      await sheet.setHeaderRow(headers);
     }
   }
 
+  setInCache(cacheKey, sheet, SHEET_TTL_MS);
   return sheet;
 }
 
+const getSheet = () => getNamedSheet("Invoice", SHEET_HEADERS);
+
 /**
- * Gets the next auto-incremented invoice number
+ * Gets the next auto-incremented invoice number.
+ * Uses the list cache when available to avoid an extra API call.
  */
 export async function getNextInvoiceNumber(): Promise<number> {
+  const list = getFromCache<SheetInvoiceRow[]>("invoices");
+  if (list && list.length > 0) {
+    return Math.max(...list.map((r) => r.invoice_number)) + 1;
+  }
+  if (list) return 1; // empty cached list
+
   const sheet = await getSheet();
   const rows = await sheet.getRows();
-
   if (rows.length === 0) return 1;
-
-  const maxNumber = rows.reduce((max, row) => {
-    const num = parseInt(row.get("invoice_number") || "0", 10);
-    return num > max ? num : max;
-  }, 0);
-
-  return maxNumber + 1;
+  return Math.max(...rows.map((r) => parseInt(r.get("invoice_number") || "0", 10))) + 1;
 }
 
 /**
  * Gets all invoices from the sheet, sorted by invoice_number desc
  */
 export async function getAllInvoices(): Promise<SheetInvoiceRow[]> {
+  const cached = getFromCache<SheetInvoiceRow[]>("invoices");
+  if (cached) return cached;
+
   const sheet = await getSheet();
   const rows = await sheet.getRows();
 
@@ -139,6 +172,7 @@ export async function getAllInvoices(): Promise<SheetInvoiceRow[]> {
   // Sort by invoice_number descending
   invoices.sort((a, b) => b.invoice_number - a.invoice_number);
 
+  setInCache("invoices", invoices);
   return invoices;
 }
 
@@ -148,6 +182,18 @@ export async function getAllInvoices(): Promise<SheetInvoiceRow[]> {
 export async function getInvoiceByNumber(
   invoiceNumber: number
 ): Promise<SheetInvoiceRow | null> {
+  const cacheKey = `invoice-${invoiceNumber}`;
+  const cached = getFromCache<SheetInvoiceRow>(cacheKey);
+  if (cached) return cached;
+
+  // Derive from list cache if available — avoids a second API round-trip
+  const list = getFromCache<SheetInvoiceRow[]>("invoices");
+  if (list) {
+    const found = list.find((r) => r.invoice_number === invoiceNumber) ?? null;
+    if (found) setInCache(cacheKey, found);
+    return found;
+  }
+
   const sheet = await getSheet();
   const rows = await sheet.getRows();
 
@@ -161,7 +207,7 @@ export async function getInvoiceByNumber(
   let currency = "INR";
   try { currency = JSON.parse(fullData)?.details?.currency || "INR"; } catch {}
 
-  return {
+  const result: SheetInvoiceRow = {
     invoice_number: parseInt(row.get("invoice_number") || "0", 10),
     customer_name: row.get("customer_name") || "",
     customer_email: row.get("customer_email") || "",
@@ -177,6 +223,8 @@ export async function getInvoiceByNumber(
     pdf_url: row.get("pdf_url") || "",
     full_data: fullData,
   };
+  setInCache(`invoice-${invoiceNumber}`, result);
+  return result;
 }
 
 /**
@@ -210,6 +258,7 @@ export async function createInvoice(
   };
 
   await sheet.addRow(rowData);
+  invalidateCache("invoices");
 
   return { ...rowData, invoice_number: invoiceNumber, created_at: createdAt };
 }
@@ -247,6 +296,7 @@ export async function updateInvoiceByNumber(
   if (data.full_data !== undefined) row.set("full_data", data.full_data);
 
   await row.save();
+  invalidateCache("invoices", `invoice-${invoiceNumber}`);
 
   const updatedFullData = row.get("full_data") || "{}";
   let updatedCurrency = "INR";
@@ -286,6 +336,7 @@ export async function deleteInvoiceByNumber(
   if (!row) return false;
 
   await row.delete();
+  invalidateCache("invoices", `invoice-${invoiceNumber}`);
   return true;
 }
 
@@ -329,78 +380,32 @@ const PACKING_LIST_HEADERS = [
   "full_data",
 ];
 
-/**
- * Gets or creates the PackingList sheet
- */
-async function getPackingListSheet() {
-  const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-  const sheetId = process.env.GOOGLE_SHEET_ID;
-
-  if (!serviceAccountJson || !sheetId) {
-    throw new Error(
-      "Missing Google Sheets environment variables. Please set GOOGLE_SERVICE_ACCOUNT_JSON and GOOGLE_SHEET_ID."
-    );
-  }
-
-  let credentials;
-  try {
-    credentials = JSON.parse(serviceAccountJson);
-  } catch (error) {
-    throw new Error(
-      "Invalid GOOGLE_SERVICE_ACCOUNT_JSON format. Please ensure it's valid JSON."
-    );
-  }
-
-  const jwt = new JWT({
-    email: credentials.client_email,
-    key: credentials.private_key,
-    scopes: SCOPES,
-  });
-
-  const doc = new GoogleSpreadsheet(sheetId, jwt);
-  await doc.loadInfo();
-
-  // Get or create the "PackingList" sheet
-  let sheet = doc.sheetsByTitle["PackingList"];
-
-  if (!sheet) {
-    sheet = await doc.addSheet({
-      title: "PackingList",
-      headerValues: PACKING_LIST_HEADERS,
-    });
-  } else {
-    // Ensure headers exist
-    try {
-      await sheet.loadHeaderRow();
-    } catch {
-      await sheet.setHeaderRow(PACKING_LIST_HEADERS);
-    }
-  }
-
-  return sheet;
-}
+const getPackingListSheet = () => getNamedSheet("PackingList", PACKING_LIST_HEADERS);
 
 /**
- * Gets the next auto-incremented packing list number
+ * Gets the next auto-incremented packing list number.
+ * Uses the list cache when available to avoid an extra API call.
  */
 export async function getNextPackingListNumber(): Promise<number> {
+  const list = getFromCache<SheetPackingListRow[]>("packing-lists");
+  if (list && list.length > 0) {
+    return Math.max(...list.map((r) => r.packing_list_number)) + 1;
+  }
+  if (list) return 1;
+
   const sheet = await getPackingListSheet();
   const rows = await sheet.getRows();
-
   if (rows.length === 0) return 1;
-
-  const maxNumber = rows.reduce((max, row) => {
-    const num = parseInt(row.get("packing_list_number") || "0", 10);
-    return num > max ? num : max;
-  }, 0);
-
-  return maxNumber + 1;
+  return Math.max(...rows.map((r) => parseInt(r.get("packing_list_number") || "0", 10))) + 1;
 }
 
 /**
  * Gets all packing lists from the sheet, sorted by packing_list_number desc
  */
 export async function getAllPackingLists(): Promise<SheetPackingListRow[]> {
+  const cached = getFromCache<SheetPackingListRow[]>("packing-lists");
+  if (cached) return cached;
+
   const sheet = await getPackingListSheet();
   const rows = await sheet.getRows();
 
@@ -425,6 +430,7 @@ export async function getAllPackingLists(): Promise<SheetPackingListRow[]> {
   // Sort by packing_list_number descending
   packingLists.sort((a, b) => b.packing_list_number - a.packing_list_number);
 
+  setInCache("packing-lists", packingLists);
   return packingLists;
 }
 
@@ -434,6 +440,18 @@ export async function getAllPackingLists(): Promise<SheetPackingListRow[]> {
 export async function getPackingListByNumber(
   packingListNumber: number
 ): Promise<SheetPackingListRow | null> {
+  const cacheKey = `packing-list-${packingListNumber}`;
+  const cached = getFromCache<SheetPackingListRow>(cacheKey);
+  if (cached) return cached;
+
+  // Derive from list cache if available — avoids a second API round-trip
+  const list = getFromCache<SheetPackingListRow[]>("packing-lists");
+  if (list) {
+    const found = list.find((r) => r.packing_list_number === packingListNumber) ?? null;
+    if (found) setInCache(cacheKey, found);
+    return found;
+  }
+
   const sheet = await getPackingListSheet();
   const rows = await sheet.getRows();
 
@@ -443,7 +461,7 @@ export async function getPackingListByNumber(
 
   if (!row) return null;
 
-  return {
+  const result: SheetPackingListRow = {
     packing_list_number: parseInt(row.get("packing_list_number") || "0", 10),
     exporter_name: row.get("exporter_name") || "",
     consignee_name: row.get("consignee_name") || "",
@@ -460,6 +478,8 @@ export async function getPackingListByNumber(
     pdf_url: row.get("pdf_url") || "",
     full_data: row.get("full_data") || "{}",
   };
+  setInCache(cacheKey, result);
+  return result;
 }
 
 /**
@@ -491,6 +511,7 @@ export async function createPackingList(
   };
 
   await sheet.addRow(rowData);
+  invalidateCache("packing-lists");
 
   return { ...rowData, packing_list_number: packingListNumber, created_at: createdAt };
 }
@@ -527,6 +548,7 @@ export async function updatePackingListByNumber(
   if (data.full_data !== undefined) row.set("full_data", data.full_data);
 
   await row.save();
+  invalidateCache("packing-lists", `packing-list-${packingListNumber}`);
 
   return {
     packing_list_number: packingListNumber,
@@ -563,5 +585,6 @@ export async function deletePackingListByNumber(
   if (!row) return false;
 
   await row.delete();
+  invalidateCache("packing-lists", `packing-list-${packingListNumber}`);
   return true;
 }
