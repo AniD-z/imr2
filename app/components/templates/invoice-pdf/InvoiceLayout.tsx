@@ -11,6 +11,7 @@ type InvoiceLayoutProps = {
 export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
     // Type guard to check if data is InvoiceType
     const isInvoice = 'sender' in data;
+    const isPackingList = !isInvoice;
     const isTemplate3Invoice = isInvoice && String(data.details.pdfTemplate) === "3";
     
     // For invoice signature font, handle conditionally
@@ -54,6 +55,14 @@ export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
                     .invoice-layout-template-3 .template3-footer-details {
                         display: none !important;
                     }
+                    /* Packing list: footer is rendered via Puppeteer footerTemplate */
+                    .packing-list-layout .packing-list-footer-html {
+                        display: none !important;
+                    }
+                    /* Suppress the invoice footer line for packing lists */
+                    .packing-list-layout .invoice-page-footer-line {
+                        display: none !important;
+                    }
                     .page-break-avoid {
                         page-break-inside: avoid;
                         break-inside: avoid;
@@ -86,7 +95,7 @@ export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
     );
 
     return (
-        <div className={isTemplate3Invoice ? "invoice-layout-template-3" : ""}>
+        <div className={isTemplate3Invoice ? "invoice-layout-template-3" : isPackingList ? "packing-list-layout" : ""}>
             {head}
             <section style={{ fontFamily: "Outfit, sans-serif" }}>
                 <div className="flex flex-col p-4 sm:p-10 bg-white rounded-xl min-h-[60rem]">

@@ -159,8 +159,8 @@ const PackingListTemplate = (data: PackingListType) => {
 				</div>
 			</div>
 
-			{/* Company Footer */}
-			<div className='template3-footer-details mt-8 pt-2 border-t border-gray-400 text-xs text-gray-800 page-break-avoid text-center'>
+			{/* Company Footer — visible in screen preview, hidden during print (Puppeteer stamps it via footerTemplate) */}
+			<div className='packing-list-footer-html mt-8 pt-2 border-t border-gray-400 text-xs text-gray-800 page-break-avoid text-center'>
 				<p>
 					<span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com
 					{" | "}
