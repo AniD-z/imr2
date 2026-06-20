@@ -160,15 +160,17 @@ const PackingListTemplate = (data: PackingListType) => {
 			</div>
 
 			{/* Company Footer */}
-			<div className='template3-footer-details mt-8 pt-2 border-t border-gray-400 text-xs text-gray-800 page-break-avoid text-center space-y-1'>
-				<p><span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com</p>
+			<div className='template3-footer-details mt-8 pt-2 border-t border-gray-400 text-xs text-gray-800 page-break-avoid text-center'>
 				<p>
+					<span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com
+					{" | "}
 					<span className='font-semibold'>Website :</span>{" "}
 					<a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>
 						https://www.imrengineeringservices.in/
 					</a>
+					{" | "}
+					<span className='font-semibold'>GSTIN :</span> 36AAGCI8227A1ZS
 				</p>
-				<p><span className='font-semibold'>GSTIN :</span> 36AAGCI8227A1ZS</p>
 			</div>
 		</InvoiceLayout>
 	);
