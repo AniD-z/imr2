@@ -147,26 +147,6 @@ const PackingListTemplate = (data: PackingListType) => {
 				</div>
 			</div>
 
-			{/* Total Summary */}
-			<div className='mt-3'>
-				<div className='border-2 border-gray-900 p-4'>
-					<div className='grid grid-cols-2 gap-4'>
-						<div>
-							<span className='font-bold text-sm'>Total Net Weight:</span>
-							<span className='ml-2 text-sm'>{formatNumberWithCommas(totalNetWeight)} KG</span>
-						</div>
-						<div>
-							<span className='font-bold text-sm'>Total Gross Weight:</span>
-							<span className='ml-2 text-sm'>{formatNumberWithCommas(totalGrossWeight)} KG</span>
-						</div>
-					</div>
-					<div className='mt-4'>
-						<span className='font-bold text-sm'>Total Number of Boxes:</span>
-						<span className='ml-2 text-sm'>{details.items.length}</span>
-					</div>
-				</div>
-			</div>
-
 			{/* Signature Section */}
 			<div className='mt-4 page-break-avoid'>
 				<div className='border-2 border-gray-900'>
@@ -179,28 +159,16 @@ const PackingListTemplate = (data: PackingListType) => {
 				</div>
 			</div>
 
-			{/* Footer Note */}
-			<div className='mt-6 text-sm text-gray-600 page-break-avoid'>
-				<p className='italic'>This packing list is issued for customs clearance purposes.</p>
-			</div>
-
 			{/* Company Footer */}
-			<div className='mt-8 text-xs text-gray-800 page-break-avoid'>
-				<div className='grid grid-cols-2 gap-4'>
-					<div>
-						<p className='mb-1'><span className='font-semibold'>Head Office :</span> H.No. 15-11-28/204, VDOS Colony, HYDERABAD, Telangana, INDIA. Pin:500 201</p>
-						<p className='mb-1'><span className='font-semibold'>CELL No :</span> 9059597743</p>
-						<p className='mb-1'><span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com</p>
-					<p><span className='font-semibold'>Website :</span> <a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>https://www.imrengineeringservices.in/</a></p>
-					</div>
-					<div>
-						<p className='mb-1'><span className='font-semibold'>CIN No :</span> U52599TG2020PLC166005</p>
-						<p className='mb-1'><span className='font-semibold'>GSTIN :</span> 36AAGCI8221A1S</p>
-						<p className='mb-1'><span className='font-semibold'>PAN :</span> AAGC18221A</p>
-						<p className='mb-1'><span className='font-semibold'>IEC No :</span> AAGC18227A</p>
-						<p><span className='font-semibold'>TAN No :</span> HYD107889A</p>
-					</div>
-				</div>
+			<div className='template3-footer-details mt-8 pt-2 border-t border-gray-400 text-xs text-gray-800 page-break-avoid text-center space-y-1'>
+				<p><span className='font-semibold'>E-Mail :</span> mail.imrengineeringsg@gmail.com</p>
+				<p>
+					<span className='font-semibold'>Website :</span>{" "}
+					<a href='https://www.imrengineeringservices.in/' target='_blank' rel='noopener noreferrer' className='text-blue-600'>
+						https://www.imrengineeringservices.in/
+					</a>
+				</p>
+				<p><span className='font-semibold'>GSTIN :</span> 36AAGCI8227A1ZS</p>
 			</div>
 		</InvoiceLayout>
 	);

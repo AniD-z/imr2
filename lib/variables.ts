@@ -295,7 +295,7 @@ export const FORM_FILL_VALUES = {
       swiftCode: "SWIFT123",
       adCode: "AD123456",
     },
-    additionalNotes: "Thank you for your business",
+    additionalNotes: "",
     paymentTerms: "Net 30",
     signature: {
       data: "",

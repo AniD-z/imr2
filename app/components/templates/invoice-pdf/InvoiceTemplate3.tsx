@@ -361,7 +361,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 						https://www.imrengineeringservices.in/
 					</a>
 				</p>
-				<p><span className='font-semibold'>GSTIN :</span> 36AAGCI8221A1S</p>
+				<p><span className='font-semibold'>GSTIN :</span> 36AAGCI8227A1ZS</p>
 			</div>
 		</InvoiceLayout>
 	);

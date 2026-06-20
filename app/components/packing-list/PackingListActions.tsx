@@ -23,6 +23,9 @@ import { createNewPackingList, updateExistingPackingList } from "@/lib/actions";
 // Types
 import { PackingListType } from "@/types";
 
+// Components
+import PackingListPreview from "./PackingListPreview";
+
 // Icons
 import { Save, Loader2, FileInput } from "lucide-react";
 
@@ -203,6 +206,11 @@ const PackingListActions = ({ editMode, packingListNumber }: PackingListActionsP
             {generating ? <Loader2 className="animate-spin" /> : <FileInput />}
             {generating ? "Generating..." : "Generate PDF"}
           </BaseButton>
+
+          {/* Live Preview */}
+          <div className="w-full">
+            <PackingListPreview />
+          </div>
         </CardContent>
       </Card>
     </div>

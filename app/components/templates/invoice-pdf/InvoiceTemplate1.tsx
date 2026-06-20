@@ -221,10 +221,6 @@ const InvoiceTemplate = (data: InvoiceType) => {
 			<div className='page-break-avoid'>
 				<div className='my-4'>
 					<div className='my-2'>
-						<p className='font-semibold text-blue-600'>Additional notes:</p>
-						<p className='font-regular text-gray-800'>{details.additionalNotes}</p>
-					</div>
-					<div className='my-2'>
 						<p className='font-semibold text-blue-600'>Payment terms:</p>
 						<p className='font-regular text-gray-800'>{details.paymentTerms}</p>
 					</div>

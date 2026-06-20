@@ -106,6 +106,7 @@ import PackingListMain from "./packing-list/PackingListMain";
 import PackingListForm from "./packing-list/PackingListForm";
 import PackingListItems from "./packing-list/PackingListItems";
 import PackingListActions from "./packing-list/PackingListActions";
+import PackingListPreview from "./packing-list/PackingListPreview";
 
 /* =========================
    ? DEV ONLY
@@ -168,4 +169,5 @@ export {
     PackingListForm,
     PackingListItems,
     PackingListActions,
+    PackingListPreview,
 };
